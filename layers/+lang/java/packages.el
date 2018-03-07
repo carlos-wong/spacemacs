@@ -36,6 +36,7 @@
 
 (defun java/init-company-emacs-eclim ()
   (use-package company-emacs-eclim
+    :defer t
     :init
     (setq company-emacs-eclim-ignore-case nil)
     ;; see `spacemacs//java-setup-eclim-company'
@@ -43,6 +44,7 @@
 
 (defun java/init-eclim ()
   (use-package eclim
+    :defer t
     ;; :init (setq eclim-auto-save nil)
     :config
     (progn
@@ -80,7 +82,7 @@
         "Dk" 'stop-eclimd
         "Ds" 'start-eclimd
         ;; errors (problems)
-        "ee" 'eclim-problems-correct
+        "Ee" 'eclim-problems-correct
         ;; find
         "ff" 'eclim-java-find-generic
         ;; goto
@@ -155,6 +157,7 @@
 
 (defun java/init-ensime ()
   (use-package ensime
+    :defer t
     :commands ensime-mode
     :init
     (progn
@@ -174,7 +177,7 @@
                           ("mc" . "check")
                           ("md" . "debug")
                           ("mD" . "daemon")
-                          ("me" . "errors")
+                          ("mE" . "errors")
                           ("mg" . "goto")
                           ("mh" . "docs")
                           ("mi" . "inspect")
@@ -213,9 +216,9 @@
           "Dr"     'spacemacs/ensime-gen-and-restart
           "Ds"     'ensime
 
-          "ee"     'ensime-print-errors-at-point
-          "el"     'ensime-show-all-errors-and-warnings
-          "es"     'ensime-stacktrace-switch
+          "Ee"     'ensime-print-errors-at-point
+          "El"     'ensime-show-all-errors-and-warnings
+          "Es"     'ensime-stacktrace-switch
 
           "gp"     'ensime-pop-find-definition-stack
           "gi"     'ensime-goto-impl
@@ -288,6 +291,7 @@
 ;; (defun java/post-init-ensime ()
 ;;   (when (eq 'ensime java-backend)
 ;;     (use-package ensime
+;;       :defer t
 ;;       :init
 ;;       (progn
 ;;         (spacemacs//ensime-init 'java-mode t nil)
@@ -314,6 +318,7 @@
 
 (defun java/init-gradle-mode ()
   (use-package gradle-mode
+    :defer t
     :init
     (progn
       (when (configuration-layer/package-used-p 'groovy-mode)
@@ -346,6 +351,7 @@
 
 (defun java/init-java-mode ()
   (use-package java-mode
+    :defer t
     :init
     (progn
       (add-hook 'java-mode-local-vars-hook #'spacemacs//java-setup-backend)
@@ -354,6 +360,7 @@
 
 (defun java/init-maven-test-mode ()
   (use-package maven-test-mode
+    :defer t
     :init
     (when (configuration-layer/package-used-p 'java-mode)
       (add-hook 'java-mode-hook 'maven-test-mode)
@@ -374,6 +381,7 @@
 
 (defun java/init-meghanada ()
   (use-package meghanada
+    :defer t
     :init
     (progn
       (setq meghanada-server-install-dir (concat spacemacs-cache-directory
@@ -426,6 +434,7 @@
 
 (defun java/init-mvn ()
   (use-package mvn
+    :defer t
     :init
     (when (configuration-layer/package-used-p 'java-mode)
       (spacemacs/declare-prefix-for-mode 'java-mode "mm" "maven")

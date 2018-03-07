@@ -14,6 +14,7 @@
         evil-args
         evil-cleverparens
         evil-ediff
+        evil-escape
         evil-exchange
         evil-iedit-state
         evil-indent-plus
@@ -34,6 +35,7 @@
         evil-tutor
         (evil-unimpaired :location (recipe :fetcher local))
         evil-visual-mark-mode
+        evil-visualstar
         (hs-minor-mode :location built-in)
         linum-relative
         vi-tilde-fringe
@@ -41,7 +43,6 @@
 
 (defun spacemacs-evil/init-evil-anzu ()
   (use-package evil-anzu
-    :demand t
     :init
     (global-anzu-mode t)
     :config
@@ -75,6 +76,7 @@
 
 (defun spacemacs-evil/init-evil-cleverparens ()
   (use-package evil-cleverparens
+    :defer t
     :init
     (progn
       (setq evil-cleverparens-use-regular-insert t)
@@ -91,6 +93,11 @@
   (use-package evil-ediff
     :after (ediff)
     :if (memq dotspacemacs-editing-style '(hybrid vim))))
+
+(defun spacemacs-evil/init-evil-escape ()
+  (use-package evil-escape
+    :init (evil-escape-mode)
+    :config (spacemacs|hide-lighter evil-escape-mode)))
 
 (defun spacemacs-evil/init-evil-exchange ()
   (use-package evil-exchange
@@ -131,12 +138,12 @@
 
 (defun spacemacs-evil/init-evil-lisp-state ()
   (use-package evil-lisp-state
-    :demand t
     :init (setq evil-lisp-state-global t)
     :config (spacemacs/set-leader-keys "k" evil-lisp-state-map)))
 
 (defun spacemacs-evil/init-evil-mc ()
   (use-package evil-mc
+    :defer t
     :init
     (progn
       ;; evil-mc is not compatible with the paste transient state
@@ -211,7 +218,7 @@
 
 (defun spacemacs-evil/init-evil-matchit ()
   (use-package evil-matchit
-   ))
+    :defer t))
 
 (defun spacemacs-evil/init-evil-numbers ()
   (use-package evil-numbers
@@ -278,11 +285,23 @@
 
 (defun spacemacs-evil/init-evil-visual-mark-mode ()
   (use-package evil-visual-mark-mode
+    :defer t
     :init
     (spacemacs|add-toggle evil-visual-mark-mode
       :mode evil-visual-mark-mode
       :documentation "Enable evil visual marks mode."
       :evil-leader "t`")))
+
+(defun spacemacs-evil/init-evil-visualstar ()
+  (use-package evil-visualstar
+    :commands (evil-visualstar/begin-search-forward
+               evil-visualstar/begin-search-backward)
+    :init
+    (progn
+      (define-key evil-visual-state-map (kbd "*")
+        'evil-visualstar/begin-search-forward)
+      (define-key evil-visual-state-map (kbd "#")
+        'evil-visualstar/begin-search-backward))))
 
 (defun spacemacs-evil/init-hs-minor-mode ()
   (add-hook 'prog-mode-hook 'spacemacs//enable-hs-minor-mode))

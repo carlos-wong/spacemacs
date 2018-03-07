@@ -29,9 +29,10 @@
     :backends company-tide
     :modes typescript-mode typescript-tsx-mode))
 
-(defun typescript/post-init-eldoc ()
-  (add-hook 'typescript-mode-hook 'eldoc-mode)
-  (add-hook 'typescript-tsx-mode-hook 'eldoc-mode))
+(defun typescript/pre-init-eldoc ()
+  (spacemacs|use-package-add-hook tide :post-init
+                           (add-hook 'typescript-tsx-mode-hook 'eldoc-mode t)
+                           (add-hook 'typescript-mode-hook 'eldoc-mode t)))
 
 (defun typescript/post-init-flycheck ()
   (spacemacs/enable-flycheck 'typescript-mode)
@@ -42,6 +43,7 @@
 
 (defun typescript/init-tide ()
   (use-package tide
+    :defer t
     :commands (typescript/jump-to-type-def)
     :init
     (progn
@@ -49,28 +51,31 @@
         (kbd "C-k") 'tide-find-previous-reference
         (kbd "C-j") 'tide-find-next-reference
         (kbd "C-l") 'tide-goto-reference)
-      (add-hook 'typescript-mode-hook 'tide-setup)
-      (add-hook 'typescript-tsx-mode-hook 'tide-setup)
+      (spacemacs/add-to-hooks 'tide-setup '(typescript-mode-hook
+                                            typescript-tsx-mode-hook))
       (add-to-list 'spacemacs-jump-handlers-typescript-tsx-mode
                    '(tide-jump-to-definition :async t))
       (add-to-list 'spacemacs-jump-handlers-typescript-mode
                    '(tide-jump-to-definition :async t)))
     :config
     (progn
+      (spacemacs/declare-prefix-for-mode 'typescript-mode "mE" "errors")
+      (spacemacs/declare-prefix-for-mode 'typescript-tsx-mode "mE" "errors")
       (spacemacs/declare-prefix-for-mode 'typescript-mode "mg" "goto")
       (spacemacs/declare-prefix-for-mode 'typescript-tsx-mode "mg" "goto")
       (spacemacs/declare-prefix-for-mode 'typescript-mode "mh" "help")
       (spacemacs/declare-prefix-for-mode 'typescript-tsx-mode "mh" "help")
       (spacemacs/declare-prefix-for-mode 'typescript-mode "mn" "name")
       (spacemacs/declare-prefix-for-mode 'typescript-tsx-mode "mn" "name")
-      (spacemacs/declare-prefix-for-mode 'typescript-mode "mr" "rename")
-      (spacemacs/declare-prefix-for-mode 'typescript-tsx-mode "mr" "rename")
+      (spacemacs/declare-prefix-for-mode 'typescript-mode "mr" "refactor")
+      (spacemacs/declare-prefix-for-mode 'typescript-tsx-mode "mr" "refactor")
       (spacemacs/declare-prefix-for-mode 'typescript-mode "mS" "server")
       (spacemacs/declare-prefix-for-mode 'typescript-tsx-mode "mS" "server")
       (spacemacs/declare-prefix-for-mode 'typescript-mode "ms" "send")
       (spacemacs/declare-prefix-for-mode 'typescript-tsx-mode "ms" "send")
 
-      (setq keybindingList '("gb" tide-jump-back
+      (setq keybindingList '("Ee" tide-fix
+                             "gb" tide-jump-back
                              "gt" typescript/jump-to-type-def
                              "gu" tide-references
                              "hh" tide-documentation-at-point
@@ -89,6 +94,7 @@
 
 (defun typescript/init-typescript-mode ()
   (use-package typescript-mode
+    :defer t
     :config
     (progn
       (when typescript-fmt-on-save

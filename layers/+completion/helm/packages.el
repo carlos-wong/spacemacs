@@ -36,6 +36,7 @@
 
 (defun helm/init-ace-jump-helm-line ()
   (use-package ace-jump-helm-line
+    :defer t
     :init
     (with-eval-after-load 'helm
       (define-key helm-map (kbd "C-q") 'ace-jump-helm-line))))
@@ -58,8 +59,7 @@
 
 (defun helm/init-helm ()
   (use-package helm
-    :commands (spacemacs/helm-find-files
-               helm-current-directory)
+    :defer t
     :init
     (progn
       (add-hook 'helm-cleanup-hook #'spacemacs//helm-cleanup)
@@ -119,10 +119,11 @@
                 (lambda ()
                   (unless (configuration-layer/package-used-p 'smex)
                     (spacemacs/set-leader-keys
-                      dotspacemacs-emacs-command-key 'helm-M-x)))))
+                      dotspacemacs-emacs-command-key 'helm-M-x))))
+      (helm-mode))
     :config
     (progn
-      (helm-mode)
+      (spacemacs|hide-lighter helm-mode)
       (advice-add 'helm-grep-save-results-1 :after 'spacemacs//gne-init-helm-grep)
       ;; helm-locate uses es (from everything on windows which doesnt like fuzzy)
       (helm-locate-set-command)
@@ -138,14 +139,13 @@
         (define-key helm-bookmark-map (kbd "C-/") 'helm-bookmark-help))
       (with-eval-after-load 'helm-bookmark
         (simpler-helm-bookmark-keybindings))
-      (with-eval-after-load 'helm-mode ; required
-        (spacemacs|hide-lighter helm-mode))
       (define-key helm-buffer-map (kbd "RET") 'spacemacs/helm-find-buffers-windows)
       (define-key helm-generic-files-map (kbd "RET") 'spacemacs/helm-find-files-windows)
       (define-key helm-find-files-map (kbd "RET") 'spacemacs/helm-find-files-windows))))
 
 (defun helm/init-helm-ag ()
   (use-package helm-ag
+    :defer t
     :init
     (progn
       (defun spacemacs//helm-do-ag-region-or-symbol (func &optional dir)
@@ -578,6 +578,7 @@ Search for a search tool in the order provided by `dotspacemacs-search-tools'."
 
 (defun helm/init-helm-descbinds ()
   (use-package helm-descbinds
+    :defer t
     :init
     (progn
       (setq helm-descbinds-window-style 'split)
@@ -594,10 +595,11 @@ Search for a search tool in the order provided by `dotspacemacs-search-tools'."
       (helm-flx-mode))))
 
 (defun helm/init-helm-flx ()
-  (use-package helm-flx))
+  (use-package helm-flx :defer t))
 
 (defun helm/init-helm-make ()
   (use-package helm-make
+    :defer t
     :init
     (spacemacs/set-leader-keys
       "cc" 'helm-make-projectile
@@ -605,6 +607,7 @@ Search for a search tool in the order provided by `dotspacemacs-search-tools'."
 
 (defun helm/init-helm-mode-manager ()
   (use-package helm-mode-manager
+    :defer t
     :init
     (spacemacs/set-leader-keys
       "hM"    'helm-switch-major-mode
@@ -672,6 +675,7 @@ Search for a search tool in the order provided by `dotspacemacs-search-tools'."
 
 (defun helm/init-helm-swoop ()
   (use-package helm-swoop
+    :defer t
     :init
     (progn
       (setq helm-swoop-split-with-multiple-windows t
@@ -701,6 +705,7 @@ Search for a search tool in the order provided by `dotspacemacs-search-tools'."
 
 (defun helm/init-helm-themes ()
   (use-package helm-themes
+    :defer t
     :init
     (spacemacs/set-leader-keys
       "Ts" 'spacemacs/helm-themes)))

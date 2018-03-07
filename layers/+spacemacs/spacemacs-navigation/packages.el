@@ -11,6 +11,7 @@
 
 (setq spacemacs-navigation-packages
       '(ace-link
+        ace-window
         auto-highlight-symbol
         centered-cursor-mode
         (compile :location built-in)
@@ -39,8 +40,24 @@
         (define-key eww-link-keymap "o" 'ace-link-eww)
         (define-key eww-mode-map "o" 'ace-link-eww)))))
 
+(defun spacemacs-navigation/init-ace-window ()
+  (use-package ace-window
+    :defer t
+    :init
+    (progn
+      (spacemacs/set-leader-keys
+        "bD" 'spacemacs/ace-kill-this-buffer
+        ;; FIXME: Needs new binding.
+        ;; "wC" 'spacemacs/ace-center-window
+        "wD" 'spacemacs/ace-delete-window
+        "wM" 'ace-swap-window
+        "wW" 'ace-window)
+      ;; set ace-window keys to home-row
+      (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))))
+
 (defun spacemacs-navigation/init-auto-highlight-symbol ()
   (use-package auto-highlight-symbol
+    :defer t
     :init
     (progn
       (setq ahs-case-fold-search nil
@@ -149,11 +166,13 @@
 
 (defun spacemacs-navigation/init-compile ()
   (use-package compile
+    :defer t
     :config
     (define-key compilation-mode-map "h" nil)))
 
 (defun spacemacs-navigation/init-doc-view ()
   (use-package doc-view
+    :defer t
     :init
     (evilified-state-evilify doc-view-mode doc-view-mode-map
       "/"  'spacemacs/doc-view-search-new-query
@@ -190,6 +209,7 @@
 
 (defun spacemacs-navigation/init-golden-ratio ()
   (use-package golden-ratio
+    :defer t
     :init
     (progn
       (spacemacs/transient-state-register-add-bindings 'window-manipulation
@@ -285,11 +305,13 @@
 
 (defun spacemacs-navigation/init-grep ()
   (use-package grep
+    :defer t
     :config
     (define-key grep-mode-map "h" nil)))
 
 (defun spacemacs-navigation/init-info+ ()
   (use-package info+
+    :defer t
     :init
     (progn
       (with-eval-after-load 'info
@@ -298,6 +320,7 @@
 
 (defun spacemacs-navigation/init-open-junk-file ()
   (use-package open-junk-file
+    :defer t
     :commands (open-junk-file)
     :init
     (progn
@@ -321,6 +344,7 @@
 
 (defun spacemacs-navigation/init-restart-emacs ()
   (use-package restart-emacs
+    :defer t
     :init
     (spacemacs/set-leader-keys
       "qd" 'spacemacs/restart-emacs-debug-init
@@ -343,7 +367,6 @@
 
 (defun spacemacs-navigation/init-winum ()
   (use-package winum
-    :demand t
     :config
     (progn
       (setq winum-auto-assign-0-to-minibuffer nil
