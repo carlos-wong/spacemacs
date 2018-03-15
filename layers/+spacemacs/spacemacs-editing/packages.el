@@ -24,6 +24,7 @@
         move-text
         (origami :toggle (eq 'origami dotspacemacs-folding-method))
         password-generator
+        pcre2el
         smartparens
         (spacemacs-whitespace-cleanup :location local)
         string-inflection
@@ -35,6 +36,7 @@
 
 (defun spacemacs-editing/init-aggressive-indent ()
   (use-package aggressive-indent
+    :defer t
     :init
     (progn
       (spacemacs|add-toggle aggressive-indent
@@ -52,6 +54,7 @@
 
 (defun spacemacs-editing/init-avy ()
   (use-package avy
+    :defer t
     :commands (spacemacs/avy-open-url spacemacs/avy-goto-url avy-pop-mark)
     :init
     (progn
@@ -79,6 +82,7 @@
 
 (defun spacemacs-editing/init-bracketed-paste ()
   (use-package bracketed-paste
+    :defer t
     :init
     ;; Enable bracketed-paste for tty
     (add-hook 'tty-setup-hook 'bracketed-paste-enable)))
@@ -101,6 +105,7 @@
 
 (defun spacemacs-editing/init-expand-region ()
   (use-package expand-region
+    :defer t
     :init (spacemacs/set-leader-keys "v" 'er/expand-region)
     :config
     (progn
@@ -135,6 +140,7 @@
 
 (defun spacemacs-editing/init-hexl ()
   (use-package hexl
+    :defer t
     :init
     (progn
       (spacemacs/set-leader-keys "fh" 'hexl-find-file)
@@ -157,6 +163,7 @@
 
 (defun spacemacs-editing/init-hungry-delete ()
   (use-package hungry-delete
+    :defer t
     :init
     (spacemacs|add-toggle hungry-delete
       :mode hungry-delete-mode
@@ -170,6 +177,7 @@
 
 (defun spacemacs-editing/init-link-hint ()
   (use-package link-hint
+    :defer t
     :init
     (spacemacs/set-leader-keys
       "xo" 'link-hint-open-link
@@ -190,6 +198,7 @@
 
 (defun spacemacs-editing/init-move-text ()
   (use-package move-text
+    :defer t
     :init
     (spacemacs|define-transient-state move-text
       :title "Move Text Transient State"
@@ -202,6 +211,7 @@
 
 (defun spacemacs-editing/init-origami ()
   (use-package origami
+    :defer t
     :init
     (progn
       (global-origami-mode)
@@ -253,6 +263,7 @@
 
 (defun spacemacs-editing/init-password-generator ()
   (use-package password-generator
+    :defer t
     :init
     (progn
       (spacemacs/declare-prefix "ip" "passwords")
@@ -263,8 +274,33 @@
         "ipp" 'password-generator-phonetic
         "ipn" 'password-generator-numeric))))
 
+(defun spacemacs-editing/init-pcre2el ()
+  (use-package pcre2el
+    :defer t
+    :init
+    (progn
+      (spacemacs/declare-prefix "xr" "regular expressions")
+      (spacemacs/declare-prefix "xre" "elisp")
+      (spacemacs/declare-prefix "xrp" "pcre")
+      (spacemacs/set-leader-keys
+        "xr/"  'rxt-explain
+        "xr'"  'rxt-convert-to-strings
+        "xrt"  'rxt-toggle-elisp-rx
+        "xrx"  'rxt-convert-to-rx
+        "xrc"  'rxt-convert-syntax
+        "xre/" 'rxt-explain-elisp
+        "xre'" 'rxt-elisp-to-strings
+        "xrep" 'rxt-elisp-to-pcre
+        "xret" 'rxt-toggle-elisp-rx
+        "xrex" 'rxt-elisp-to-rx
+        "xrp/" 'rxt-explain-pcre
+        "xrp'" 'rxt-pcre-to-strings
+        "xrpe" 'rxt-pcre-to-elisp
+        "xrpx" 'rxt-pcre-to-rx))))
+
 (defun spacemacs-editing/init-smartparens ()
   (use-package smartparens
+    :defer t
     :commands (sp-split-sexp sp-newline sp-up-sexp)
     :init
     (progn

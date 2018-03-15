@@ -25,6 +25,7 @@
 (defun treemacs/init-treemacs ()
   (use-package treemacs
     :commands (treemacs-select-window treemacs--window-number-ten)
+    :defer t
     :init
     (spacemacs/set-leader-keys
       "ft"    #'treemacs-toggle
@@ -66,6 +67,7 @@
 
 (defun treemacs/init-treemacs-projectile ()
   (use-package treemacs-projectile
+    :defer t
     :init
     (spacemacs/set-leader-keys
       "fp" #'treemacs-projectile-toggle

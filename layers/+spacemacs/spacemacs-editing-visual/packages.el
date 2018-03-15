@@ -13,6 +13,7 @@
       '(
         ;; default
         adaptive-wrap
+        (centered-buffer-mode :location local)
         column-enforce-mode
         (hide-comnt :location local)
         highlight-indentation
@@ -33,6 +34,8 @@
     :config
     (progn
       (add-hook 'visual-line-mode-hook 'adaptive-wrap-prefix-mode))))
+
+(defun spacemacs-editing-visual/init-centered-buffer-mode ())
 
 (defun spacemacs-editing-visual/init-column-enforce-mode ()
   (use-package column-enforce-mode
@@ -60,6 +63,7 @@
 
 (defun spacemacs-editing-visual/init-highlight-indentation ()
   (use-package highlight-indentation
+    :defer t
     :init
     (progn
       (spacemacs|add-toggle highlight-indentation
@@ -77,6 +81,7 @@
 
 (defun spacemacs-editing-visual/init-highlight-numbers ()
   (use-package highlight-numbers
+    :defer t
     :init
     (progn
       (add-hook 'prog-mode-hook 'highlight-numbers-mode)
@@ -84,6 +89,7 @@
 
 (defun spacemacs-editing-visual/init-highlight-parentheses ()
   (use-package highlight-parentheses
+    :defer t
     :init
     (progn
       (when (member dotspacemacs-highlight-delimiters '(all current))
@@ -118,6 +124,7 @@
 
 (defun spacemacs-editing-visual/init-indent-guide ()
   (use-package indent-guide
+    :defer t
     :init
     (progn
       (setq indent-guide-delay 0.3)
@@ -136,6 +143,7 @@
 
 (defun spacemacs-editing-visual/init-rainbow-delimiters ()
   (use-package rainbow-delimiters
+    :defer t
     :init
     (progn
       (spacemacs/set-leader-keys "tCd" 'rainbow-delimiters-mode)

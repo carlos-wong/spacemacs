@@ -38,6 +38,7 @@
   (defun ocaml/init-flycheck-ocaml ()
     (use-package flycheck-ocaml
       :if (configuration-layer/package-used-p 'flycheck)
+      :defer t
       :init
       (progn
         (with-eval-after-load 'merlin
@@ -55,6 +56,7 @@
 
 (defun ocaml/init-merlin ()
   (use-package merlin
+    :defer t
     :init
     (progn
       (add-to-list 'spacemacs-jump-handlers-tuareg-mode
@@ -63,9 +65,9 @@
       (spacemacs/set-leader-keys-for-major-mode 'tuareg-mode
         "cp" 'merlin-project-check
         "cv" 'merlin-goto-project-file
-        "eC" 'merlin-error-check
-        "en" 'merlin-error-next
-        "eN" 'merlin-error-prev
+        "Ec" 'merlin-error-check
+        "En" 'merlin-error-next
+        "EN" 'merlin-error-prev
         "gb" 'merlin-pop-stack
         "gG" 'spacemacs/merlin-locate-other-window
         "gl" 'merlin-locate-ident
@@ -77,13 +79,14 @@
         "hT" 'merlin-type-expr
         "rd" 'merlin-destruct)
       (spacemacs/declare-prefix-for-mode 'tuareg-mode "mc" "compile/check")
-      (spacemacs/declare-prefix-for-mode 'tuareg-mode "me" "errors")
+      (spacemacs/declare-prefix-for-mode 'tuareg-mode "mE" "errors")
       (spacemacs/declare-prefix-for-mode 'tuareg-mode "mg" "goto")
       (spacemacs/declare-prefix-for-mode 'tuareg-mode "mh" "help")
       (spacemacs/declare-prefix-for-mode 'tuareg-mode "mr" "refactor"))))
 
 (defun ocaml/init-ocp-indent ()
   (use-package ocp-indent
+    :defer t
     :init
     (add-hook 'tuareg-mode-hook 'ocp-indent-caml-mode-setup)
     (spacemacs/set-leader-keys-for-major-mode 'tuareg-mode
@@ -99,6 +102,7 @@
   (use-package tuareg
     :mode (("\\.ml[ily]?$" . tuareg-mode)
            ("\\.topml$" . tuareg-mode))
+    :defer t
     :init
     (progn
       (spacemacs//init-ocaml-opam)
@@ -111,6 +115,7 @@
 
 (defun ocaml/init-utop ()
   (use-package utop
+    :defer t
     :init
     (progn
       (add-hook 'tuareg-mode-hook 'utop-minor-mode)
