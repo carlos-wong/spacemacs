@@ -65,7 +65,7 @@
   (use-package phpunit
     :defer t))
 
-(defun php/init-company-php ()
+(defun php/post-init-company-php ()
   (use-package company-php
     :defer t
     :init

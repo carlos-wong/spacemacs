@@ -50,7 +50,7 @@
     :backends company-css
     :modes css-mode))
 
-(defun html/init-company-web ()
+(defun html/post-init-company ()
   (use-package company-web
     :defer t
     :init

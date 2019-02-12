@@ -55,7 +55,7 @@
         "R" 'restclient-http-send-current-raw
         "y" 'restclient-copy-curl-command))))
 
-(defun restclient/init-company-restclient ()
+(defun restclient/post-init-company ()
   (use-package company-restclient
     :defer t
     :init (spacemacs|add-company-backends

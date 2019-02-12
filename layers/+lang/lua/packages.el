@@ -40,14 +40,16 @@
         "sr" 'lua-send-region))))
 
 (defun lua/post-init-company ()
-  (add-hook 'lua-mode-hook 'company-mode))
-
-(defun lua/init-company-lua ()
+  (add-hook 'lua-mode-hook 'company-mode)
   (use-package company-lua
     :defer t
     :init (spacemacs|add-company-backends
-            :backends company-lua
-            :modes lua-mode)))
+           :backends company-lua
+           :modes lua-mode))
+  )
+
+(defun lua/init-company-lua ()
+  )
 
 (defun lua/post-init-ggtags ()
   (add-hook 'lua-mode-local-vars-hook #'spacemacs/ggtags-mode-enable))
