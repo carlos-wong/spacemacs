@@ -1053,6 +1053,9 @@ Other:
     (thanks to André Peric Tavares)
   - Remove =clojure-cheatsheet= as it is part of cider now
     (thanks to Eugene Yaremenko)
+  - Update doc for Cider manual quick start -`cider-connect`. Leiningen
+    version 2.9 and Boot versions 2.8.2, ~cider-nrepl~ version 0.21.1
+    (thanks to John Stevenson)
 **** Coffeescript
 - Improvements:
   - Added basic autocompletion (thanks to Codruț Constantin Gușoi)
@@ -1261,6 +1264,7 @@ Other:
 - Enabled colors in =magit-log= (thanks to Thomas de Beauchêne)
 - Added magit buffers to useless buffers (thanks to Thomas de Beauchêne)
 - Fixed magint blame function name (thanks to Bjarke Vad Andersen)
+- Show magit-log-select and diff in two windows (thanks to duianto)
 **** Go
 - Improved go test output buffer behavior (thanks to Denis Bernard)
 - Configurable extra arguments to go test (thanks to Ian Clark)
@@ -1365,6 +1369,10 @@ Other:
   bmag)
 - Fixed opening files from buffers without winum (thanks to Codruț Constantin
   Gușoi)
+- Removed ~SPC s w w~ key binding for =helm-wikipedia-suggest=, which was
+  removed upstream.
+- Load helm before read-file-name and completing-read (thanks duianto and thanks
+  Miciah for a more elegant solution)
 **** HTML
 - Added impatient-mode under ~SPC m i~ (thanks to geo7)
 - Added =counsel-css= as an =ivy= alternative to =helm-css-scss= (thanks to Robbert
@@ -1377,6 +1385,7 @@ Other:
   Lindqvist)
 - Revert setting company min. prefix length to 0 for company-web backend (thanks
   to Dela Anthonio)
+- Add missing prefixes for =web-mode= and =css-mode= (thanks to Uroš Perišić)
 **** Hy
 - Added support for virtual envs (thanks to Danny Freeman)
 **** Idris
@@ -1744,6 +1753,8 @@ Other:
 - Enabled =purescript-decl-scan-mode= when loading =purescript-mode= (thanks to
   Bjarke Vad Andersen)
 - Allow adding node_modules/.bin path to exec-path (thanks to Anupam Jain)
+- Improve purescript keybinding discoverability & ergonomics. (thanks to Jason
+  Walker)
 **** Python
 - Various fixes in =pylookup.py= (thanks to ishestakov and Shitikanth Kashyap)
 - Hide =yapf-mode= modeline lighter (thanks to Robert ven der Helm)
@@ -2105,34 +2116,35 @@ Other:
   thanhvg, Sylvain Benner)
 - Multiple unit test improvements (thanks to Sylvain Benner, et2010 and Codruț
   Constantin Gușoi)
-- Various documentation improvements (thanks Aaron Jensen, Aaron Peckham, Adam
-  Frey, Adam Kruszewski, Alexander Dalshov, Alexander Eberspächer, Alexander
-  Iljin, Alexander Kjeldaas, Alexandros Kotzias, Andriy Senyshyn, Anton Latukha,
-  Antonio Miranda, Anurag Sharma, Archenoth, Ather Sharif, Benjamin Reynolds,
-  Billy Wade, bmag, Boris Buliga, Boris Wong, Carl Lange, Chase Adams, Cibin
-  Mathew, CL123123, Codruț Constantin Gușoi, Daniel Hodson, Daniel Le, Daniel
-  Molina, Darkhan, David Florness, David Vo, davidpham87, Deepu Mohan Puthrote,
-  Dela Anthonio, Diego Alvarez, Diego Berrocal, Dietrich Daroch, Dinesh Bhosale,
-  Dominik Schrempf, Doug Beardsley, dubnde, duianto, eldios, EMayej, Eugene
-  Yaremenko, Evan Klitzke, Evan Niessen-Derry, firemiles, Fuqiao Xue, Garrett
-  Johnson, Grant Shangreaux, Henry Marshall, hornuda, Ivan Kryvoruchko, J.
-  Patrick Lanigan, Jaremy Creechley, Jason Axelson, Jesse Cooke, Jethro Shuwen
-  Sun, JI Xiang, Jim Deville, Jody Frankowski, Joe Hillenbrand, John Eismeier,
-  John Wood, Jon Tippens, Jonas Strømsodd, Jonathan Arnett, Jonathan Gillett,
-  Josh Greenwood, Joshua Santos, Justin Stone, Kainalu Hagiwara, Kalle
-  Lindqvist, Kechao Cai, Keith Simmons, Keith Wygant, Kevin Ji, Kristoffer
-  Haugsbakk, lawrsp, Leo Joseph Buchignani III, Marco Ieni, Marco Zucconelli,
-  Max Beutelspacher, Max Nordlund, Maximilian Wolff, Miciah Dashiel Butler
-  Masters, mjkramer, Mikhail Yakutovich, Muneeb Shaikh, Nasser Alshammari,
-  Nasser Alshammari, Niko Felger, Nikolai Myllymäki, nikolaiam, Nicolas
-  Forgerit, Olivier Verdier, Pancho Horrillo, Paul Milla, Paulo Schneider, Pawan
-  Dubey, Paweł Siudak, Phil Pirozhkov, Philippe Bourdages, Piotr Grzesik, Rafi
-  Khan, Rand01ph, rakyi, Raymond Wanyoike, Reverend Homer, Robby O'Connor,
-  Rhommel Lamas, Sam Pablo Kuper, Saulius Menkevičius, sduthil, Sergio Ugalde,
-  Shane Kilkelly, Sid Kapur, Somelauw, Soobin Rho, sorawee, SteveJobzniak,
-  Sunghyun Hwang, Swaroop C H, Sylvain Benner, Szunti, Tim Stewart, timor,
-  TinySong, Titov Andrey, Thomas de Beauchêne, Tomasz Cichocinski, tzhao11, Vlad
-  Bokov, Vladimir Kochnev, Wieland Hoffmann, Xiang Ji, Yi Liu, zer09, Zhige Xin)
+- Various documentation improvements (thanks Aaron Jensen, Aaron Peckham, Aaron
+  Renner, Adam Frey, Adam Kruszewski, Alexander Dalshov, Alexander Eberspächer,
+  Alexander Iljin, Alexander Kjeldaas, Alexandros Kotzias, Andriy Senyshyn,
+  Anton Latukha, Antonio Miranda, Anurag Sharma, Archenoth, Ather Sharif, Artur
+  Juraszek, Benjamin Reynolds, Billy Wade, bmag, Boris Buliga, Boris Wong, Carl
+  Lange, Chase Adams, Cibin Mathew, CL123123, Codruț Constantin Gușoi, Daniel
+  Hodson, Daniel Le, Daniel Molina, Darkhan, David Florness, David Vo,
+  davidpham87, Deepu Mohan Puthrote, Dela Anthonio, Diego Alvarez, Diego
+  Berrocal, Dietrich Daroch, Dinesh Bhosale, Dominik Schrempf, Doug Beardsley,
+  dubnde, duianto, eldios, EMayej, Eugene Yaremenko, Evan Klitzke, Evan
+  Niessen-Derry, firemiles, Fuqiao Xue, Garrett Johnson, Grant Shangreaux, Henry
+  Marshall, hornuda, Ivan Kryvoruchko, J. Patrick Lanigan, Jaremy Creechley,
+  Jason Axelson, Jesse Cooke, Jethro Shuwen Sun, JI Xiang, Jim Deville, Jody
+  Frankowski, Joe Hillenbrand, John Eismeier, John Wood, Jon Tippens, Jonas
+  Strømsodd, Jonathan Arnett, Jonathan Gillett, Josh Greenwood, Joshua Santos,
+  Justin Stone, Kainalu Hagiwara, Kalle Lindqvist, Kechao Cai, Keith Simmons,
+  Keith Wygant, Kevin Ji, Kristoffer Haugsbakk, lawrsp, Leo Joseph Buchignani
+  III, Marco Ieni, Marco Zucconelli, Max Beutelspacher, Max Nordlund, Maximilian
+  Wolff, Miciah Dashiel Butler Masters, mjkramer, Mikhail Yakutovich, Muneeb
+  Shaikh, Nasser Alshammari, Nasser Alshammari, Niko Felger, Nikolai Myllymäki,
+  nikolaiam, Nicolas Forgerit, Olivier Verdier, Pancho Horrillo, Paul Milla,
+  Paulo Schneider, Pawan Dubey, Paweł Siudak, Phil Pirozhkov, Philippe
+  Bourdages, Piotr Grzesik, Rafi Khan, Rand01ph, rakyi, Raymond Wanyoike,
+  Reverend Homer, Robby O'Connor, Rhommel Lamas, Sam Pablo Kuper, Saulius
+  Menkevičius, sduthil, Sergio Ugalde, Shane Kilkelly, Sid Kapur, Somelauw,
+  Soobin Rho, sorawee, SteveJobzniak, Sunghyun Hwang, Swaroop C H, Sylvain
+  Benner, Szunti, Tim Stewart, timor, TinySong, Titov Andrey, Thomas de
+  Beauchêne, Tomasz Cichocinski, tzhao11, Vlad Bokov, Vladimir Kochnev, Wieland
+  Hoffmann, Xiang Ji, Yi Liu, zer09, Zhige Xin)
 *** Release notes summarized
   Thanks to: Grant Shangreaux, Songpeng Zu, Igor Almeida, Miciah Dashiel Butler
   Masters, Abhishek(Compro) Prasad, Deepak Khidia, Ward Harris, Jiahao Jiang
