@@ -22,7 +22,7 @@ This layer adds support for basic language server protocol packages speaking
 Different language servers may support the language server protocol to varying degrees
 and they may also provide extensions; check the language server’s website for
 details.
-=M-x lsp-capabilities= in a LSP buffer to list capabilities of the server.
+=M-x lsp-describe-session= in a LSP buffer to list capabilities of the server.
 
 ** Features:
 - Cross references (definitions, references, document symbol, workspace symbol
@@ -49,14 +49,15 @@ A number of configuration variables have been exposed via the LSP layer =config.
 Sensible defaults have been provided, however they may all be overridden in your .spacemacs, or dynamically using the bindings added
 under the derived mode t prefix by =(spacemacs/lsp-bind-keys-for-mode mode)=
 
-| Variable name                   | Default | Description                                                                               |
-|---------------------------------+---------+-------------------------------------------------------------------------------------------|
-| =lsp-navigation=                | `both’  | `simple’ or `peek’ to bind only xref OR lsp-ui-peek navigation functions                  |
-| =lsp-ui-remap-xref-keybindings= | nil     | When non-nil, xref key bindings remapped to lsp-ui-peek-find-{definition,references}      |
-| =lsp-ui-doc-enable=             | t       | When non-nil, the documentation overlay is displayed                                      |
-| =lsp-ui-doc-include-signature=  | nil     | When nil, signature omitted from lsp-ui-doc overlay (this is usually redundant)           |
-| =lsp-ui-sideline-enable=        | t       | When non-nil, the symbol information overlay is displayed                                 |
-| =lsp-ui-sideline-show-symbol=   | nil     | When non-nil, the symbol information overlay includes symbol name (redundant for c-modes) |
+| Variable name                   | Default | Description                                                                                                                          |
+|---------------------------------+---------+--------------------------------------------------------------------------------------------------------------------------------------|
+| =lsp-navigation=                | `both’  | `simple’ or `peek’ to bind only xref OR lsp-ui-peek navigation functions                                                             |
+| =lsp-ui-remap-xref-keybindings= | nil     | When non-nil, xref key bindings remapped to lsp-ui-peek-find-{definition,references}                                                 |
+| =lsp-ui-doc-enable=             | t       | When non-nil, the documentation overlay is displayed                                                                                 |
+| =lsp-ui-doc-include-signature=  | nil     | When nil, signature omitted from lsp-ui-doc overlay (this is usually redundant)                                                      |
+| =lsp-ui-sideline-enable=        | t       | When non-nil, the symbol information overlay is displayed                                                                            |
+| =lsp-ui-sideline-show-symbol=   | nil     | When non-nil, the symbol information overlay includes symbol name (redundant for c-modes)                                            |
+| =lsp-prefer-flymake=            | nil     | When non-nil, use flymake. When nil, and =lsp-ui-flycheck= is available, use flycheck. When :none, use neither flymake nor flycheck. |
 
 ** Navigation mode
 The ~lsp-navigation~ variable defined in =config.el= allows you to define a preference for lightweight or pretty
@@ -121,7 +122,7 @@ The lsp minor mode bindings are:
 |-------------+--------------------------------------------------------------------------------|
 | ~SPC m b r~ | lsp-restart-workspace                                                          |
 | ~SPC m b a~ | execute code action                                                            |
-| ~SPC m b c~ | lsp-capabilities                                                               |
+| ~SPC m b d~ | lsp-describe-session                                                           |
 |-------------+--------------------------------------------------------------------------------|
 | ~SPC m r r~ | rename                                                                         |
 |-------------+--------------------------------------------------------------------------------|
@@ -200,7 +201,7 @@ etc.
 
 * Diagnostics
 If some features do not work as expected, here is a common check list.
-- =M-x lsp-capabilities= If the LSP workspace is initialized correctly
+- =M-x lsp-describe-session= If the LSP workspace is initialized correctly
 - =M-: xref-backend-functions= should be =(lsp--xref-backend)= for cross
   references
 - =M-: completion-at-point-functions= should be =(lsp-completion-at-point)= for

@@ -20,6 +20,7 @@
         helm-gtags
         imenu
         impatient-mode
+        import-js
         js-doc
         js2-mode
         js2-refactor
@@ -39,7 +40,7 @@
   (spacemacs/counsel-gtags-define-keys-for-mode 'js2-mode))
 
 (defun javascript/post-init-evil-matchit ()
-  (add-hook `js2-mode `turn-on-evil-matchit-mode))
+  (add-hook `js2-mode-hook `turn-on-evil-matchit-mode))
 
 (defun javascript/post-init-company ()
   (add-hook 'js2-mode-local-vars-hook #'spacemacs//javascript-setup-company))
@@ -59,7 +60,15 @@
 
 (defun javascript/post-init-impatient-mode ()
   (spacemacs/set-leader-keys-for-major-mode 'js2-mode
-    "i" 'spacemacs/impatient-mode))
+    "I" 'spacemacs/impatient-mode))
+
+(defun javascript/init-import-js ()
+  (use-package import-js
+    :defer t
+    :init
+    (progn
+      (add-hook 'js2-mode-hook #'run-import-js)
+      (spacemacs/import-js-set-key-bindings 'js2-mode))))
 
 (defun javascript/pre-init-org ()
   (spacemacs|use-package-add-hook org
