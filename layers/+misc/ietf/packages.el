@@ -12,7 +12,7 @@
 ;;; Code:
 
 (defconst ietf-packages '(ietf-docs
-                          irfc
+                          (irfc :location local)
                           (ox-rfc :requires org)))
 
 (defun ietf/init-ietf-docs ()
@@ -24,7 +24,7 @@
       (setq ietf-docs-cache-directory ietf-docs-cache))))
 
 (defun ietf/init-irfc ()
-  (use-package ietf-docs
+  (use-package irfc
     :commands irfc-mode
     :init
     (progn
@@ -33,7 +33,11 @@
       (add-to-list 'auto-mode-alist
                    '("/draft-\\([a-z0-9_]+-\\)+[0-9]+.txt" . irfc-mode))
       (add-to-list 'auto-mode-alist
-                   '("/draft-\\([a-z0-9_]+-\\)+[a-z0-9_]+.txt" . irfc-mode)))))
+                   '("/draft-\\([a-z0-9_]+-\\)+[a-z0-9_]+.txt" . irfc-mode))
+      (add-to-list 'auto-mode-alist
+                   '("/rfc-\\([a-z0-9_]+-\\).txt" . irfc-mode)))))
+
+
 
 (defun ietf/pre-init-ox-rfc ()
   (spacemacs|use-package-add-hook org :post-config (require 'ox-rfc)))

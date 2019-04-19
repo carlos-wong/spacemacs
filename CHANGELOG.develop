@@ -168,6 +168,7 @@ Kraemer, Yi Liu, and Jack Kamm):
 ***** JavaScript
 - CoffeeScript support has been extracted from the =javascript= layer into the
   new =coffeescript= layer.
+- Added missing prefix for =js2-mode=
 ***** Markdown
 - Key bindings:
   - Removed ~SPC m i I~ for =markdown-insert-reference-image=
@@ -293,8 +294,9 @@ Benner and Paweł Siudak):
 - coffeescript (thanks to Sylvain Benner)
 - coq (thanks to Xuan Bi, Jeremy Bi and Langston Barret)
 - crystal (thanks to Sylvain Benner)
+- dart (thanks to Bruno Tavares)
 - dhall (thanks to Colin Woodbury)
-- ietf (thanks to Christian Hopps)
+- ietf (thanks to Christian Hopps and Robby O'Connor)
 - factor (thanks to timor)
 - forth (thanks to Tim Jaeger)
 - gpu (thanks to Evan Klitzke)
@@ -308,6 +310,7 @@ Benner and Paweł Siudak):
 - pact (thanks to Colin Woodbury)
 - perl5 (thanks to Troy Hinckley, Jinseop Kim and Michael Rohleder)
 - perl6 (thanks to Bahtiar Gadimov and yuhan0)
+- prolog (thanks to Newres Al Haider)
 - protobuf (thanks to Amol Mandhane)
 - restructuredtext (thanks to Wei-Wei Guo and Kalle Lindqvist)
 - semantic-web (thanks to Andreas Textor)
@@ -331,6 +334,7 @@ Benner and Paweł Siudak):
 - dap (thanks to Ivan Yonchovski)
 - debug (thanks to Hodge Shen, Troy Hinckley, and Sylvain Benner)
 - emberjs (thanks to Robert O'Connor)
+- import-js (thanks to Thanh Vuong and Seong Yong-ju)
 - lsp (thanks to Fangrui Song, 0bl.blwl, Cormac Cannon, Juuso Valkeejärvi, Guan
   Xipeng, Ivan Yonchovski, Justin Martin, dscole and Sylvain Benner)
 - node (thanks to jupl)
@@ -916,6 +920,7 @@ Other:
   - Added ranger-mode to golden-ratio-exclude-modes (thanks to Langston Barrett)
   - Fixed evil surround bindings (thanks to Hoyon Mak)
   - Improved Window Manipulation Transient state (thanks to yuhan0)
+  - Exclude which-key from layer sync powerline restore (thanks to Doug Wilson)
 *** Layer changes and fixes
 **** Ansible
 - Improvements:
@@ -976,6 +981,7 @@ Other:
   - Control auto-newline using the =c-c++-enable-auto-newline= variable
     (thanks to Fangrui Song and Codruț Constantin Gușoi)
   - Added =org-babel= support (thanks to Michael Rohleder)
+  - Added debugger integration via =dap= layer
 - Key bindings:
   - ~SPC m = =~ clang-format current region or buffer (thanks to Dela Anthonio)
   - ~SPC m = f~ clang-format current function (thanks to Dela Anthonio)
@@ -1119,6 +1125,9 @@ Other:
 - Fixes:
   - Disabled functions not present in the latest =omnisharp= package
     (thanks to Saulius Menkevičius)
+**** CSV
+- Key bindings:
+  - ~SPC m h~ to =csv-header-line= (thanks to Francesc Elies Henar)
 **** D
 - Fixes:
   - Fixed =d-mode= flycheck imports on dub projects (thanks to Dietrich Daroch)
@@ -1483,7 +1492,7 @@ Other:
   =wrong-number-of-arguments= error when jabber receives a new notification
   (thanks to Aleksei Fedotov)
 **** Java
-- Added support for multiple backends. Supported backends are: =megahnada=,
+- Added support for multiple backends. Supported backends are: =meghanada=,
   =eclim= and =ensime=. The default backend is =meghanada=.
 - Key bindings:
   - ~SPC m e e~ is now to fix error around point. Use ~SPC e~ prefix to navigate
@@ -1514,6 +1523,7 @@ Other:
     (thanks to Ting Zhou and Sylvain Benner)
   - Added ES6 module extension to =init-js2-mode= (thanks to Nathan Lloyd)
   - Added =org-babel= support (thanks to Michael Rohleder)
+  - Added debug support via =dap= layer (Firefox and Google Chrome)
 - Key bindings
   - Improved coffeescript support:
     - ~SPC m '~ to create or go to REPL
@@ -1563,6 +1573,21 @@ Other:
 - Replace lsp-capabilities keybinding with lsp-describe-session
   (thanks to Bryan Tan)
 - Added lsp-prefer-flymake variable (thanks to Juuso Valkeejärvi)
+- Added =lsp-treemacs=
+  - ~SPC m t g e~ to show error list
+- Fixed missing shorcuts for =lsp-mode=
+  - ~SPC m F r~  to remove workspace folder
+  - ~SPC m F a~  to add workspace folder
+  - ~SPC m F r~  to switch workspace folder
+  - ~SPC m b s~ to shutdown current workspace
+  - ~SPC m T l~ to toggle lenses
+  - ~SPC m = r~ to format region
+- Added package =helm-lsp=
+  - ~SPC m g s~ to find symbol in current project
+  - ~SPC m g S~ to find symbol in all projects
+**** Debug Adapter Protocol (DAP)
+- Key bindings
+  - ~SPC m d d e~ to edit debug template
 **** Markdown
 - New layer variable =markdown-mmm-auto-modes= which is a list of language names
   or lists of language and mode names that are supported in source blocks, you
@@ -1745,6 +1770,7 @@ Other:
 - Remove =mu4e= and =notmuch= from =org= (thanks to Sylvain Benner)
 - Use evil-org from MELPA (thanks to Eivind Fonn)
 - Added =org-brain= (thanks to Matthías Páll Gissurarson and Eivind Fonn)
+- Added detailed =org-brain= bindings (thanks to Langston Barret)
 - Added layer variable for todo bindings (thanks to Eivind Fonn)
 - Made =org-projectile= integration compatible with its new version (thanks to
   Ivan Malison)
@@ -1756,6 +1782,7 @@ Other:
 - Load org-projectile lazily, after org-capture (thanks to Aaron Jensen)
 - Use org-verbatim, not org-verbose (thanks to Swaroop C H)
 - Fixed =org-projectile/goto-todos= (thanks to Aaron Jensen)
+- Fixed =org-clock-resolve-clock= keybinding (thanks to Francesc Elies Henar)
 - Enabled =org-src-tab-acts-natively= (thanks to Sylvain Benner)
 - Fixed =org-default-notes-file= precedence (thanks to Troy Hinckley and bmag)
 - Added =ox-hugo= (thanks to Kaushal Modi)
@@ -1776,6 +1803,7 @@ Other:
   Buchaus)
 - Replace ox-reveal with org-re-reveal (thanks to Magnus Therning)
 - Added epub support (thanks to vishvanath45)
+- Added support for CUSTOM_ID in latex exports (thanks to Compro-Prasad)
 **** Osx
 - Fixed OSX mapping issue (thanks to Joey Liu)
 - Added layer variables to customize modifier behaviors on macOS:
@@ -1875,6 +1903,10 @@ Other:
 - Fixed conflict between pipenv directory .venv and pyvenv file .venv (thanks to
   rgb-24bit)
 - Added diminish for importmagic (thanks to Loys Ollivier)
+- Added debugger integration via =dap= layer
+- Added documentation on installing importmagic and epc (thanks to Trapez Breen)
+- Made python-send-shell-* functions faster (thanks to Trapez Breen)
+- Added support for 'black' formatter (thanks to Mike Macpherson)
 **** Racket
 - Restore smart closing paren behavior in racket-mode (thanks to Don March)
 **** Ranger
@@ -1969,6 +2001,7 @@ Other:
     for ~SPC m c f~ to format project files (thanks to Luke Alexander Stein)
   - Added ~SPC m c v~ to run "cargo check" command (thanks to Victor Polevoy)
 - Added rust lsp completion with company and bindings (thanks to Justin)
+- Added debugger integration via =dap= layer
 **** Scala
 - Move =ensime= to the =java= layer (Tor Hedin Bronner)
 - Key bindings:
@@ -2004,6 +2037,10 @@ Other:
 - Wrap 'shell' command to start in current buffer (thanks to Valts Liepiņš)
 - Fixed shell popup broken on macOS (thanks to Daniel Rivas Perez)
 - Fixed broken leader key binding for inferior shell (thanks to Valts Liepiņš)
+- Added =term-mode= bindings (Thanks to Emil Petersen):
+  - ~SPC m C~ switch multi-term to char mode
+  - ~SPC m l~ switch multi-term to line mode
+  - ~SPC m N~ go to previous multi-term
 **** Shell Scripts
 - Added new company-shell environment variable backend (thanks to
   Alexander-Miller)
@@ -2138,6 +2175,7 @@ Other:
   Kramer)
 - Fixed jump handling with multiple backends (thanks to Aaron Jensen)
 - Fixed =typescript/jump-to-type-def= for npm modules (thanks to Jam Risser)
+- Added the same setup to tsx files as to ts files (thanks to Trapez Breen)
 **** Vagrant
 - Key bindings:
   - move key bindings prefix to ~SPC a V~ (thanks to Thomas de Beauchêne)
