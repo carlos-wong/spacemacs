@@ -291,6 +291,7 @@ sane way, here is the complete list of changed key bindings
 **** Fonts
 - unicode-fonts (thanks to Aaron Jensen)
 **** Languages
+- alda (thanks to Andrew Hill (AstroEngiSci))
 - coffeescript (thanks to Sylvain Benner)
 - coq (thanks to Xuan Bi, Jeremy Bi and Langston Barret)
 - crystal (thanks to Sylvain Benner)
@@ -497,7 +498,7 @@ Other:
     (thanks to Sylvain Benner)
   - New function =configuration-layer/load-file= to load files silently
     (thanks to Sylvain Benner)
-  - Fix configuration-layer/insert-lazy-install-configuration, which has been
+  - Fixed configuration-layer/insert-lazy-install-configuration, which has been
     broken since v0.200.0.
   - Fixed duplicate "Open quick help..." in the minibuffer at startup
     (thanks to Sylvain Benner)
@@ -510,7 +511,16 @@ Other:
   - Fixed bug that could overwrites customize variables (thanks to bmag)
   - Don't suggest ~SPC q r~ if =restart-emacs= package is missing after an
     update (thanks to Keshav Kini)
-  - spacemacs-layouts: Add Projectile project buffers to new perspectives.
+  - spacemacs-layouts: Improvements to ~SPC l l~ (=spacemacs/helm-perspectives=
+    or =spacemacs/ivy-spacemacs-layouts=):
+    - If the user selects a project that does not already have a layout and then
+      quits without selecting a file or buffer, kill the new layout.
+    - When creating a new layout, add any buffers that belong to the project.
+  - spacemacs-layouts: Improvements to ~SPC p l~
+    (=spacemacs/helm-persp-switch-project= or
+    =spacemacs/ivy-persp-switch-project=):
+    - Fixed the default action to display the home buffer in the new layout.
+    - Added actions to copy the current layout or create a new project layout.
   - Resolve symlinks in warning message about duplicate layers
     (thanks to Ben Gamari)
   - Check toggle condition in status function (thanks to Eivind Fonn)
@@ -772,6 +782,8 @@ Other:
     - ~q~ exits the transient state
       (thanks to kenkangxgwe)
   - Added =link-hint-copy-link= to ~SPC x y~ (thanks to William Casarin)
+  - Added =evil-unimpaired= navigation keys prefixed by ~[~ and ~]~ to the
+    Spacemacs home buffer (thanks to Sorawee Porncharoenwase)
 - Improvements:
   - Rewrote window layout functions for ~SPC w 1~, ~SPC w 2~, ~SPC w 3~, and
     ~SPC w 4~ (thanks to Codruț Constantin Gușoi):
@@ -849,6 +861,14 @@ Other:
   - New variable =spacemacs-yank-indent-modes= to enable auto indent in modes
     not derived from =prog-mode= (thanks to bet4it)
   - Remap ~M-SPC~ and ~SPC-x-d-SPC~ to =cycle-spacing= (thanks to bb2020)
+  - Added ~j~ and ~k~ to transient states (thanks to Ag Ibragimov):
+    - Font Scaling
+    - Frame Transparency
+    - Zoom Frame
+  - Added key bindings to the zoom frame transient state:
+    - ~m~ for toggle maximize
+    - ~f~ for toggle fullscreen
+    (thanks to Ag Ibragimov)
 - Fixed:
   - Fixed ~h~ key binding in compilation and grep buffers
     (thanks to Sylvain Benner)
@@ -954,10 +974,24 @@ Other:
   - Fixed evil surround bindings (thanks to Hoyon Mak)
   - Improved Window Manipulation Transient state (thanks to yuhan0)
   - Exclude which-key from layer sync powerline restore (thanks to Doug Wilson)
-  - Fix doom-modeline in the messages buffer (thanks to duianto)
-  - Fix void function error when recentf-save-list is undefined
+  - Fixed =doom-modeline= in the messages buffer (thanks to duianto)
+  - Fixed void function error when =recentf-save-list= is undefined
     (thanks to Compro-Prasad)
+  - Fixed =global-hl-todo-mode= prevents activation in =org=
+    (thanks to Sam Pillsworth)
+  - Made =spacemacs-theme= variables user customizable from =user-init=
+    - =spacemacs-theme-keyword-italic=
+    - =spacemacs-theme-comment-bg=
+    - =spacemacs-theme-org-height=
+      (thanks to Dominik Schrempf)
 *** Layer changes and fixes
+**** Alda
+- Key bindings:
+  - ~SPC m r~ Play region (selected text)
+  - ~SPC m c~ Play block (paragraph on point)
+  - ~SPC m n~ Plays the current line
+  - ~SPC m b~ Play the entire buffer
+    (thanks to Andrew Hill (AstroEngiSci))
 **** Ansible
 - Improvements:
   - Added support for multiple vault password files, see the layer =README.org=
@@ -1001,7 +1035,7 @@ Other:
 - Improvements:
   - Added =lsp= support using either =cquery= or =ccls= backends
     (thanks to Cormac Cannon, Sergey Litovchuk and Fangrui Song)
-  - Fix =lsp= support for =ccls= server (thanks to Alexander Dalshov)
+  - Fixed =lsp= support for =ccls= server (thanks to Alexander Dalshov)
   - Added automatic formatting on save using ClangFormat with the variables
     =c-c++-enable-clang-format-on-save= and =c-c++-enable-clang-support=
     (thanks to Robbert van der Helm)
@@ -1059,6 +1093,7 @@ Other:
 **** Clojure
 - New packages:
   - Added =sayid= debugger (thanks to Daniel Manila and Arne Brasseur)
+  - Added =flycheck-clojure= linters (thanks to Eugene Yaremenko)
 - Improvements:
   - Store cider REPL history in spacemacs cache (thanks to Ryan Fowler)
   - Remove backtick from smartparens pairs for Clojure
@@ -1163,8 +1198,8 @@ Other:
     - ~SPC m u~ for =omnisharp-auto-complete-overrides=
     - ~SPC m i~ for =omnisharp-fix-usings=
   - Add unit test bindings (thanks to Saulius Menkevičius):
-    - ~SPC m t p~ for =omnisharp-unit-test-at-point=
-    - ~SPC m t t~ for =omnisharp-unit-test-last=
+    - ~SPC m t l~ for =omnisharp-unit-test-last=
+    - ~SPC m t t~ for =omnisharp-unit-test-at-point=
 - Fixes:
   - Disabled functions not present in the latest =omnisharp= package
     (thanks to Saulius Menkevičius)
@@ -1358,7 +1393,7 @@ Other:
 - Added magit buffers to useless buffers (thanks to Thomas de Beauchêne)
 - Fixed magint blame function name (thanks to Bjarke Vad Andersen)
 - Show magit-log-select and diff in two windows (thanks to duianto)
-- Fix magit conflicting with golden-ratio (thanks Eric Zhang)
+- Fixed magit conflicting with golden-ratio (thanks Eric Zhang)
 - Hide with-editor mode-line indicator: =WE= (thanks to duianto)
 **** Go
 - Improved go test output buffer behavior (thanks to Denis Bernard)
@@ -1428,7 +1463,7 @@ Other:
   - ~SPC m g b~ returns from definition in =intero-mode=
     (thanks to Magnus Therning)
 - Fixed jump handlers conflict for haskell and intero (thanks to CthulhuDen)
-- Fix haskell jump handler for dante (thanks to cjay)
+- Fixed haskell jump handler for dante (thanks to cjay)
 - Enable LSP mode using HIE.
 **** Helm
 - Limited =ripgrep= results to 512 columns by default, and added
@@ -1549,7 +1584,8 @@ Other:
 - Added ~C-r~ keybinding for counsel-minibuffer-history (thanks to James Wang)
 - Fixed counsel search errors due to function rename (thanks to Aaron Jensen)
 - Display results count properly in prompt (thanks to yuhan0)
-- Fix typos in spacemacs/search-dir* bindings (thanks to yuhan0)
+- Fixed typos in spacemacs/search-dir* bindings (thanks to yuhan0)
+- Added =ivy-ret-visits-directory= variable (thanks to bb2020)
 **** Imenu-list
 - Fixed key bindings (thanks to bet4it):
   - ~r~ inside imenu-list buffer to refresh
@@ -1583,6 +1619,16 @@ Other:
 - Added =.dap-breakpoints= and =.lsp-session-*= (java lsp tempfiles) to
   .gitignore (thanks to Uroš Perišić)
 - Fixed prefixes for =java-mode= and =gradle-mode=
+- New =lsp= backend keybindings
+  - ~SPC m r c i~ convert to static import
+  - ~SPC m r a t~ add throws exception
+  - ~SPC m r a a~ assign all parameters to fields
+  - ~SPC m r a f~ assign parameter to field
+  - ~SPC m r g g~ to generate getters/setters
+  - ~SPC m r g e~ to generate =equals= and =hashCode= methods
+  - ~SPC m r g t~ to generate =toString= method
+  - ~SPC m r g o~ to generate method overrides
+  - ~SPC m c p~ create spring boot project
 **** Javascript
 - Improvements:
   - Leverage js-doc Yasnippet integration if available (thanks to Andriy Kmit')
@@ -1616,7 +1662,7 @@ Other:
   - Set default value of =tern-command= to "tern"
     (thanks to Sylvain Benner and Juuso Valkeejärvi)
   - Check if =tern= exists before using it (thanks to Codruț Constantin Gușoi)
-  - Fix hook value to enable =evil-matchit= (thanks to Thanh Vuong)
+  - Fixed hook value to enable =evil-matchit= (thanks to Thanh Vuong)
 **** Keyboard layout
 - Added support for Colemak layout (thanks to Daniel Mijares, Lyall Cooper and
   Eivind Fonn)
@@ -1658,6 +1704,7 @@ Other:
 **** Debug Adapter Protocol (DAP)
 - Key bindings
   - ~SPC m d d e~ to edit debug template
+- Evilfied =dap= debug windows
 **** Markdown
 - New layer variable =markdown-mmm-auto-modes= which is a list of language names
   or lists of language and mode names that are supported in source blocks, you
@@ -1764,6 +1811,7 @@ Other:
 - Enabled flycheck-ocaml (thanks to Dave Aitken)
 - Fixed backspace delete (thanks to Hasan Alirajpurwala)
 - Fixed flycheck-ocaml not initialized warning (thanks to Artur Juraszek)
+- Added =dune= support via =dune-mode= (thanks to Lyman Gillispie)
 **** Org
 - Load org-mode email integration (mu4e/notmuch) when org is loaded
   (thanks to Steven Allen)
@@ -1838,6 +1886,7 @@ Other:
     - ~SPC m i t~ for =org-set-tags-command=
   - Added key binding for org-insert-item (thanks to Emil Petersen)
     - ~SPC m i i~ for =org-insert-item=
+  - Added ~SPC m s d~ for =org-cut-subtree= (thanks to clwgg)
 - Key binding changes for archiving (thanks to Ag Ibragimov):
   - Added ~SPC m s a~ to toggle archive tag for subtree
   - Added ~SPC m s A~ to archive subtree (previously ~SPC m s a~)
@@ -1897,7 +1946,7 @@ Other:
     (thanks to Liu Joey)
   - Added ~M-s-h~ to hide other windows (thanks to Bas Veeling)
 - Replace pbcopy by osx-clipboard (thanks to Minh Nguyen-Hue)
-- Fix key binding issue when Emacs is launched in daemon mode.
+- Fixed key binding issue when Emacs is launched in daemon mode.
 **** Pandoc
 - Fixed =spacemacs/run-pandoc= not to reset =pandoc--local-settings=
   (thanks to martian-f)
@@ -2135,6 +2184,11 @@ Other:
   - ~SPC m N~ go to previous multi-term
 - Moved =eshell-z-freq-dir-hash-table-file-name= into cache dir
   (thanks to bb2020)
+- Enabled ~TAB~ completion in =eshell= with =Helm= (thanks to bb2020)
+- Added ~SPC m i L~ as =org-cliplink= into =org= layer (thanks to bb2020)
+- Added =eshell= =Ivy= completion bindings (thanks to bb2020):
+  - ~M-l~ =spacemacs/ivy-eshell-history=
+  - ~TAB~ =spacemacs/pcomplete-std-complete=
 **** Shell Scripts
 - Added new company-shell environment variable backend
   (thanks to Alexander-Miller)
@@ -2188,6 +2242,14 @@ Other:
 - Added spell checking transient state (thanks to Francesc Elies Henar)
 - Update to flyspell-correct v0.5 (thanks to Boris Buliga)
 - Update spell checking ts to flyspell-correct v0.5 (thanks to Bruno Tavares)
+- Added key bindings (thanks to Kalle Lindqvist):
+  - ~SPC S a b~ Add word to dict (buffer)
+  - ~SPC S a g~ Add word to dict (global)
+  - ~SPC S a s~ Add word to dict (session)
+  Transient State:
+  - ~SPC S . B~ Add word to dict (buffer)
+  - ~SPC S . G~ Add word to dict (global)
+  - ~SPC S . S~ Add word to dict (session)
 **** Syntax-checking
 - Key bindings:
   - ~SPC e e~ is now for triggering a syntax check, the old action
@@ -2332,6 +2394,7 @@ Other:
 *** Various improvements
 - Lots of improvement with CI and documentation exporting
   (thanks to Eugene Yaremenko)
+- New LAYERS.org format (thanks to Eugene Yaremenko && Anton Latukha)
 - Various code and style improvements (thanks to bmag, duianto, Eivind Fonn,
   Eugene Yaremenko, Fabien Dubosson, Kalle Lindqvist, Boris Buliga, timor,
   yuhan0, thanhvg, Sylvain Benner)
@@ -2339,11 +2402,11 @@ Other:
   Codruț Constantin Gușoi)
 - Various documentation improvements (thanks Aaron Jensen, Aaron Peckham, Aaron
   Renner, Adam Frey, Adam Kruszewski, Alexander Dalshov, Alexander Eberspächer,
-  Alexander Iljin, Alexander Kjeldaas, Alexandros Kotzias, Andriy Senyshyn,
-  Anton Latukha, Antonio Miranda, Anurag Sharma, Archenoth, Ather Sharif, Artur
-  Juraszek, Benjamin Reynolds, Bernhard Schommer, Billy Wade, bmag, Boris
-  Buliga, Boris Wong, Carl Lange, Chase Adams, Christian Bäuerlein, Cibin
-  Mathew, CL123123, Codruț Constantin Gușoi, Compro-Prasad, Daniel Hodson,
+  Alexander Iljin, Alexander Kjeldaas, Alexandros Kotzias, Andrew Vit, Andriy
+  Senyshyn, Anton Latukha, Antonio Miranda, Anurag Sharma, Archenoth, Ather
+  Sharif, Artur Juraszek, Benjamin Reynolds, Bernhard Schommer, Billy Wade,
+  bmag, Boris Buliga, Boris Wong, Carl Lange, Chase Adams, Christian Bäuerlein,
+  Cibin Mathew, CL123123, Codruț Constantin Gușoi, Compro-Prasad, Daniel Hodson,
   Daniel Le, Daniel Molina, Darkhan, David Florness, David Vo, davidpham87,
   Deepu Mohan Puthrote, Dela Anthonio, Diego Alvarez, Diego Berrocal, Dietrich
   Daroch, Dinesh Bhosale, Dominik Schrempf, Doug Beardsley, dubnde, duianto,
@@ -2359,8 +2422,8 @@ Other:
   Ieni, Marco Zucconelli, Max Beutelspacher, Max Deineko, Max Nordlund,
   Maximilian Wolff, Miciah Dashiel Butler Masters, mjkramer, Mikhail Yakutovich,
   Muneeb Shaikh, Nasser Alshammari, Nasser Alshammari, Niko Felger, Nikolai
-  Myllymäki, nikolaiam, Nicolas Forgerit, Olivier Verdier, Pancho Horrillo, Paul
-  Milla, Paulo Schneider, Pawan Dubey, Paweł Siudak, Phil Pirozhkov, Philippe
+  Myllymäki, nikolaiam, Nicolas Forgerit, Oguz Serbetci, Olivier Verdier, Pancho Horrillo, 
+  Paul Milla, Paulo Schneider, Pawan Dubey, Paweł Siudak, Phil Pirozhkov, Philippe
   Bourdages, Piotr Grzesik, Rafi Khan, Rand01ph, rakyi, Raymond Wanyoike,
   Reverend Homer, Robby O'Connor, Rhommel Lamas, Sam Pablo Kuper, Saulius
   Menkevičius, sduthil, Sergio Ugalde, Shane Kilkelly, Sid Kapur, Somelauw,

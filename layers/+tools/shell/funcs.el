@@ -168,12 +168,28 @@ is achieved by adding the relevant text properties."
 
 (defun spacemacs/init-helm-eshell ()
   "Initialize helm-eshell."
-  ;; this is buggy for now
-  ;; (define-key eshell-mode-map (kbd "<tab>") 'helm-esh-pcomplete)
+  (define-key eshell-mode-map (kbd "<tab>") 'helm-esh-pcomplete)
   (spacemacs/set-leader-keys-for-major-mode 'eshell-mode
     "H" 'spacemacs/helm-eshell-history)
   (define-key eshell-mode-map
     (kbd "M-l") 'spacemacs/helm-eshell-history))
+
+(defun spacemacs/ivy-eshell-history ()
+  (interactive)
+  (counsel-esh-history)
+  (evil-insert-state))
+
+(defun spacemacs/pcomplete-std-complete ()
+  (interactive)
+  (pcomplete-std-complete)
+  (evil-insert-state))
+
+(defun spacemacs/init-ivy-eshell ()
+  "Initialize ivy-eshell."
+  (spacemacs/set-leader-keys-for-major-mode 'eshell-mode
+    "H" #'spacemacs/ivy-eshell-history)
+  (define-key eshell-mode-map (kbd "M-l") #'spacemacs/ivy-eshell-history)
+  (define-key eshell-mode-map (kbd "<tab>") #'spacemacs/pcomplete-std-complete))
 
 (defun term-send-tab ()
   "Send tab in term mode."

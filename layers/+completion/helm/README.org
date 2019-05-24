@@ -4,7 +4,7 @@
 
 [[file:img/helm.png]]
 
-* Table of Contents                     :TOC_4_gh:noexport:
+* Table of Contents                     :TOC_5_gh:noexport:
 - [[#description][Description]]
   - [[#features][Features:]]
 - [[#install][Install]]
@@ -198,6 +198,7 @@ modifications to the buffer.
 
 | Key binding | Description                    |
 |-------------+--------------------------------|
+| ~SPC s C~   | clear =helm-swoop= own cache   |
 | ~SPC s s~   | execute =helm-swoop=           |
 | ~SPC s S~   | execute =helm-multi-swoop=     |
 | ~SPC s C-s~ | execute =helm-multi-swoop-all= |

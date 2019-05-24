@@ -4,7 +4,7 @@
 
 [[file:img/shell.png]]
 
-* Table of Contents                     :TOC_4_gh:noexport:
+* Table of Contents                     :TOC_5_gh:noexport:
 - [[#description][Description]]
   - [[#features][Features:]]
 - [[#install][Install]]
@@ -210,6 +210,7 @@ Some advanced configuration is setup for =eshell= in this layer:
 | ~SPC a s m~ | Open, close or go to a =multi-term=                        |
 | ~SPC a s t~ | Open, close or go to a =ansi-term=                         |
 | ~SPC a s T~ | Open, close or go to a =term=                              |
+| ~TAB~       | browse completion with =helm=                              |
 | ~SPC m H~   | browse history with =helm= (works in =eshell= and =shell=) |
 | ~C-j~       | next item in history                                       |
 | ~C-k~       | previous item in history                                   |
@@ -234,6 +235,6 @@ in the current buffer instead of a popup.
 
 ** Eshell
 
-| Key binding        | Description                                |
-|--------------------+--------------------------------------------|
-| ~SPC m H~ or ~M-l~ | shell commands history using a helm buffer |
+| Key binding        | Description                                       |
+|--------------------+---------------------------------------------------|
+| ~SPC m H~ or ~M-l~ | shell commands history using a helm or ivy buffer |
