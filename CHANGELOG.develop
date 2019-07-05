@@ -101,6 +101,8 @@ the [[file:CHANGELOG.org][CHANGELOG.org]] file.
   - Changed ~SPC b B~ to ~SPC b I~ for =ibuffer= (thanks to Thomas de Beauchêne)
   - Changed ~SPC B b~ to ~SPC b B~ for non restricted buffer list
     (thanks to Thomas de Beauchêne)
+  - Changed ~SPC b i~ to ~SPC b t~ for =imenu= tree view
+    (thansk to Sylvain Benner)
   - ~SPC b m~ now opens the =*Messages*= buffer. The old ~SPC b m~ to kill other
     buffers has been moved to ~SPC b C-d~. Killing other buffers using a regular
     expression is now under ~SPC b C-D~.
@@ -311,6 +313,7 @@ sane way, here is the complete list of changed key bindings
 - perl5 (thanks to Troy Hinckley, Jinseop Kim and Michael Rohleder)
 - perl6 (thanks to Bahtiar Gadimov and yuhan0)
 - prolog (thanks to Newres Al Haider)
+- reasonml (thanks to fredyr and Dave Aitken)
 - protobuf (thanks to Amol Mandhane)
 - restructuredtext (thanks to Wei-Wei Guo and Kalle Lindqvist)
 - semantic-web (thanks to Andreas Textor)
@@ -395,6 +398,7 @@ sane way, here is the complete list of changed key bindings
     (thanks to Eugene Yaremenko and Sylvain Benner)
   - New variable =dotspacemacs-undecorated-at-startup= (thanks to bb2020)
 Other:
+  - =.gitignore= now ignores tag files.
   - Added =vim-style-visual-feedback= and =hybrid-style-visual-feedback= style
     variables to enable =evil-goggles= pulse in the Vim and Hybrid editing
     styles, respectively; disabled by default (thanks to Sylvain Benner)
@@ -555,6 +559,7 @@ Other:
     (thanks to Alexander Miller)
   - Added missing force argument to the =spacemacs//init-spacemacs-env= call in
     the function =spacemacs/load-spacemacs-env= (thanks to sergeiz2)
+  - Fixed =spacemacs/alternate-buffer= to restore point.
 - Other:
   - New function =configuration-layer/message= to display message in
     =*Messages*= buffer (thanks to Sylvain Benner)
@@ -796,10 +801,10 @@ Other:
   - Added =link-hint-copy-link= to ~SPC x y~ (thanks to William Casarin)
   - Added =evil-unimpaired= navigation keys prefixed by ~[~ and ~]~ to the
     Spacemacs home buffer (thanks to Sorawee Porncharoenwase)
-  - Added key bindings for indirect buffer functions under ~SPC b c~:
-    - ~n~ calls =make-indirect-buffer=
-    - ~c~ calls =clone-indirect-buffer=
-    - ~w~ calls =clone-indirect-buffer-other-window=
+  - Added key bindings for indirect buffer functions under ~SPC b N~:
+    - ~C-i~ calls =make-indirect-buffer=
+    - ~i~ calls =clone-indirect-buffer=
+    - ~I~ calls =clone-indirect-buffer-other-window=
 - Improvements:
   - Rewrote window layout functions for ~SPC w 1~, ~SPC w 2~, ~SPC w 3~, and
     ~SPC w 4~ (thanks to Codruț Constantin Gușoi):
@@ -891,6 +896,7 @@ Other:
     - ~g~ go to first candidate
     - ~G~ go to last candidate
     (thanks to duianto)
+  - Added support for visual line numbers (thanks to jcaw)
 - Fixed:
   - Fixed ~h~ key binding in compilation and grep buffers
     (thanks to Sylvain Benner)
@@ -964,7 +970,7 @@ Other:
     (thanks to Richard Kim)
   - Fixed =:noh= ex-command to correctly clear search highlights initiated with
     both ~/~ and ~C-s~ (thanks to duianto)
-  - Force =powerline-scale= to be 1 when =utf-8= separator is used
+  - Force =separator-scale= to be 1 when the =utf-8= separator is used
     (thanks to Sylvain Benner)
   - Fixed =find-ert-test-buffer= that moves point (thanks to Alexander-Miller)
   - Disabled popwin-mode at startup (thanks to bmag)
@@ -1007,13 +1013,18 @@ Other:
     - =spacemacs-theme-org-height=
       (thanks to Dominik Schrempf)
   - Key bindings (thanks to bb2020)
-    - ~SPC-j-C~ to =check-parens=
-    - ~SPC-,~ to =goto-last-change=
+    - ~SPC j (~ to =check-parens=
+    - ~SPC j c~ to =goto-last-change=
   - Excluded =fundamental-mode= from =spacemacs/check-large-file=
     (thanks to Alexander Miller)
   - Fixed copied dir/path not shown in minibuffer when =select-enable-clipboard=
     is =nil= (thanks to duianto)
+  - Used return value from advised function in =spacemacs//yank-indent-region=
+    (thanks to Brandon T. Willard)
 *** Layer changes and fixes
+**** Agda
+- Fixes
+  - Fix auto bind breaking after Agda 2.6.0 api changes
 **** Alda
 - Key bindings:
   - ~SPC m r~ Play region (selected text)
@@ -1254,6 +1265,7 @@ Other:
 **** Dash
 - Improvements:
   - Use default docsets path in =helm-dash= on macos (thanks to ColorFuzzy)
+  - Added config option =dash-autoload-common-docsets= to toggle init behavior
 - Fixes:
   - Fix startup error when using counsel-dash with custom path in
     helm-dash-docset-newpath (thanks to madand)
@@ -1356,6 +1368,8 @@ Other:
 - Added support for Emoji fonts on macOS and Linux (thanks to CodeFalling)
 - Setup =emojify= cache directory (thanks to Boris Buliga)
 - Hide mode-line indicator: =emoji= (thanks to duianto)
+- Prevented =set-fontset-font= from being set in Emacs without a window system
+  (thanks to NicholasTD07k)
 **** ERC
 - Key bindings:
   - ~SPC m b~ to switch between ERC buffers (thanks to Evan Klitzke)
@@ -1592,7 +1606,7 @@ Other:
 - Added missing prefixes for =web-mode= and =css-mode= (thanks to Uroš Perišić)
 - Fixed ~TAB~ indenting in =web-mode= (thanks to Christopher Eames)
 - Added =lsp= support for =css-mode=, =less-css-mode=, and =scss-mode=
-- Added support for =prettier= formatter in HTML buffers 
+- Added support for =prettier= formatter in HTML buffers
 **** Hy
 - Added support for virtual envs (thanks to Danny Freeman)
 - Key bindings:
@@ -1654,9 +1668,11 @@ Other:
 - Fixed typos in spacemacs/search-dir* bindings (thanks to yuhan0)
 - Added =ivy-ret-visits-directory= variable (thanks to bb2020)
 **** Imenu-list
+- Changed ~SPC b i~ to ~SPC b t~ for =imenu= tree view
+  (thansk to Sylvain Benner)
 - Fixed key bindings (thanks to bet4it):
   - ~r~ inside imenu-list buffer to refresh
-  - ~SPC b i~ calls =imenu-list-smart-toggle= rather than
+  - ~SPC b t~ calls =imenu-list-smart-toggle= rather than
     =imenu-list-minor-mode=
 **** Jabber
 - Added missing optional argument for the =jabber-alert-echo= function to fix
@@ -1754,6 +1770,10 @@ Other:
 - Enable auto indent when paste. Remove =latex-mode= from
   =spacemacs-yank-indent-modes= to disable it (thanks to bet4it)
 - Added support for =company-reftex= (thanks to et2010)
+- Added bindings to navigate between errors in tex mode:
+  - ~SPC m n~ goto next error
+  - ~SPC m N~ goto previous error
+    (thanks to Olivier Verdier)
 **** Lua
 - Added support for auto-completion with =company= (thanks to halfcrazy)
 **** Language Server Protocol (LSP)
@@ -1772,6 +1792,7 @@ Other:
 - Added package =helm-lsp=
   - ~SPC m g s~ to find symbol in current project
   - ~SPC m g S~ to find symbol in all projects
+- Deleted =fix-lsp-company-prefix= since =company-lsp= is doing that handling.
 **** Debug Adapter Protocol (DAP)
 - Key bindings
   - ~SPC m d d e~ to edit debug template
@@ -2008,6 +2029,8 @@ Other:
     - ~SPC a o J s g~ Get subtasks
     - ~SPC a o J c u~ Update the comment at point or add a new comment
     - ~SPC a o J t j~ Convert the TODO item at point to a Jira ticket
+  - Added ~SPC m C p~ =org-pomodoro= in =org-journal-mode=
+    (thanks to Mariusz Klochowicz)
 - Key binding changes for archiving (thanks to Ag Ibragimov):
   - Added ~SPC m s a~ to toggle archive tag for subtree
   - Added ~SPC m s A~ to archive subtree (previously ~SPC m s a~)
@@ -2220,6 +2243,19 @@ Other:
   - Use JSX header without breaking React (thanks to Jam Risser)
   - Fixed React imports when using web beautify. (thanks to Ismael)
   - Made layer depends on node and tern layers (thanks to Sylvain Benner)
+**** ReasonML
+- Key bindings:
+  - ~SPC m g g~ Jump to definition
+  - ~SPC m g G~ Jump to definition (other window)
+  - ~SPC m g b~ Jump back
+  - ~SPC m h t~ Show type
+  - ~SPC m h h~ Show docs
+  - ~SPC m r d~ Merlin destruct
+  - ~SPC m = =~ Refmt
+  - ~SPC m t r~ Toggle auto-refmt on save
+  - ~SPC m = m r~ Refmt: convert ml syntax to re syntax
+  - ~SPC m = r m~ Refmt: convert re syntax to ml syntax
+    (thanks to Fredrik Dyrkell and Dave Aitken)
 **** Ruby
 - Added support for =org-babel= (thanks to Muneeb Shaikh)
 - Highlight debugger keywords (thanks to Alexander Berezovsky and Eivind Fonn)
