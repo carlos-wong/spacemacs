@@ -483,6 +483,9 @@ Other:
   - Calling ~spacemacs/recompile-elpa~ with an argument nukes all *.elc files (thanks to Ag Ibragimov)
   - Allow customizing default major mode for new empty buffers in ~SPC b N n~,
     see =dotspacemacs-new-empty-buffer-major-mode= (thanks to Juha Jeronen)
+  - Changed =dotspacemacs-default-font= =:size= from =13= (pixel size) to =10.0=
+    (point size) (thanks to Aaron Zeng and duianto)
+  - Updated the list of =base16= themes (thanks to kenranunderscore)
 - Fixed:
   - Avoid non-idempotent use of push in init code (thanks to Miciah Masters)
   - Moved Spacemacs startup progress bar to =core-progress-bar.el=, removed
@@ -587,6 +590,7 @@ Other:
   - New emacs banner: "100-banner.txt" (thanks to Robert Zaremba)
   - Add Dogemacs inverted banner for dark themes: "997-banner.txt"
     (thanks to Vitor Finotti and Robby O'Connor)
+  - Added reference handler as per jump handler (thanks to Fangrui Song)
 *** Distribution changes
 - Refactored =spacemacs-bootstrap=, =spacemacs-ui=, and =spacemacs-ui-visual=
   layers:
@@ -805,6 +809,12 @@ Other:
     - ~C-i~ calls =make-indirect-buffer=
     - ~i~ calls =clone-indirect-buffer=
     - ~I~ calls =clone-indirect-buffer-other-window=
+  - Added key bindings (thanks to duianto):
+    - Evil numbers ~SPC n _~ decrease number at point
+      and in the transient state ~j~ and ~k~
+    - Font scaling ~SPC z x _~ scale down
+    - Frame transparency ~SPC T T _~ decrease transparency
+    - Zoom frame ~SPC z f _~ zoom frame out
 - Improvements:
   - Rewrote window layout functions for ~SPC w 1~, ~SPC w 2~, ~SPC w 3~, and
     ~SPC w 4~ (thanks to Codruț Constantin Gușoi):
@@ -897,6 +907,10 @@ Other:
     - ~G~ go to last candidate
     (thanks to duianto)
   - Added support for visual line numbers (thanks to jcaw)
+  - Updated evil-numbers transient state to run foreign keys (thanks to Jake Romer)
+  - Added a =tutorials= section to ~SPC h T~ (thanks to duianto):
+    - ~SPC h T e~ for =emacs-tutorial= (aliased from =help-with-tutorial=)
+    - ~SPC h T v~ for =evil-tutor-start=
 - Fixed:
   - Fixed ~h~ key binding in compilation and grep buffers
     (thanks to Sylvain Benner)
@@ -1021,6 +1035,7 @@ Other:
     is =nil= (thanks to duianto)
   - Used return value from advised function in =spacemacs//yank-indent-region=
     (thanks to Brandon T. Willard)
+  - Fixed canceling =spacemacs/ace-buffer-links= (thanks to duianto)
 *** Layer changes and fixes
 **** Agda
 - Fixes
@@ -1041,6 +1056,7 @@ Other:
     (thanks to Codruț Constantin Gușoi)
   - Fixed =error void function ansible: auto-decrypt-encrypt=
     (thanks to Sylvain Benner)
+  - Matched upstream Emacs coding convention names (thanks to Ayush Goyal)
 **** Asm
 - Improvements:
   - Added support for =company= package declaration (thanks to Kalle Lindqvist)
@@ -1184,6 +1200,18 @@ Other:
     (thanks to John Stevenson)
   - ~SPC m e i~ interrupt the current evaluation (stop long running process)
     (thanks to John Stevenson)
+  - ~SPC m e v~ to evaluate s-expression at point (=cider-eval-sexp-at-point=)
+  - ~SPC m s u~  require Clojure utils into current namespace
+    i.e. functions =doc= =source= (thanks to John Stevenson)
+  - ~SPC m s j c~ updated to call =cider-jack-in-clj= rather than old alias
+    =cider-jack-in= (thanks to John Stevenson)
+  - ~SPC m s j f~ new keybinding to call =cider-jack-in-clj&cjls=
+    (thanks to John Stevenson)
+  - ~SPC m s j s~ updated to call =cider-jack-in-cljs= rather than old alias
+    =cider-jack-in-clojurescript= which is deprecated
+  - ~SPC m g g~ changed to =spacemacs/clj-find-var=, a wrapper for
+    =cider-find-var= if REPL running, otherwise =dumb-jump-go=
+    (thanks to John Stevenson)
 - Fixes:
   - Remove `cider.nrepl/cider-middleware` in lein quick start setting
   - Fixed =cider-inspector-prev-page= binding, also add ~p~ as another key
@@ -1286,6 +1314,9 @@ Other:
   - Added ~SPC m c B~ to build image without cache (thanks to Maximilian Wolff)
   Henar)
   - Added ~SPC a D C~ for =docker-compose= (thanks to Daniel Caixinha)
+  - Added ~SPC a D n~ for =docker-networks= (thanks to Ramz)
+  - Added ~SPC a D v~ for =docker-volumes= (thanks to Ramz)
+  - Added ~SPC a D m~ for =docker-machines= (thanks to Ramz)
 - Fix: broken package declaration for dockerfile-mode
   (thanks to Maximilian Wolff)
 **** Dotnet
@@ -1419,11 +1450,8 @@ Other:
 **** GitHub
 - Packages:
   - Added new packages =forge= (thanks to Miciah Dashiel Butler Masters)
-  - Added package =magithub=, it is enabled by default in offline mode.
   - Remove package =github-browse-file= which has been replaced by
    =browse-at-remote= in =version-control= layer
-  - Remove package =magit-gh-pulls= as it was deprecated in favor of =magithub=
-    and =forge= (thanks to Robby O'Connor)
 - Key bindings:
   - Added ~g r~ evilified binding to gist-list-mode
     (thanks to Jean-Sebastien A. Beaudry)
@@ -1435,8 +1463,13 @@ Other:
     - ~SPC m k~ or ~SPC m k~ cancel post
 - Replace =evilified-state-evilify= by =evilified-state-evilify-map=
   (thanks to Sylvain Benner)
-- Made magithub offline by default (thanks to Miciah Masters)
 - Disabled status, issues, and PRs by default (thanks to Miciah Masters)
+- Removed mentions of the removed package =magithub= (thanks to Hong Xu)
+  Obsolete:
+  - Added package =magithub=, it is enabled by default in offline mode.
+  - Remove package =magit-gh-pulls= as it was deprecated in favor of =magithub=
+    and =forge= (thanks to Robby O'Connor)
+  - Made magithub offline by default (thanks to Miciah Masters)
 **** Git
 - Install magit-svn by default and activate with git-enable-magit-svn-plugin
 - Key bindings:
@@ -1506,6 +1539,8 @@ Other:
 - Added toggle control for verbose go test output (thanks to Enze Chi)
 - Set lsp-prefer-flymake to :none when Go layer is using LSP
   (thanks to Tim Heckman)
+- Refactored two variables =go-use-gometalinter= and =go-use-golangci-lint= to
+  one =go-linter= (thanks to Robert Zaremba)
 **** Graphviz
 - Use graphviz package from melpa (thanks to Matthew Boston)
 **** Groovy
@@ -1678,6 +1713,8 @@ Other:
 - Added missing optional argument for the =jabber-alert-echo= function to fix
   =wrong-number-of-arguments= error when jabber receives a new notification
   (thanks to Aleksei Fedotov)
+**** Jsonnet
+- Fixed flycheck support in jsonnet files (thanks to Vikash Balasubramanian)
 **** Java
 - Added support for multiple backends. Supported backends are: =meghanada=,
   =eclim= and =ensime=. The default backend is =meghanada=.
@@ -1793,6 +1830,7 @@ Other:
   - ~SPC m g s~ to find symbol in current project
   - ~SPC m g S~ to find symbol in all projects
 - Deleted =fix-lsp-company-prefix= since =company-lsp= is doing that handling.
+- Fixed a delay when declaring prefixes for mode (thanks to Thanh Vuong)
 **** Debug Adapter Protocol (DAP)
 - Key bindings
   - ~SPC m d d e~ to edit debug template
@@ -1849,6 +1887,7 @@ Other:
     - ~SPC m t d~ convert region to table
 - Bound major mode leader key and ~M-RET~ to =markdown-insert-list-item= for
   terminal users (thanks to AmaiKinono)
+- Made =*lsp-help*= buffer shown in a popup window using popwin
 **** Major modes
 - Added SPARQL-mode (thanks to Dietrich Daroch)
 - Move =extra-langs= to =major-modes= (thanks to Eivind Fonn)
@@ -2038,7 +2077,7 @@ Other:
 - Remove =mu4e= and =notmuch= from =org= (thanks to Sylvain Benner)
 - Use evil-org from MELPA (thanks to Eivind Fonn)
 - Added =org-brain= (thanks to Matthías Páll Gissurarson and Eivind Fonn)
-- Added detailed =org-brain= bindings (thanks to Langston Barret)
+- Added detailed =org-brain= bindings (thanks to Langston Barret and Oguz Serbetci)
 - Added layer variable for todo bindings (thanks to Eivind Fonn)
 - Made =org-projectile= integration compatible with its new version
   (thanks to Ivan Malison)
@@ -2191,6 +2230,8 @@ Other:
 - Added documentation on installing importmagic and epc (thanks to Trapez Breen)
 - Made python-send-shell-* functions faster (thanks to Trapez Breen)
 - Added support for 'black' formatter (thanks to Mike Macpherson)
+- Enabled =eldoc= for =anaconda-mode= (thanks to Vikash Balasubramanian)
+- Various fixes for =lsp-python-ms= setup (thanks to Trapez Breen)
 **** Racket
 - Restore smart closing paren behavior in racket-mode (thanks to Don March)
 **** Ranger
@@ -2426,6 +2467,9 @@ Other:
     line =insert state=
   - ~SPC m s L~ Send the current line to the SQLi buffer and move to the next
     line and switch to it in =insert state=
+- Added key binding (thanks to Michael Hauser-Raspe):
+  ~SPC m b c~ connect to a SQLi buffer from your saved buffer list
+- Added ~SPC m g~ prefix: =goto= (thanks to duianto)
 **** Spell-checking
 - Added spell checking transient state (thanks to Francesc Elies Henar)
 - Update to flyspell-correct v0.5 (thanks to Boris Buliga)
@@ -2580,6 +2624,10 @@ Other:
   (thanks to Voleking)
 **** Xclipboard
 - Added Requirements documentation (thanks to Chris Glass)
+- Added =cliphist= with the following bindings: (thanks to Hong Xu)
+  - ~SPC x P~ paste item from history (cliphist must be enabled)
+  - ~SPC x R~ rectangly paste item from history (cliphist must be enabled)
+  - ~SPC x s~ select item from history (cliphist must be enabled)
 **** Ycmd
 - Search for =compile_commands.json= in build sub-directory
   (thanks to Amos Bird and Eivind Fonn)
@@ -2610,12 +2658,12 @@ Other:
   Diego Alvarez, Diego Berrocal, Dietrich Daroch, Dinesh Bhosale, Dominik
   Schrempf, Doug Beardsley, dubnde, duianto, eldios, EMayej, Eugene Yaremenko,
   Evan Klitzke, Evan Niessen-Derry, firemiles, Florian Bruhin, Fuqiao Xue,
-  Garrett Johnson, Grant Shangreaux, Henrique Jung, Henry Hirsch, Henry
-  Marshall, hornuda, Ivan Fedorov, Ivan Kryvoruchko, J. Patrick Lanigan, Jaremy
-  Creechley, Jason Axelson, Jesse Cooke, Jethro Shuwen Sun, JI Xiang, Jim
-  Deville, Jody Frankowski, Joe Hillenbrand, John Eismeier, John Wood, Jon
-  Tippens, Jonas Strømsodd, Jonathan Arnett, Jonathan Chen, Jonathan Gillett,
-  Josh Greenwood, Joshua Santos, Justin Stone, Kainalu Hagiwara, Kalle
+  Garrett Johnson, Grant Shangreaux, Guido Kraemer, Henrique Jung, Henry Hirsch,
+  Henry Marshall, hornuda, Hong Xu, Ivan Fedorov, Ivan Kryvoruchko, J. Patrick
+  Lanigan, Jaremy Creechley, Jason Axelson, Jesse Cooke, Jethro Shuwen Sun, JI
+  Xiang, Jim Deville, Jody Frankowski, Joe Hillenbrand, John Eismeier, John
+  Wood, Jon Tippens, Jonas Strømsodd, Jonathan Arnett, Jonathan Chen, Jonathan
+  Gillett, Josh Greenwood, Joshua Santos, Justin Stone, Kainalu Hagiwara, Kalle
   Lindqvist, Kechao Cai, Keith Simmons, Keith Wygant, Kevin Ji, Kristoffer
   Haugsbakk, lawrsp, Leo Joseph Buchignani III, liuchong, Luke Winship, Luke
   Worth, Marco Ieni, Marco Zucconelli, Max Beutelspacher, Max Deineko, Max
