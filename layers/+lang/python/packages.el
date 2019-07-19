@@ -93,11 +93,12 @@
       :modes pip-requirements-mode)))
 
 (defun python/init-company-anaconda ()
-  (use-package company-anaconda
-    :if (eq python-backend 'anaconda)
-    :defer t
-    ;; see `spacemacs//python-setup-anaconda-company'
-    ))
+  ;; (use-package company-anaconda
+  ;;   :if (eq python-backend 'anaconda)
+  ;;   :defer t
+  ;;   ;; see `spacemacs//python-setup-anaconda-company'
+  ;;   )
+  )
 
 (defun python/init-blacken ()
   (use-package blacken

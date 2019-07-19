@@ -36,11 +36,11 @@
 
 (defun spacemacs//python-setup-anaconda-company ()
   "Setup anaconda auto-completion."
-  (spacemacs|add-company-backends
-    :backends company-anaconda
-    :modes python-mode
-    :append-hooks nil
-    :call-hooks t)
+  ;; (spacemacs|add-company-backends
+  ;;   :backends company-anaconda
+  ;;   :modes python-mode
+  ;;   :append-hooks nil
+  ;;   :call-hooks t)
   (company-mode))
 
 (defun spacemacs//python-setup-anaconda-eldoc ()
