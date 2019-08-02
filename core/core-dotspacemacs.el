@@ -65,9 +65,8 @@ or `spacemacs'.")
 to compile Emacs 27 from source following the instructions in file
 EXPERIMENTAL.org at to root of the git repository.")
 
-(defvar dotspacemacs-emacs-pdumper-executable-file "emacs-27.0.50"
-  "File path pointing to emacs 27.1 executable compiled with support for the
-portable dumper (this is currently the branch pdumper.")
+(defvar dotspacemacs-emacs-pdumper-executable-file "emacs"
+  "File path pointing to emacs 27 or later executable.")
 
 (defvar dotspacemacs-emacs-dumper-dump-file "spacemacs.pdmp"
   "Name of the Spacemacs dump file. This is the file will be created by the
@@ -369,8 +368,8 @@ Has no effect if `dotspacemacs-enable-server' is nil.")
 
 (defvar dotspacemacs-smart-closing-parenthesis nil
   "If non-nil pressing the closing parenthesis `)' key in insert mode passes
-over any automatically added closing parenthesis, bracket, quote, etc…
-This can be temporary disabled by pressing `C-q' before `)'.")
+over any automatically added closing parenthesis, bracket, quote, etc...
+This can be temporary disabled by pressing `C-q' before `)'. (default nil)")
 
 (defvar dotspacemacs-zone-out-when-idle nil
   "Either nil or a number of seconds. If non-nil zone out after the specified
