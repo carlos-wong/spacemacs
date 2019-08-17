@@ -209,12 +209,22 @@ Note: the hooked function is not executed when in dumped mode."
      ;; nil earlier in the startup process to properly handle command line
      ;; arguments.
      (setq initial-buffer-choice (lambda () (get-buffer spacemacs-buffer-name)))
+
+     ;; Activate winner-mode for non dumped emacs sessions. Do this prior to
+     ;; user-config to allow users to disable the feature and patch ediff
+     ;; themselves. See issue 12582 for details.
+     (winner-mode t)
+
      ;; Ultimate configuration decisions are given to the user who can defined
      ;; them in his/her ~/.spacemacs file
      (dotspacemacs|call-func dotspacemacs/user-config
-                   "Calling dotfile user config...")
+                             "Calling dotfile user config...")
      (dotspacemacs|call-func dotspacemacs/emacs-custom-settings
-                   "Calling dotfile Emacs custom settings...")
+                             "Calling dotfile Emacs custom settings...")
+     (defconst spacemacs-original-spacemacs-custom-colors spacemacs-theme-custom-colors
+       "Value of spacemacs-theme-custom-colors as it was after running user-config.
+
+Needs to be saved as some themes customise this variable and we can otherwise not restore the original setting.")
      ;; don't write custom settings into the dotfile before loading them,
      ;; otherwise https://github.com/syl20bnr/spacemacs/issues/10504 happens
      (spacemacs/initialize-custom-file-sync)
