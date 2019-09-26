@@ -55,7 +55,18 @@
 (defun php/init-php-mode ()
   (use-package php-mode
     :defer t
-    :mode ("\\.php\\'" . php-mode)))
+    :mode ("\\.php\\'" . php-mode))
+    :init
+    (progn
+      (add-hook 'php-mode-hook 'spacemacs//php-setup-backend))
+    :config
+    (progn
+      (spacemacs/declare-prefix-for-mode 'php-mode "mg" "goto")
+      (spacemacs/declare-prefix-for-mode 'php-mode "mt" "tests")
+      (spacemacs/set-leader-keys-for-major-mode 'php-mode
+        "tt" 'phpunit-current-test
+        "tc" 'phpunit-current-class
+        "tp" 'phpunit-current-project)))
 
 (defun php/init-phpcbf ()
   (use-package phpcbf

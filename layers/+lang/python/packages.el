@@ -310,8 +310,7 @@
     (progn
       (spacemacs/register-repl 'python
                                'spacemacs/python-start-or-switch-repl "python")
-      (add-hook 'inferior-python-mode-hook
-                'spacemacs//inferior-python-setup-hook)
+      (spacemacs//bind-python-repl-keys)
       (spacemacs/add-to-hook 'python-mode-hook
                              '(spacemacs//python-setup-backend
                                spacemacs//python-default))
@@ -428,6 +427,7 @@ fix this issue."
   (use-package lsp-python-ms
     :if (eq python-lsp-server 'mspyls)
     :ensure nil
+    :defer t
     :config
     (when python-lsp-git-root
       ;; Use dev version of language server checked out from github

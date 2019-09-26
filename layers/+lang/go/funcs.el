@@ -40,7 +40,7 @@
       (progn
         ;; without setting lsp-prefer-flymake to :none
         ;; golangci-lint errors won't be reported
-        (when (eq go-linter 'golangci-lint)
+        (when go-use-golangci-lint
           (message "[go] Setting lsp-prefer-flymake :none to enable golangci-lint support.")
           (setq-local lsp-prefer-flymake :none))
         (lsp))
@@ -58,20 +58,15 @@
         (company-mode))
     (message "`lsp' layer is not installed, please add `lsp' layer to your dotfile.")))
 
-(defun spacemacs//go-enable-flycheck-extra ()
-  "Enable enhanced linter and disable overlapping `flycheck' linters."
-  (when go-linter
-    (setq flycheck-disabled-checkers '(go-gofmt
-                                       go-golint
-                                       go-vet
-                                       go-build
-                                       go-test
-                                       go-errcheck))
-    (pcase go-linter
-      ('gometalinter  (flycheck-gometalinter-setup)
-                      (message "go-linter: using gometalinter"))
-      ('golangci-lint (flycheck-golangci-lint-setup)
-                      (message "go-linter: using golangci-lint")))))
+(defun spacemacs//go-enable-flycheck-golangci-lint ()
+  "Enable `flycheck-golangci-linter' and disable overlapping `flycheck' linters."
+  (setq flycheck-disabled-checkers '(go-gofmt
+                                     go-golint
+                                     go-vet
+                                     go-build
+                                     go-test
+                                     go-errcheck))
+  (flycheck-golangci-lint-setup))
 
 (defun spacemacs/go-run-tests (args)
   (interactive)
@@ -89,22 +84,25 @@
 (defun spacemacs/go-run-test-current-function ()
   (interactive)
   (if (string-match "_test\\.go" buffer-file-name)
-      (let ((test-method (if go-use-gocheck-for-testing
-                             "-check.f"
-                           "-run")))
-        (save-excursion
-          (re-search-backward "^func[ ]+\\(([[:alnum:]]*?[ ]?[*]?[[:alnum:]]+)[ ]+\\)?\\(Test[[:alnum:]_]+\\)(.*)")
-          (spacemacs/go-run-tests (concat test-method "='" (match-string-no-properties 2) "$'"))))
+      (save-excursion
+        (re-search-backward "^func[ ]+\\(([[:alnum:]]*?[ ]?[*]?\\([[:alnum:]]+\\))[ ]+\\)?\\(Test[[:alnum:]_]+\\)(.*)")
+        (spacemacs/go-run-tests
+         (cond (go-use-testify-for-testing (concat "-run='Test" (match-string-no-properties 2) "' -testify.m='" (match-string-no-properties 3) "'"))
+               (go-use-gocheck-for-testing (concat "-check.f='" (match-string-no-properties 3) "$'"))
+               (t (concat "-run='" (match-string-no-properties 3) "$'")))))
     (message "Must be in a _test.go file to run go-run-test-current-function")))
 
 (defun spacemacs/go-run-test-current-suite ()
   (interactive)
   (if (string-match "_test\.go" buffer-file-name)
-      (if go-use-gocheck-for-testing
-          (save-excursion
-            (re-search-backward "^func[ ]+\\(([[:alnum:]]*?[ ]?[*]?\\([[:alnum:]]+\\))[ ]+\\)?Test[[:alnum:]_]+(.*)")
-            (spacemacs/go-run-tests (concat "-check.f='" (match-string-no-properties 2) "'")))
-        (message "Gocheck is needed to test the current suite"))
+      (if (or go-use-testify-for-testing go-use-gocheck-for-testing)
+          (let ((test-method (if go-use-gocheck-for-testing
+                                 "-check.f='"
+                               "-run='Test")))
+            (save-excursion
+              (re-search-backward "^func[ ]+\\(([[:alnum:]]*?[ ]?[*]?\\([[:alnum:]]+\\))[ ]+\\)?\\(Test[[:alnum:]_]+\\)(.*)")
+              (spacemacs/go-run-tests (concat test-method (match-string-no-properties 2) "'"))))
+        (message "Testify or Gocheck is needed to test the current suite"))
     (message "Must be in a _test.go file to run go-test-current-suite")))
 
 (defun spacemacs/go-run-main ()

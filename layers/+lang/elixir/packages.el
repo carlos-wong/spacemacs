@@ -26,13 +26,12 @@
         ))
 
 (defun elixir/post-init-company ()
-  (when (configuration-layer/package-used-p 'alchemist)
-    (spacemacs|add-company-backends
-      :backends alchemist-company
-      :modes elixir-mode alchemist-iex-mode)))
+  ;; backend specific
+  (add-hook 'elixir-mode-local-vars-hook #'spacemacs//elixir-setup-company))
 
 (defun elixir/init-alchemist ()
   (use-package alchemist
+    :if (eq elixir-backend 'alchemist)
     :defer t
     :init
     (progn
@@ -54,6 +53,7 @@
     (spacemacs/declare-prefix-for-mode 'elixir-mode "ms" "iex")
     (spacemacs/declare-prefix-for-mode 'elixir-mode "mt" "test")
     (spacemacs/declare-prefix-for-mode 'elixir-mode "mx" "execute")
+    (spacemacs/declare-prefix-for-mode 'elixir-mode "md" "debug")
     (spacemacs/set-leader-keys-for-major-mode 'elixir-mode
       "el" 'alchemist-eval-current-line
       "eL" 'alchemist-eval-print-current-line
@@ -131,7 +131,9 @@
       "oi" 'alchemist-macroexpand-once-region
       "oI" 'alchemist-macroexpand-once-print-region
       "or" 'alchemist-macroexpand-region
-      "oR" 'alchemist-macroexpand-print-region)
+      "oR" 'alchemist-macroexpand-print-region
+
+      "db" 'spacemacs/elixir-toggle-breakpoint)
 
     (dolist (mode (list alchemist-compile-mode-map
                         alchemist-eval-mode-map
@@ -165,6 +167,9 @@
 (defun elixir/init-elixir-mode ()
   (use-package elixir-mode
     :defer t
+    :init (spacemacs/add-to-hook 'elixir-mode-hook
+                                 '(spacemacs//elixir-setup-backend
+                                   spacemacs//elixir-default))
     :config
     (spacemacs/set-leader-keys-for-major-mode 'elixir-mode
       "=" 'elixir-format)))
