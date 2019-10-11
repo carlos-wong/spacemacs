@@ -1083,6 +1083,7 @@ Other:
 **** Agda
 - Fixes
   - Fixed auto bind breaking after Agda 2.6.0 api changes
+  - Retained indentation on paste (thanks to Georgy Lukyanov)
 **** Alda
 - Key bindings:
   - ~SPC m b~ Play the entire buffer
@@ -1573,6 +1574,9 @@ Other:
   - Log selection buffer (thanks to yuhan0):
     - ~SPC m c~ or ~SPC m ,~ select the commit at point and act on it
     - ~SPC m a~ or ~SPC m k~ abort selecting and don't act on any commit
+  - Get git permalink for a region (thanks to Roman Gonzalez):
+    - ~SPC g l p~ opens browser with region permalink URL
+    - ~SPC g l P~ adds region permalink URL to clipboard
 - Added feature to toggle =evil-magit= based on editing style
   (thanks to Muneeb Shaikh)
 - Added =use-package= for deferred loading of evil-magit
@@ -1594,6 +1598,9 @@ Other:
 - Key bindings:
   - Added ~g r~ for =gnus-group-get-new-news= (thanks to Matthew Leach)
   - Added ~O~ prefix in evil state for =gnus-group-group-map=
+    (thanks to Matthew Leach)
+- Improvements:
+  - Added a =@gnus= perspective (~SPC l o g~) to the layouts transient state
     (thanks to Matthew Leach)
 **** Go
 - Deprecated:
@@ -1758,8 +1765,11 @@ Other:
 - Added missing prefixes for =web-mode= and =css-mode= (thanks to Uroš Perišić)
 - Fixed ~TAB~ indenting in =web-mode= (thanks to Christopher Eames)
 - Added =lsp= support for =css-mode=, =less-css-mode=, and =scss-mode=
+  (thanks to Seong Yong-ju)
 - Added support for =prettier= formatter in HTML buffers
-- Added support for .svelte files
+  (thanks to Anton Alekseev)
+- Added support for =.svelte= files (thanks to Javier Candeira)
+- Added =lsp= support for =html= buffers (thanks to Thanh Vuong)
 **** Hy
 - Added support for virtual envs (thanks to Danny Freeman)
 - Key bindings:
@@ -1968,9 +1978,12 @@ Other:
 - Required =helm= or =treemacs= to download =helm-lsp= or =lsp-treemacs=
   (thanks to Steven Allen)
 **** Debug Adapter Protocol (DAP)
+- Layer variables:
+  - Added variable =dap-enable-mouse-support=
 - Key bindings
   - ~SPC m d d e~ to edit debug template
-- Evilfied =dap= debug windows
+- Improvements:
+  - Evilfied =dap= debug windows
 **** Markdown
 - New layer variable =markdown-mmm-auto-modes= which is a list of language names
   or lists of language and mode names that are supported in source blocks, you
@@ -2204,9 +2217,13 @@ Other:
     - ~SPC a o J t j~ Convert the TODO item at point to a Jira ticket
   - Added ~SPC m C p~ =org-pomodoro= in =org-journal-mode=
     (thanks to Mariusz Klochowicz)
-- Key binding changes for archiving (thanks to Ag Ibragimov):
-  - Added ~SPC m s a~ to toggle archive tag for subtree
-  - Added ~SPC m s A~ to archive subtree (previously ~SPC m s a~)
+  - Key binding changes for archiving (thanks to Ag Ibragimov):
+    - Added ~SPC m s a~ to toggle archive tag for subtree
+    - Added ~SPC m s A~ to archive subtree (previously ~SPC m s a~)
+  - Added ~SPC m i L~ as =org-cliplink= into =org= layer (thanks to bb2020)
+  - Documented more insertion bindings (thanks to Lorenzo Manacorda):
+    - ~C-RET~   Insert heading at end of current subtree
+    - ~C-S-RET~ Insert TODO heading at end of current subtree
 - Made =org= layer depend on =spacemacs-org= (thanks to Eivind Fonn)
 - Remove =mu4e= and =notmuch= from =org= (thanks to Sylvain Benner)
 - Use evil-org from MELPA (thanks to Eivind Fonn)
@@ -2246,7 +2263,6 @@ Other:
 - Replace ox-reveal with org-re-reveal (thanks to Magnus Therning)
 - Added epub support (thanks to vishvanath45)
 - Added support for CUSTOM_ID in latex exports (thanks to Compro-Prasad)
-- Added ~SPC m i L~ as =org-cliplink= into =org= layer (thanks to bb2020)
 - Added =ox-jira= as org export backend (thanks to Sebastian Nagel)
 - Added =helm-org= package (thanks to Simon Pintarelli)
 **** Osx
@@ -2286,6 +2302,8 @@ Other:
     - ~SPC m t t~ =phpunit-current-test=
     - ~SPC m t c~ =phpunit-current-class=
     - ~SPC m t p~ =phpunit-current-project=
+- Improvements:
+  - Enabled =evil-matchit-mode= (thanks to duianto)
 - Fixes:
   - Added company-php (thanks to jim and Eivind Fonn)
   - Fixed php-company autocompletion (thanks to Dela Anthonio)
@@ -2293,6 +2311,8 @@ Other:
     the =php= layer's =php-backend= variable to =lsp=
 **** PlantUML
 - Added a missing prefix: =compile=
+- Added instructions for compiling the image locally by setting
+  =plantuml-default-exec-mode= to =jar= (thanks to Daniel Caixinha)
 **** Platinum
 - Added the =.plum= extension to the platinum modes (thanks to Sylvain Benner)
 - Remove automatic indentation on paste (thanks to Sylvain Benner)
@@ -2424,6 +2444,8 @@ Other:
   - Configure =emmet-mode= to expand classes using =className= instead of =class=
     (thanks to Sylvain Benner)
   - Open =.jsx= files with =rjsx-mode= (thanks to Thomas de Beauchêne)
+  - Made =react= layer respect =javascript= layers variable
+    =javascript-fmt-on-save= (thanks to Tommy Groshong)
 - Key bindings:
   - Added =import-js= support with key bindings:
     - ~SPC m i i~ to mport the module for the variable under the cursor
@@ -2821,29 +2843,29 @@ Other:
 - Multiple unit test improvements (thanks to Sylvain Benner, et2010 and
   Codruț Constantin Gușoi)
 - Various documentation improvements (thanks Aaron Jensen, Aaron Peckham, Aaron
-  Renner, Adam Frey, Adam Kruszewski, Alexander Dalshov, Alexander Eberspächer,
-  Alexander Iljin, Alexander Kjeldaas, Alexandros Kotzias, Andrew Grangaard,
-  Andrew Vit, Andriy Senyshyn, Anton Latukha, Antonio Miranda, Anurag Sharma,
-  Archenoth, Ather Sharif, Artur Juraszek, Benjamin Reynolds, Bernhard Schommer,
-  Billy Wade, bmag, Boris Buliga, Boris Wong, Carl Lange, Chase Adams, Christian
-  Bäuerlein, Cibin Mathew, CL123123, Codruț Constantin Gușoi, Compro-Prasad,
-  cormacc, Daniel Hodson, Daniel Le, Daniel Molina, Darkhan, David Florness,
-  David Parrish, David Vo, davidpham87, Deepu Mohan Puthrote, Dela Anthonio,
-  Diego Alvarez, Diego Berrocal, Dietrich Daroch, Dinesh Bhosale, Dominik
-  Schrempf, Doug Beardsley, dubnde, duianto, eldios, EMayej, Eugene Yaremenko,
-  Evan Klitzke, Evan Niessen-Derry, firemiles, Florian Bruhin, Fuqiao Xue,
-  Gabriel Arrillaga, Garrett Johnson, Grant Shangreaux, Guido Kraemer, Henrique
-  Jung, Henry Hirsch, Henry Marshall, hornuda, Hong Xu, Ivan Fedorov, Ivan
-  Kryvoruchko, J. Patrick Lanigan, Jaremy Creechley, Jason Axelson, Jesse Cooke,
-  Jethro Shuwen Sun, JI Xiang, Jim Deville, Jody Frankowski, Joe Hillenbrand,
-  John Eismeier, John Wood, Jon Tippens, Jonas Strømsodd, Jonathan Arnett,
-  Jonathan Chen, Jonathan Gillett, Josh Greenwood, Joshua Santos, Justin Stone,
-  Kainalu Hagiwara, Kalle Lindqvist, Kechao Cai, Keith Simmons, Keith Wygant,
-  Kenji Miyazaki ,Kevin Ji, Kristoffer Haugsbakk, lawrsp, Leo Joseph Buchignani
-  III, liuchong, Lucius Hu, Luke Winship, Luke Worth, Marco Ieni, Marco
-  Zucconelli, Max Beutelspacher, Max Deineko, Max Nordlund, Maximilian Wolff,
-  Miciah Dashiel Butler Masters, mjkramer, Mikhail Yakutovich, Muneeb Shaikh,
-  Nasser Alshammari, Niko Felger, Nikolai Myllymäki, nikolaiam, Nicolas
+  Renner, Adam Frey, Adam Kruszewski, ahanwadi, Alexander Dalshov, Alexander
+  Eberspächer, Alexander Iljin, Alexander Kjeldaas, Alexandros Kotzias, Andrew
+  Grangaard, Andrew Vit, Andriy Senyshyn, Anton Latukha, Antonio Miranda, Anurag
+  Sharma, Archenoth, Ather Sharif, Artur Juraszek, Benjamin Reynolds, Bernhard
+  Schommer, Billy Wade, bmag, Boris Buliga, Boris Wong, Carl Lange, Chase Adams,
+  Christian Bäuerlein, Cibin Mathew, CL123123, Codruț Constantin Gușoi,
+  Compro-Prasad, cormacc, Daniel Hodson, Daniel Le, Daniel Molina, Darkhan,
+  David Florness, David Parrish, David Vo, davidpham87, Deepu Mohan Puthrote,
+  Dela Anthonio, Diego Alvarez, Diego Berrocal, Dietrich Daroch, Dinesh Bhosale,
+  Dominik Schrempf, Doug Beardsley, dubnde, duianto, eldios, EMayej, Eugene
+  Yaremenko, Evan Klitzke, Evan Niessen-Derry, firemiles, Florian Bruhin, Fuqiao
+  Xue, Gabriel Arrillaga, Garrett Johnson, Grant Shangreaux, Guido Kraemer,
+  Henrique Jung, Henry Hirsch, Henry Marshall, hornuda, Hong Xu, Ivan Fedorov,
+  Ivan Kryvoruchko, J. Patrick Lanigan, Jaremy Creechley, Jason Axelson, Jesse
+  Cooke, Jethro Shuwen Sun, JI Xiang, Jim Deville, Jody Frankowski, Joe
+  Hillenbrand, John Eismeier, John Wood, Jon Tippens, Jonas Strømsodd, Jonathan
+  Arnett, Jonathan Chen, Jonathan Gillett, Josh Greenwood, Joshua Santos, Justin
+  Stone, Kainalu Hagiwara, Kalle Lindqvist, Kechao Cai, Keith Simmons, Keith
+  Wygant, Kenji Miyazaki ,Kevin Ji, Kristoffer Haugsbakk, lawrsp, Leo Joseph
+  Buchignani III, liuchong, Lucius Hu, Luke Winship, Luke Worth, Marco Ieni,
+  Marco Zucconelli, Max Beutelspacher, Max Deineko, Max Nordlund, Maximilian
+  Wolff, Miciah Dashiel Butler Masters, mjkramer, Mikhail Yakutovich, Muneeb
+  Shaikh, Nasser Alshammari, Niko Felger, Nikolai Myllymäki, nikolaiam, Nicolas
   Forgerit, Oguz Serbetci, Olivier Verdier, Pancho Horrillo, Paul Milla, Paulo
   Schneider, Pawan Dubey, Paweł Siudak, Phil Pirozhkov, Philippe Bourdages,
   Piotr Grzesik, Rafi Khan, Rand01ph, rakyi, Raymond Wanyoike, Reverend Homer,
@@ -2851,9 +2873,9 @@ Other:
   Sergio Ugalde, Shane Kilkelly, Sid Kapur, Somelauw, Soobin Rho, sorawee,
   SteveJobzniak, Sunghyun Hwang, Swaroop C H, Sylvain Benner, Szunti, Tim
   Stewart, timor, TinySong, Titov Andrey, Thomas de Beauchêne, Tomasz
-  Cichocinski, Trey Merkley, tzhao11, Vincent Taing, Vlad Bokov, Vladimir Kochnev, Wieland
-  Hoffmann, Witoslaw Koczewski, Xiang Ji, Yi Liu, Zane Sterling, zer09, Zhige
-  Xin, Serghei Iakovlev)
+  Cichocinski, Trey Merkley, tzhao11, Vincent Taing, Vlad Bokov, Vladimir
+  Kochnev, Wieland Hoffmann, Witoslaw Koczewski, Xiang Ji, Yi Liu, Zane
+  Sterling, zer09, Zhige Xin, Serghei Iakovlev)
 **** Documentation and website
   - Updated DOCUMENTATION.org to fix the example for how to change the separator style
 *** Release notes summarized

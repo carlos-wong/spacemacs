@@ -1,4 +1,4 @@
-;;; layers.el --- PHP Layer declarations File for Spacemacs
+;;; layers.el --- Haskell Layer declarations File for Spacemacs
 ;;
 ;; Copyright (c) 2012-2019 Sylvain Benner & Contributors
 ;;
@@ -9,6 +9,6 @@
 ;;
 ;;; License: GPLv3
 
-(when (and (boundp 'php-backend)
-           (eq php-backend 'lsp))
+(when (and (boundp 'haskell-completion-backend)
+           (eq haskell-completion-backend 'lsp))
   (configuration-layer/declare-layer-dependencies '(lsp)))
