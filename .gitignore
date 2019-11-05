@@ -57,6 +57,7 @@ eclipse.jdt.ls
 .extension
 mspyls/
 transient/
+bbdb
 
 # Private directory
 private/
@@ -85,3 +86,5 @@ cscope.files
 cscope.out
 cscope.in.out
 cscope.po.out
+reveal.js-3.7.0
+anaconda-mode
