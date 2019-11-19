@@ -512,19 +512,30 @@ FILENAME is deleted using `spacemacs/delete-file' function.."
        (with-parsed-tramp-file-name fname parsed
          (when (equal parsed-user "root")
            (error "Already root!"))
-         (let* ((new-hop (tramp-make-tramp-file-name parsed-method
-                                                     parsed-user
-                                                     parsed-host
-                                                     nil
-                                                     parsed-hop
-                                                     ))
+         (let* ((new-hop (tramp-make-tramp-file-name
+                          ;; Try to retrieve a tramp method suitable for
+                          ;; multi-hopping
+                          (cond ((tramp-get-method-parameter
+                                  parsed 'tramp-login-program))
+                                ((tramp-get-method-parameter
+                                  parsed 'tramp-copy-program))
+                                (t parsed-method))
+                          parsed-user
+                          parsed-domain
+                          parsed-host
+                          parsed-port
+                          nil
+                          parsed-hop))
                 (new-hop (substring new-hop 1 -1))
                 (new-hop (concat new-hop "|"))
-                (new-fname (tramp-make-tramp-file-name "sudo"
-                                                       "root"
-                                                       parsed-host
-                                                       parsed-localname
-                                                       new-hop)))
+                (new-fname (tramp-make-tramp-file-name
+                            "sudo"
+                            parsed-user
+                            parsed-domain
+                            parsed-host
+                            parsed-port
+                            parsed-localname
+                            new-hop)))
            new-fname))))))
 
 ;; check when opening large files - literal file open
@@ -567,7 +578,10 @@ If the universal prefix argument is used then will the windows too."
   (interactive "P")
   (when (yes-or-no-p (format "Killing all buffers except \"%s\"? "
                              (buffer-name)))
-    (mapc 'kill-buffer (delq (current-buffer) (buffer-list)))
+    (let* ((buffers-to-kill (if (bound-and-true-p persp-mode)
+                                (persp-buffer-list)
+                              (buffer-list))))
+      (mapc 'kill-buffer (delq (current-buffer) buffers-to-kill)))
     (when (equal '(4) arg) (delete-other-windows))
     (message "Buffers deleted!")))
 
