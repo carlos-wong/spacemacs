@@ -140,6 +140,7 @@
     (progn
       (dolist (mode haskell-modes)
         (spacemacs/set-leader-keys-for-major-mode mode
+          "gb" 'xref-pop-marker-stack
           "ht" 'dante-type-at
           "hT" 'spacemacs-haskell//dante-insert-type
           "hi" 'dante-info
@@ -231,6 +232,12 @@
         (interactive)
         (haskell-process-do-type 1))
 
+      ;; repl key bindings
+      (evil-define-key 'insert haskell-interactive-mode-map
+        (kbd "C-j") 'haskell-interactive-mode-history-next
+        (kbd "C-k") 'haskell-interactive-mode-history-previous
+        (kbd "C-l") 'haskell-interactive-mode-clear)
+
       ;; Bind repl
       (spacemacs/register-repl 'haskell
                                'haskell-interactive-switch "haskell")
@@ -287,6 +294,7 @@
 
       ;; configure C-c C-l so it doesn't throw any errors
       (bind-key "C-c C-l" 'haskell-process-load-file haskell-mode-map)
+      (bind-key "C-c C-z" 'haskell-interactive-switch haskell-mode-map)
 
       ;; Switch back to editor from REPL
       (spacemacs/set-leader-keys-for-major-mode 'haskell-interactive-mode

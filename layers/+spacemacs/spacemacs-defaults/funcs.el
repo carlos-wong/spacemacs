@@ -574,7 +574,7 @@ If the universal prefix argument is used then kill also the window."
 ;; found at http://emacswiki.org/emacs/KillingBuffers
 (defun spacemacs/kill-other-buffers (&optional arg)
   "Kill all other buffers.
-If the universal prefix argument is used then will the windows too."
+If the universal prefix argument is used then kill the windows too."
   (interactive "P")
   (when (yes-or-no-p (format "Killing all buffers except \"%s\"? "
                              (buffer-name)))
@@ -743,14 +743,19 @@ variable."
                (concat dotspacemacs-template-directory ".spacemacs.template")))
 
 (defun spacemacs/new-empty-buffer (&optional split)
-  "Create a new buffer called untitled(<n>).
-A SPLIT argument with the value: `left', `below', `above' or `right',
-opens the new buffer in a split window.
+  "Create a new buffer called: untitled<n>
+
+The SPLIT argument decides where the buffer opens:
+Value                                Buffer
+`nil'                                current window
+`left', `below', `above' or `right'  split window
+`frame'                              new frame
+
 If the variable `dotspacemacs-new-empty-buffer-major-mode' has been set,
 then apply that major mode to the new buffer."
   (interactive)
   (let ((newbuf (generate-new-buffer "untitled")))
-    (case split
+    (cl-case split
       ('left  (split-window-horizontally))
       ('below (spacemacs/split-window-vertically-and-switch))
       ('above (split-window-vertically))
@@ -1632,3 +1637,49 @@ Decision is based on `dotspacemacs-line-numbers'."
           enabled-for-parent            ; mode is one of default allowed modes
           disabled-for-modes
           (not disabled-for-parent)))))
+
+
+;; randomize region
+
+(defun spacemacs/randomize-words (beg end)
+    "Randomize the order of words in region."
+    (interactive "*r")
+    (let ((all (mapcar
+                (lambda (w) (if (string-match "\\w" w)
+                                ;; Randomize words,
+                                (cons (random) w)
+                              ;; keep everything else in order.
+                              (cons -1 w)))
+                (split-string
+                 (delete-and-extract-region beg end) "\\b")))
+          words sorted)
+      (mapc (lambda (x)
+              ;; Words are numbers >= 0.
+              (unless (> 0 (car x))
+                (setq words (cons x words))))
+            all)
+      ;; Random sort!
+      (setq sorted (sort words
+                         (lambda (a b) (< (car a) (car b)))))
+      (mapc
+       'insert
+       ;; Insert using original list, `all',
+       ;; but pull *words* from randomly-sorted list, `sorted'.
+       (mapcar (lambda (x)
+                 (if (> 0 (car x))
+                     (cdr x)
+                   (prog1 (cdar sorted)
+                     (setq sorted (cdr sorted)))))
+               all))))
+
+(defun spacemacs/randomize-lines (beg end)
+  "Randomize lines in region from BEG to END."
+  (interactive "*r")
+  (let ((lines (split-string
+                (delete-and-extract-region beg end) "\n")))
+    (when (string-equal "" (car (last lines 1)))
+      (setq lines (butlast lines 1)))
+    (apply 'insert
+           (mapcar 'cdr
+                   (sort (mapcar (lambda (x) (cons (random) (concat x "\n"))) lines)
+                         (lambda (a b) (< (car a) (car b))))))))

@@ -69,6 +69,7 @@
         "hdm" 'spacemacs/describe-mode
         "hdv" 'counsel-describe-variable
         "hi"  'counsel-info-lookup-symbol
+        "hm"  (if (spacemacs/system-is-mswindows) 'woman 'man)
         "hR"  'spacemacs/counsel-search-docs
         ;; insert
         "iu"  'counsel-unicode-char
@@ -137,6 +138,7 @@
         (define-key counsel-find-file-map (kbd "C-h") 'counsel-up-directory))
 
       (define-key read-expression-map (kbd "C-r") 'counsel-minibuffer-history)
+      (spacemacs//counsel-search-add-extra-bindings counsel-ag-map)
       ;; remaps built-in commands that have a counsel replacement
       (counsel-mode 1)
       (spacemacs|hide-lighter counsel-mode)

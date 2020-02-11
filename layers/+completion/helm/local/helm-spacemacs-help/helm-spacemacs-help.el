@@ -26,7 +26,7 @@
 
 ;;; Code:
 
-(require 'cl)
+(require 'cl-lib)
 (require 'ht)
 (require 'helm)
 (require 'helm-command)
@@ -118,7 +118,7 @@
         (push filename result)))
 
     ;; CONTRIBUTING.org is a special case as it should be at the root of the
-    ;; repository to be linked as the contributing guide on Github.
+    ;; repository to be linked as the contributing guide on GitHub.
     (push "CONTRIBUTING.org" result)
 
     ;; delete DOCUMENTATION.org to make it the first guide
@@ -153,7 +153,7 @@
   (let ((file (if (string= candidate "CONTRIBUTING.org")
                   ;; CONTRIBUTING.org is a special case as it should be at the
                   ;; root of the repository to be linked as the contributing
-                  ;; guide on Github.
+                  ;; guide on GitHub.
                   (concat spacemacs-start-directory candidate)
                 (concat spacemacs-docs-directory candidate))))
     (cond ((and (equal (file-name-extension file) "md")
@@ -210,7 +210,9 @@
     (action . (("Go to configuration function"
                 . helm-spacemacs-help//package-action-goto-config-func)
                ("Describe"
-                . helm-spacemacs-help//package-action-describe)))))
+                . helm-spacemacs-help//package-action-describe)
+               ("Recompile"
+                . helm-spacemacs-help//package-action-recompile)))))
 
 (defun helm-spacemacs-help//package-candidates ()
   "Return the sorted candidates for package source."
@@ -336,6 +338,15 @@
     (string-match "^\\(.+\\)\s(\\(.+\\) layer)$" candidate)
     (let* ((package (match-string 1 candidate)))
       (configuration-layer/describe-package (intern package)))))
+
+(defun helm-spacemacs-help//package-action-recompile (candidate)
+  "Recompile the selected emacs package."
+  (save-match-data
+    (string-match "^\\(.+\\)\s(\\(.+\\) layer)$" candidate)
+    (let* ((package (match-string 1 candidate))
+           (package-dir (configuration-layer//get-package-directory (intern package))))
+      (if package-dir
+          (spacemacs/recompile-elpa t package-dir)))))
 
 (defun helm-spacemacs-help//package-action-goto-config-func (candidate)
   "Open the file `packages.el' and go to the init function."

@@ -54,7 +54,7 @@
     :defer t
     :init
     (setq anaconda-mode-installation-directory
-      (concat spacemacs-cache-directory "anaconda-mode"))
+          (concat spacemacs-cache-directory "anaconda-mode"))
     :config
     (progn
       (spacemacs/set-leader-keys-for-major-mode 'python-mode
@@ -76,7 +76,7 @@
       (defadvice anaconda-mode-goto (before python/anaconda-mode-goto activate)
         (evil--jumps-push))
       (add-to-list 'spacemacs-jump-handlers-python-mode
-        '(anaconda-mode-find-definitions :async t)))))
+                   '(anaconda-mode-find-definitions :async t)))))
 
 (defun python/post-init-company ()
   ;; backend specific
@@ -106,7 +106,7 @@
     (progn
       (spacemacs//bind-python-formatter-keys)
       (when (and python-format-on-save
-                 (eq 'black python-formatter))
+                 (eq 'black (spacemacs//python-formatter)))
         (add-hook 'python-mode-hook 'blacken-mode)))
     :config (spacemacs|hide-lighter blacken-mode)))
 
@@ -190,8 +190,11 @@
   (spacemacs|use-package-add-hook org
     :post-config (add-to-list 'org-babel-load-languages '(python . t))))
 
+(defun python/pre-init-pipenv ()
+  (add-to-list 'spacemacs--python-pipenv-modes 'python-mode))
 (defun python/init-pipenv ()
   (use-package pipenv
+    :defer t
     :commands (pipenv-activate
                pipenv-deactivate
                pipenv-shell
@@ -200,13 +203,14 @@
                pipenv-uninstall)
     :init
     (progn
-      (spacemacs/set-leader-keys-for-major-mode 'python-mode
-        "vpa" 'pipenv-activate
-        "vpd" 'pipenv-deactivate
-        "vpi" 'pipenv-install
-        "vpo" 'pipenv-open
-        "vps" 'pipenv-shell
-        "vpu" 'pipenv-uninstall))))
+      (dolist (m spacemacs--python-pipenv-modes)
+        (spacemacs/set-leader-keys-for-major-mode m
+          "vpa" 'pipenv-activate
+          "vpd" 'pipenv-deactivate
+          "vpi" 'pipenv-install
+          "vpo" 'pipenv-open
+          "vps" 'pipenv-shell
+          "vpu" 'pipenv-uninstall)))))
 
 (defun python/init-pip-requirements ()
   (use-package pip-requirements
@@ -239,13 +243,13 @@
     :init
     (progn
       (pcase python-auto-set-local-pyenv-version
-       (`on-visit
-        (dolist (m spacemacs--python-pyenv-modes)
-          (add-hook (intern (format "%s-hook" m))
-                    'spacemacs//pyenv-mode-set-local-version)))
-       (`on-project-switch
-        (add-hook 'projectile-after-switch-project-hook
-                  'spacemacs//pyenv-mode-set-local-version)))
+        (`on-visit
+         (dolist (m spacemacs--python-pyenv-modes)
+           (add-hook (intern (format "%s-hook" m))
+                     'spacemacs//pyenv-mode-set-local-version)))
+        (`on-project-switch
+         (add-hook 'projectile-after-switch-project-hook
+                   'spacemacs//pyenv-mode-set-local-version)))
       ;; setup shell correctly on environment switch
       (dolist (func '(pyenv-mode-set pyenv-mode-unset))
         (advice-add func :after 'spacemacs/python-setup-everything))
@@ -291,7 +295,7 @@
         (setq pylookup-dir (concat dir "pylookup/")
               pylookup-program (concat pylookup-dir "pylookup.py")
               pylookup-db-file (concat pylookup-dir "pylookup.db")))
-        (setq pylookup-completing-read 'completing-read))))
+      (setq pylookup-completing-read 'completing-read))))
 
 (defun python/init-pytest ()
   (use-package pytest
@@ -377,8 +381,8 @@
 
 (defun python/post-init-semantic ()
   (when (configuration-layer/package-used-p 'anaconda-mode)
-      (add-hook 'python-mode-hook
-                'spacemacs//disable-semantic-idle-summary-mode t))
+    (add-hook 'python-mode-hook
+              'spacemacs//disable-semantic-idle-summary-mode t))
   (spacemacs/add-to-hook 'python-mode-hook
                          '(semantic-mode
                            spacemacs//python-imenu-create-index-use-semantic-maybe))
@@ -421,7 +425,7 @@ fix this issue."
     (progn
       (spacemacs//bind-python-formatter-keys)
       (when (and python-format-on-save
-                 (eq 'yapf python-formatter))
+                 (eq 'yapf (spacemacs//python-formatter)))
         (add-hook 'python-mode-hook 'yapf-mode)))
     :config (spacemacs|hide-lighter yapf-mode)))
 
@@ -439,6 +443,10 @@ fix this issue."
       (message "lsp-python-ms: Using version at `%s'" lsp-python-ms-dir)
       ;; Use a precompiled exe
       (setq lsp-python-ms-executable (concat lsp-python-ms-dir
+                                             (pcase system-type
+                                               ('gnu/linux "linux-x64/publish/")
+                                               ('darwin "osx-x64/publish/")
+                                               ('windows-nt "win-x64/publish/"))
                                              "Microsoft.Python.LanguageServer"
                                              (and (eq system-type 'windows-nt)
                                                   ".exe"))))))

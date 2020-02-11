@@ -164,9 +164,9 @@ If DEFAULT-INPUTP is non nil then the current region or symbol at point
   ;; --line-number forces line numbers (disabled by default on windows)
   ;; no --vimgrep because it adds column numbers that wgrep can't handle
   ;; see https://github.com/syl20bnr/spacemacs/pull/8065
-  (let* ((root-helm-ag-base-command "rg --smart-case --no-heading --color never --line-number")
+  (let* ((root-helm-ag-base-command "rg --smart-case --no-heading --color=never --line-number")
          (helm-ag-base-command (if spacemacs-helm-rg-max-column-number
-                                   (concat root-helm-ag-base-command " --max-columns " (number-to-string spacemacs-helm-rg-max-column-number))
+                                   (concat root-helm-ag-base-command " --max-columns=" (number-to-string spacemacs-helm-rg-max-column-number))
                                  root-helm-ag-base-command)))
     (helm-do-ag dir)))
 
@@ -208,6 +208,11 @@ If DEFAULT-INPUTP is non nil then the current region or symbol at point
   "Search in current directory with `ack'."
   (interactive)
   (spacemacs/helm-files-do-ack default-directory))
+
+(defun spacemacs/helm-dir-do-grep ()
+  "Search in current directory with `grep'."
+  (interactive)
+  (spacemacs//helm-do-grep-region-or-symbol (list default-directory) nil))
 
 (defun spacemacs/helm-dir-do-ack-region-or-symbol ()
   "Search in current directory with `ack' with a default input."
@@ -292,7 +297,7 @@ If DEFAULT-INPUTP is non nil then the current region or symbol at point
   ;; --line-number forces line numbers (disabled by default on windows)
   ;; no --vimgrep because it adds column numbers that wgrep can't handle
   ;; see https://github.com/syl20bnr/spacemacs/pull/8065
-  (let ((helm-ag-base-command "rg --smart-case --no-heading --color never --line-number --max-columns 150"))
+  (let ((helm-ag-base-command "rg --smart-case --no-heading --color=never --line-number --max-columns=150"))
     (helm-do-ag-buffers)))
 
 (defun spacemacs/helm-buffers-do-rg-region-or-symbol ()

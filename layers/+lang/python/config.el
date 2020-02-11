@@ -29,7 +29,7 @@ and `mspyls'")
 (defvar python-pipenv-activate nil
   "If non-nil, activate pipenv before enabling backend")
 
-(defvar python-formatter 'yapf
+(defvar python-formatter nil
   "The formatter to use. Possible values are `yapf',
   `black' and 'lsp'.")
 
@@ -70,6 +70,9 @@ Possible values are `on-visit', `on-project-switch' or `nil'.")
 
 (defvar spacemacs--python-pyvenv-modes nil
   "List of major modes where to add pyvenv support.")
+
+(defvar spacemacs--python-pipenv-modes nil
+  "List of major modes where to add pipenv support.")
 
 ;; inferior-python-mode needs these variables to be defined.  The python
 ;; package declares them but does not initialize them.

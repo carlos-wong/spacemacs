@@ -131,13 +131,13 @@
       - [[#joining-and-splitting][Joining and splitting]]
     - [[#window-manipulation][Window manipulation]]
       - [[#window-manipulation-key-bindings][Window manipulation key bindings]]
-      - [[#window-manipulation-transient-state][Window manipulation transient state]]
+      - [[#window-transient-state][Window transient state]]
       - [[#golden-ratio][Golden ratio]]
     - [[#buffers-and-files][Buffers and Files]]
       - [[#buffers-manipulation-key-bindings][Buffers manipulation key bindings]]
       - [[#create-a-new-empty-buffer][Create a new empty buffer]]
-      - [[#buffers-manipulation-transient-state][Buffers manipulation transient state]]
-      - [[#files-manipulations-key-bindings][Files manipulations key bindings]]
+      - [[#buffers-transient-state][Buffers transient state]]
+      - [[#file-manipulation-key-bindings][File manipulation key bindings]]
       - [[#frame-manipulation-key-bindings][Frame manipulation key bindings]]
       - [[#emacs-and-spacemacs-files][Emacs and Spacemacs files]]
       - [[#browsing-files-in-completion-buffer][Browsing files in completion buffer]]
@@ -164,7 +164,7 @@
     - [[#listing-symbols-by-semantic][Listing symbols by semantic]]
   - [[#editing][Editing]]
     - [[#paste-text][Paste text]]
-      - [[#paste-transient-state][Paste Transient-state]]
+      - [[#paste-transient-state][Paste transient state]]
       - [[#auto-indent-pasted-text][Auto-indent pasted text]]
     - [[#text-manipulation-commands][Text manipulation commands]]
     - [[#text-insertion-commands][Text insertion commands]]
@@ -194,6 +194,7 @@
         - [[#lisp-state-key-bindings][Lisp state key bindings]]
         - [[#emacs-lisp-specific-key-bindings][Emacs lisp specific key bindings]]
     - [[#mouse-usage][Mouse usage]]
+  - [[#comparing-diff][Comparing (diff)]]
   - [[#managing-projects][Managing projects]]
   - [[#registers][Registers]]
   - [[#errors-handling][Errors handling]]
@@ -1043,7 +1044,7 @@ will go to the function =dotspacemacs/user-env= instead of opening the file
 =dotspacemacs/user-env= so you can update your variables in place.
 
 ** Note about the function dotspacemacs/user-env
-Its possible that you don't have this function defined if you have an older
+It's possible that you don't have this function defined if you have an older
 dotfile. It is recommended to update your dotfile by adding this function,
 see the file =~/.emacs.d/core/template/.spacemacs.template= to copy it.
 If you don't create such function then Spacemacs assumes you are using the
@@ -2072,7 +2073,7 @@ page instead.
 
 Spacemacs uses [[https://github.com/Bruce-Connor/paradox][Paradox]] instead of =package-list-packages= to list available
 ELPA packages. Paradox enhances the package list buffer with better feedbacks,
-new filters and Github information like the number of stars. Optionally you can
+new filters and GitHub information like the number of stars. Optionally you can
 also star packages directly in the buffer.
 
 *Important Note 1*: Installing a new package from =Paradox= won't make it
@@ -2102,7 +2103,7 @@ Spacemacs.
 | ~r~         | refresh                                               |
 | ~S P~       | sort by package name                                  |
 | ~S S~       | sort by status (installed, available, etc...)         |
-| ~S *~       | sort by Github stars                                  |
+| ~S *~       | sort by GitHub stars                                  |
 | ~v~         | =visual state=                                        |
 | ~V~         | =visual-line state=                                   |
 | ~x~         | execute (action flags)                                |
@@ -2347,55 +2348,55 @@ define your own deletion function:
   (setq spacemacs-window-split-delete-function 'my-delete-other-windows)
 #+END_SRC
 
-**** Window manipulation transient state
-A convenient window manipulation transient state allows performing most of the
-actions listed above. The transient state allows additional actions as well like
-window resizing.
+**** Window transient state
+A convenient window transient state allows for performing most of the actions
+listed above. For example window resizing.
 
-| Key binding | Description                                                   |
-|-------------+---------------------------------------------------------------|
-| ~SPC w .~   | initiate transient state                                      |
-| ~?~         | display the full documentation in minibuffer                  |
-| ~0~         | go to window number 0                                         |
-| ~1~         | go to window number 1                                         |
-| ~2~         | go to window number 2                                         |
-| ~3~         | go to window number 3                                         |
-| ~4~         | go to window number 4                                         |
-| ~5~         | go to window number 5                                         |
-| ~6~         | go to window number 6                                         |
-| ~7~         | go to window number 7                                         |
-| ~8~         | go to window number 8                                         |
-| ~9~         | go to window number 9                                         |
-| ~/~         | vertical split                                                |
-| ~-~         | horizontal split                                              |
-| ~\vert~     | maximize window vertically                                    |
-| ~_~         | maximize window horizontally                                  |
-| ~[~         | shrink window horizontally                                    |
-| ~]~         | enlarge window horizontally                                   |
-| ~{~         | shrink window vertically                                      |
-| ~}~         | enlarge window vertically                                     |
-| ~d~         | delete window                                                 |
-| ~D~         | delete other windows                                          |
-| ~g~         | toggle =golden-ratio= on and off                              |
-| ~h~         | go to window on the left                                      |
-| ~j~         | go to window below                                            |
-| ~k~         | go to window above                                            |
-| ~l~         | go to window on the right                                     |
-| ~H~         | move window to the left                                       |
-| ~J~         | move window to the bottom                                     |
-| ~K~         | move bottom to the top                                        |
-| ~L~         | move window to the right                                      |
-| ~m~         | toggle maximization of current window                         |
-| ~o~         | focus other frame                                             |
-| ~r~         | rotate windows forward                                        |
-| ~R~         | rotate windows backward                                       |
-| ~s~         | horizontal split                                              |
-| ~S~         | horizontal split and focus new window                         |
-| ~u~         | undo window layout (used to effectively undo a closed window) |
-| ~U~         | redo window layout                                            |
-| ~v~         | vertical split                                                |
-| ~V~         | vertical split and focus new window                           |
-| ~w~         | focus other window                                            |
+| Key binding     | Description                                                   |
+|-----------------+---------------------------------------------------------------|
+| ~SPC w .~       | initiate transient state                                      |
+| ~?~             | display the full documentation in minibuffer                  |
+| ~0~             | go to window number 0                                         |
+| ~1~             | go to window number 1                                         |
+| ~2~             | go to window number 2                                         |
+| ~3~             | go to window number 3                                         |
+| ~4~             | go to window number 4                                         |
+| ~5~             | go to window number 5                                         |
+| ~6~             | go to window number 6                                         |
+| ~7~             | go to window number 7                                         |
+| ~8~             | go to window number 8                                         |
+| ~9~             | go to window number 9                                         |
+| ~/~             | vertical split                                                |
+| ~-~             | horizontal split                                              |
+| ~\vert~         | maximize window vertically                                    |
+| ~_~             | maximize window horizontally                                  |
+| ~[~             | shrink window horizontally                                    |
+| ~]~             | enlarge window horizontally                                   |
+| ~{~             | shrink window vertically                                      |
+| ~}~             | enlarge window vertically                                     |
+| ~d~             | delete window                                                 |
+| ~D~             | delete other windows                                          |
+| ~g~             | toggle =golden-ratio= on and off                              |
+| ~h~ ~<left>~    | go to window on the left                                      |
+| ~j~ ~<down>~    | go to window below                                            |
+| ~k~ ~<up>~      | go to window above                                            |
+| ~l~ ~<right>~   | go to window on the right                                     |
+| ~H~ ~<S-left>~  | move window to the left                                       |
+| ~J~ ~<S-down>~  | move window to the bottom                                     |
+| ~K~ ~<S-up>~    | move bottom to the top                                        |
+| ~L~ ~<S-right>~ | move window to the right                                      |
+| ~m~             | toggle maximization of current window                         |
+| ~o~             | focus other frame                                             |
+| ~a~             | call ace window mode                                          |
+| ~r~             | rotate windows forward                                        |
+| ~R~             | rotate windows backward                                       |
+| ~s~             | horizontal split                                              |
+| ~S~             | horizontal split and focus new window                         |
+| ~u~             | undo window layout (used to effectively undo a closed window) |
+| ~U~             | redo window layout                                            |
+| ~v~             | vertical split                                                |
+| ~V~             | vertical split and focus new window                           |
+| ~w~             | focus other window                                            |
 
 **** Golden ratio
 If you resize windows like crazy you may want to give a try to [[https://github.com/roman/golden-ratio.el][golden-ratio]].
@@ -2449,9 +2450,9 @@ Buffer manipulation commands (start with ~b~):
 | ~SPC b N l~   | create new empty buffer in a new window below                                                   |
 | ~SPC b N n~   | create new empty buffer in current window                                                       |
 
-**** Buffers manipulation transient state
-A convenient buffer manipulation transient state allows to quickly cycles through
-the opened buffer and kill them.
+**** Buffers transient state
+A convenient buffer transient state allows for quickly cycling through the
+open buffers and closing them.
 
 | Key binding            | Description                                                                                |
 |------------------------+--------------------------------------------------------------------------------------------|
@@ -2466,6 +2467,7 @@ the opened buffer and kill them.
 | ~N~ or ~p~ or ~<left>~ | go to previous buffer (avoid buffers matching =spacemacs-useless-buffers-regexp=)          |
 | ~o~                    | switch focus to other window                                                               |
 | ~z~                    | recenter buffer in window                                                                  |
+| ~q~                    | quit transient state                                                                       |
 
 Unlike vim, emacs creates many buffers that most people do not need to see. Some
 examples are the =*Messages*= and =*Compile-Log*= buffers. Spacemacs tries to
@@ -2473,8 +2475,8 @@ automatically ignore buffers that are not useful. However, you may want to
 change the way Spacemacs marks buffers as useful. For instructions, see the
 [[https://github.com/syl20bnr/spacemacs/blob/develop/doc/FAQ.org#change-special-buffer-rules][special buffer howto]].
 
-**** Files manipulations key bindings
-Files manipulation commands (start with ~f~):
+**** File manipulation key bindings
+File manipulation commands (start with ~f~):
 
 | Key binding | Description                                                                                            |
 |-------------+--------------------------------------------------------------------------------------------------------|
@@ -2538,6 +2540,7 @@ navigate between =Emacs= and Spacemacs specific files.
 | ~SPC f e R~   | resync the dotfile with spacemacs                                                                       |
 | ~SPC f e U~   | update packages                                                                                         |
 | ~SPC f e v~   | display and copy the spacemacs version                                                                  |
+| ~SPC f e c~   | recompile all elpa packages                                                                             |
 
 **** Browsing files in completion buffer
 In =vim= style and =hybrid= style with the variable
@@ -2904,7 +2907,7 @@ To list all the symbols of a buffer press ~SPC s j~
 
 ** Editing
 *** Paste text
-**** Paste Transient-state
+**** Paste transient state
 The paste transient state can be enabled by setting the variable
 =dotspacemacs-enable-paste-transient-state= to =t=. By default it is disabled.
 
@@ -2955,6 +2958,7 @@ Text related commands (start with ~x~):
 | ~SPC x a m~   | align region at arithmetic operators (+-*/)                   |
 | ~SPC x a ¦~   | align region at ¦                                             |
 | ~SPC x c~     | count the number of chars/words/lines in the selection region |
+| ~SPC x d l~   | delete blank lines but one or the single blank line           |
 | ~SPC x d w~   | delete trailing whitespaces                                   |
 | ~SPC x d SPC~ | Delete all spaces and tabs around point, leaving one space    |
 | ~SPC x g l~   | set languages used by translate commands                      |
@@ -2976,6 +2980,7 @@ Text related commands (start with ~x~):
 | ~SPC x J~     | move down a line of text (enter transient state)              |
 | ~SPC x K~     | move up a line of text (enter transient state)                |
 | ~SPC x l d~   | duplicate line or region                                      |
+| ~SPC x l r~   | randomize lines in region                                     |
 | ~SPC x l s~   | sort lines                                                    |
 | ~SPC x l u~   | uniquify lines                                                |
 | ~SPC x o~     | use avy to select a link in the frame and open it             |
@@ -2990,6 +2995,7 @@ Text related commands (start with ~x~):
 | ~SPC x U~     | set the selected text to upper case                           |
 | ~SPC x w c~   | count the number of occurrences per word in the select region |
 | ~SPC x w d~   | show dictionary entry of word from wordnik.com                |
+| ~SPC x w r~   | randomize words in region                                     |
 | ~SPC x y~     | use avy to copy a link in the frame                           |
 
 *** Text insertion commands
@@ -3011,7 +3017,7 @@ Text insertion commands (start with ~i~):
 | ~SPC i U U~ | insert UUIDv4 (use universal argument to insert with CID format)      |
 
 *Hint:* You can change the length of the inserted password with a numerical
-prefix argument, for instance ~SPC U 24 SPC i p p~ will insert a password
+prefix argument, for instance ~24 SPC i p p~ will insert a password
 with 24 characters.
 
 *** Smartparens Strict mode
@@ -3391,6 +3397,42 @@ There are some added mouse features set for the line number margin (if shown):
 - drag across line number margin visually selects the region
 - double click in line number margin visually select the current code block
 
+** Comparing (diff)
+To compare buffers, files, directories or even windows use the prefix ~SPC D~.
+Spacemacs uses the powerful embedded =ediff= to do comparisons, help for =ediff=
+can be opened using ~SPC D h~.
+
+All =ediff= commands starts with D:
+
+| Key binding   | Description                                                                                                                       |
+|---------------+-----------------------------------------------------------------------------------------------------------------------------------|
+| ~SPC D b 3~   | ask for 3 opened buffers and start an ediff session with them                                                                     |
+| ~SPC D b b~   | ask for 2 opened buffers and start an ediff session with them                                                                     |
+| ~SPC D b p~   | ask for a buffer or file that contains a patch to apply to a buffer and start an ediff session with the result                    |
+| ~SPC D B~     | ask for a file and run ediff with its backup file                                                                                 |
+| ~SPC D d 3~   | ask for 3 directories and run ediff on them comparing files that have the same name in all of them                                |
+| ~SPC D d d~   | ask for 2 directories and run ediff on them comparing files that have the same name in both                                       |
+| ~SPC D d r~   | run ediff on a directory comparing its files with their revisions if under version control                                        |
+| ~SPC D f .~   | start an ediff session between your =.spacemacs= and its default template in Spacemacs =core=                                     |
+| ~SPC D f 3~   | ask for 3 files and start an ediff session with them                                                                              |
+| ~SPC D f f~   | ask for 2 files and start an ediff session with them                                                                              |
+| ~SPC D f p~   | ask for a buffer or file that contains a patch to apply to a file and start an ediff session with the result                      |
+| ~SPC D h~     | open ediff documentation within Emacs                                                                                             |
+| ~SPC D m b 3~ | start an ediff merge session between 2 buffers and their ancestor                                                                 |
+| ~SPC D m b b~ | start an ediff merge session between 2 buffers                                                                                    |
+| ~SPC D m d 3~ | start an ediff merge session between files with the same name in 2 directories and with a 3rd directory containing their ancestor |
+| ~SPC D m d d~ | start an ediff merge session between files with the same name in 2 directories                                                    |
+| ~SPC D m f 3~ | start an ediff merge session between 2 files and their ancestor                                                                   |
+| ~SPC D m f f~ | start an ediff merge session between 2 files                                                                                      |
+| ~SPC D m r 3~ | start an ediff merge session between two revisions of a file with a common ancestor                                               |
+| ~SPC D m r r~ | start an ediff merge session between two revisions of a file                                                                      |
+| ~SPC D r l~   | start an ediff session between two regions to perform a linewise diff (use this for large regions)                                |
+| ~SPC D r w~   | start an ediff session between two regions to perform a wordwise diff (use this for small regions)                                |
+| ~SPC D s~     | display ediff registries                                                                                                          |
+| ~SPC D v~     | start ediff between versions of a file                                                                                            |
+| ~SPC D w l~   | compare linewise the portions of visible text of 2 windows which are selected by clicking                                         |
+| ~SPC D w w~   | compare wordwise the portions of visible text of 2 windows which are selected by clicking                                         |
+
 ** Managing projects
 Projects in Spacemacs are managed with [[https://github.com/bbatsov/projectile][projectile]]. In =projectile= projects
 are defined implicitly, for instance the root of a project is found when a
@@ -3581,7 +3623,7 @@ You can disable the built-in server by setting the variable
 If any errors happen during the loading the mode-line will turn red and the
 errors should appear inline in the startup buffer. Spacemacs should still be
 usable; if it is not then restart Emacs with =emacs --debug-init= and open a
-[[https://github.com/syl20bnr/spacemacs/issues][Github issue]] with the backtrace.
+[[https://github.com/syl20bnr/spacemacs/issues][GitHub issue]] with the backtrace.
 
 ** Upgrading/Downgrading Emacs version
 To ensure that packages are correctly compiled for the new Emacs version you
@@ -3591,7 +3633,7 @@ with ~SPC u SPC SPC spacemacs/recompile-elpa~.
 ** General layer errors
 It happens from time to time that some of the layers go stale and stop
 working properly for some commands. If this happens stay calm and try
-to produce a minimal bug report on the [[https://github.com/syl20bnr/spacemacs/issues][Github issue page]].
+to produce a minimal bug report on the [[https://github.com/syl20bnr/spacemacs/issues][GitHub issue page]].
 
 *** Step by step instructions for minimal layer bug reports
 - Load the standard dotfile. You can get it with ~SPC f e D~.

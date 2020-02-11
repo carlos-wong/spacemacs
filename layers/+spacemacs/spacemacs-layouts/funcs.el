@@ -518,8 +518,19 @@ Run PROJECT-ACTION on project."
                projectile-known-projects))
      :fuzzy-match helm-projectile-fuzzy-match
      :mode-line helm-read-file-name-mode-line-string
+     :keymap (let ((map (make-sparse-keymap)))
+               (define-key map
+                 (kbd "C-d") #'(lambda () (interactive)
+                                 (helm-exit-and-execute-action
+                                  (lambda (project)
+                                    (spacemacs||switch-project-persp project
+                                      (dired project))))))
+               map)
      :action `(("Switch to Project Perspective" .
                 spacemacs//helm-persp-switch-project-action)
+               ("Switch to Project Perspective and Open Dired `C-d'" .
+                ,(spacemacs//helm-persp-switch-project-action-maker
+                  (lambda () (dired "."))))
                ("Switch to Project Perspective and Show Recent Files" .
                 ,(spacemacs//helm-persp-switch-project-action-maker
                   'helm-projectile-recentf))
@@ -546,6 +557,11 @@ Run PROJECT-ACTION on project."
               projectile-known-projects)
             :action #'spacemacs//ivy-persp-switch-project-action
             :caller 'spacemacs/ivy-persp-switch-project))
+
+(defun spacemacs/ivy-switch-project-open-dired (project)
+  (interactive)
+  (spacemacs||switch-project-persp project
+    (dired project)))
 
 
 ;; Eyebrowse
@@ -593,6 +609,7 @@ WINDOW is the representation of a window in a window-state object."
   "Execute FN once for each window in STATE and make a list of the results.
 FN is a function to execute.
 STATE is a window-state object."
+  (defvar result) ;; use dynamic binding
   (let (result)
     (spacemacs/window-state-walk-windows-1 (cdr state) fn)
     result))

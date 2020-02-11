@@ -75,7 +75,16 @@
     "ad" 'spacemacs/dired
     "fj" 'dired-jump
     "jd" 'dired-jump
-    "jD" 'dired-jump-other-window))
+    "jD" 'dired-jump-other-window)
+  ;; The search next/previous commands are different
+  ;; because of the `evil-search-module' values:
+  ;; vim = evil-search, hybrid = isearch
+  (when (eq 'vim dotspacemacs-editing-style)
+    (evil-define-key 'normal dired-mode-map (kbd "n") 'evil-ex-search-next)
+    (evil-define-key 'normal dired-mode-map (kbd "N") 'evil-ex-search-previous))
+  (when (eq 'hybrid dotspacemacs-editing-style)
+    (evil-define-key 'normal dired-mode-map (kbd "n") 'evil-search-next)
+    (evil-define-key 'normal dired-mode-map (kbd "N") 'evil-search-previous)))
 
 (defun spacemacs-defaults/init-dired-x ()
   (use-package dired-x
@@ -134,7 +143,14 @@
       ;; enable eldoc in IELM
       (add-hook 'ielm-mode-hook #'eldoc-mode)
       ;; don't display eldoc on modeline
-      (spacemacs|hide-lighter eldoc-mode))))
+      (spacemacs|hide-lighter eldoc-mode)
+
+      ;; eldoc-message-commands
+      (eldoc-add-command #'evil-insert)
+      (eldoc-add-command #'evil-insert-line)
+      (eldoc-add-command #'evil-append)
+      (eldoc-add-command #'evil-append-line)
+      (eldoc-add-command #'evil-force-normal-state))))
 
 (defun spacemacs-defaults/init-help-fns+ ()
   (use-package help-fns+
@@ -238,7 +254,7 @@
       (when dotspacemacs-line-numbers
         ;; delay the initialization of number lines when opening Spacemacs
         ;; normally. If opened via the command line with a file to visit then
-        ;; load it immediatly
+        ;; load it immediately
         (add-hook 'emacs-startup-hook
                   (lambda ()
                     (if (string-equal "*scratch*" (buffer-name))

@@ -18,7 +18,7 @@
         (company-box :toggle auto-completion-use-company-box)
         (all-the-icons :toggle auto-completion-use-company-box)
         (company-quickhelp :toggle auto-completion-enable-help-tooltip)
-        company-statistics
+        (company-statistics :toggle auto-completion-enable-sort-by-usage)
         counsel
         fuzzy
         (helm-company :requires helm)
@@ -124,7 +124,6 @@
 
 (defun auto-completion/init-company-statistics ()
   (use-package company-statistics
-    :if auto-completion-enable-sort-by-usage
     :defer t
     :init
     (progn
@@ -212,7 +211,7 @@
             company-box-doc-enable nil)
       (add-hook 'company-box-selection-hook
                 (lambda (selection frame) (company-box-doc--hide frame)))
-      (case auto-completion-enable-help-tooltip
+      (cl-case auto-completion-enable-help-tooltip
         ('manual (define-key company-active-map
                    (kbd "M-h") #'company-box-doc-manually))
         ('t (setq company-box-doc-enable t))))))
