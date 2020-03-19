@@ -24,12 +24,14 @@
   "Conditionally setup javascript backend."
   (pcase (spacemacs//javascript-backend)
     (`tern (spacemacs//javascript-setup-tern))
+    (`tide (spacemacs//tide-setup))
     (`lsp (spacemacs//javascript-setup-lsp))))
 
 (defun spacemacs//javascript-setup-company ()
   "Conditionally setup company based on backend."
   (pcase (spacemacs//javascript-backend)
     (`tern (spacemacs//javascript-setup-tern-company))
+    (`tide (spacemacs//tide-setup-company 'js2-mode))
     (`lsp (spacemacs//javascript-setup-lsp-company))))
 
 (defun spacemacs//javascript-setup-dap ()
@@ -51,7 +53,7 @@
   (if (configuration-layer/layer-used-p 'lsp)
       (progn
         (when (not javascript-lsp-linter)
-          (setq-local lsp-prefer-flymake :none))
+          (setq-local lsp-diagnostic-package :none))
         (lsp))
     (message (concat "`lsp' layer is not installed, "
                      "please add `lsp' layer to your dotfile."))))

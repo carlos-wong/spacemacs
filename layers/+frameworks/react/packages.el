@@ -22,6 +22,7 @@
     rjsx-mode
     smartparens
     tern
+    tide
     web-beautify
     yasnippet
     ))
@@ -100,6 +101,10 @@
 
 (defun react/post-init-tern ()
   (add-to-list 'tern--key-bindings-modes 'rjsx-mode))
+
+(defun react/post-init-tide ()
+  (when (eq (spacemacs//typescript-backend) `tide)
+    (add-to-list 'tide-managed-modes 'rjsx-mode)))
 
 (defun react/pre-init-web-beautify ()
   (when (eq javascript-fmt-tool 'web-beautify)

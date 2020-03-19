@@ -149,6 +149,10 @@ banner, `random' chooses a random text banner in `core/banners'
 directory. A string value must be a path to a .PNG file.
 If the value is nil then no banner is displayed.")
 
+(defvar dotspacemacs-startup-buffer-show-version t
+  "If bound, show Spacemacs and Emacs version at the top right of the
+Spacemacs buffer.")
+
 (defvar dotspacemacs-scratch-mode 'text-mode
   "Default major mode of the scratch buffer.")
 
@@ -417,6 +421,15 @@ visiting README.org files of Spacemacs.")
 
 (defvar dotspacemacs-new-empty-buffer-major-mode nil
   "Set the major mode for a new empty buffer.")
+
+(defvar dotspacemacs-use-clean-aindent-mode t
+  "Correct indentation for simple modes.
+
+If non nil activate `clean-aindent-mode' which tries to correct
+virtual indentation of simple modes. This can interfer with mode specific
+indent handling like has been reported for `go-mode'.
+If it does deactivate it here.
+(default t)")
 
 (defun dotspacemacs//prettify-spacemacs-docs ()
   "Run `spacemacs/prettify-org-buffer' if `buffer-file-name'
