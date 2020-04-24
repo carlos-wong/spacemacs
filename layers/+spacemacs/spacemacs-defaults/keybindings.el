@@ -179,6 +179,27 @@
   "ap"  'list-processes
   "aP"  'proced
   "au"  'undo-tree-visualize)
+;; easy pg ----------------------------------------------------------------------
+(spacemacs|spacebind
+ "Encrypt / decrypt files with Easy PG"
+ :global
+ (("a" "applications"
+   ("Y"  "easy pg"
+    ("d" epa-decrypt-file "Decrypt file to...")
+    ("D" epa-delete-keys  "Delete keys...")
+    ("e" epa-encrypt-file "Encrypt file...")
+    ("i" epa-insert-keys  "Insert keys...")
+    ("k" epa-list-keys "List keys...")
+    ("K" epa-list-secret-keys "List secret keys...")
+    ("x" epa-export-keys "Export keys...")
+    ("s"  "sign"
+     ("f" epa-sign-file "Sign file...")
+     ("m" epa-sign-mail "Sign mail...")
+     ("r" epa-sign-region "Sign region..."))
+    ("v"  "verify"
+     ("f" epa-verify-file "Verify file...")
+     ("r" epa-verify-region "Verify region...")
+     ("c" epa-verify-cleartext-in-region "Verify cleartext region..."))))))
 ;; buffers --------------------------------------------------------------------
 (spacemacs|spacebind
  "Compare buffers, files and directories."
@@ -352,7 +373,8 @@
     ("l" spacemacs/copy-file-path-with-line "File path with line number")
     ("n" spacemacs/copy-file-name "File name")
     ("N" spacemacs/copy-file-name-base "File name without extension")
-    ("y" spacemacs/copy-file-path "File path")))))
+    ("y" spacemacs/copy-file-path "File path")
+    ("b" spacemacs/copy-buffer-name "Buffer name")))))
 ;; frame ----------------------------------------------------------------------
 (spacemacs/set-leader-keys
   "Ff" 'spacemacs/find-file-other-frame
@@ -412,7 +434,8 @@
   "cC" 'compile
   "ck" 'kill-compilation
   "cr" 'recompile
-  "cd" 'spacemacs/close-compilation-window)
+  "cd" 'spacemacs/show-hide-compilation-window
+  "cb" 'spacemacs/switch-to-compilation-buffer)
 (with-eval-after-load 'compile
   (evil-define-key 'motion compilation-mode-map (kbd "gf") 'find-file-at-point)
   (define-key compilation-mode-map "r" 'recompile)

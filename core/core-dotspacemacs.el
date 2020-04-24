@@ -209,7 +209,7 @@ original format spec, and additional customizations.")
   "Major mode leader key is a shortcut key which is the equivalent of
 pressing `<leader> m`. Set it to `nil` to disable it.")
 
-(defvar dotspacemacs-major-mode-emacs-leader-key "C-M-m"
+(defvar dotspacemacs-major-mode-emacs-leader-key (if window-system "<M-return>" "C-M-m")
   "Major mode leader key accessible in `emacs state' and `insert state'")
 
 (defvar dotspacemacs-ex-command-key ":"
@@ -431,15 +431,23 @@ indent handling like has been reported for `go-mode'.
 If it does deactivate it here.
 (default t)")
 
+(defvar dotspacemacs--pretty-ignore-subdirs
+  '(".cache/junk")
+  "Subdirectories of `spacemacs-start-directory' to ignore when
+  prettifying Org files.")
+
 (defun dotspacemacs//prettify-spacemacs-docs ()
   "Run `spacemacs/prettify-org-buffer' if `buffer-file-name'
-has `spacemacs-start-directory'"
+looks like Spacemacs documentation."
   (when (and dotspacemacs-pretty-docs
              spacemacs-start-directory
-             buffer-file-name
-             (string-prefix-p (expand-file-name spacemacs-start-directory)
-                              (expand-file-name buffer-file-name)))
-    (spacemacs/prettify-org-buffer)))
+             buffer-file-name)
+    (let ((start-dir (expand-file-name spacemacs-start-directory))
+          (buf-path (expand-file-name buffer-file-name)))
+      (when (and (string-prefix-p start-dir buf-path)
+                 (not (--any? (string-prefix-p (expand-file-name it start-dir) buf-path)
+                              dotspacemacs--pretty-ignore-subdirs)))
+        (spacemacs/prettify-org-buffer)))))
 
 ;; only for backward compatibility
 (defalias 'dotspacemacs-mode 'emacs-lisp-mode)
