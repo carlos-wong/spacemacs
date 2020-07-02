@@ -11,13 +11,12 @@
 
 (defconst lsp-packages
   '(
-    (lsp-mode :requires yasnippet)
+    lsp-mode
     lsp-ui
     (helm-lsp :requires helm)
     (lsp-ivy :requires ivy)
     (lsp-treemacs :requires treemacs)
-    popwin
-    ))
+    popwin))
 
 (defun lsp/init-lsp-mode ()
   (use-package lsp-mode
@@ -26,6 +25,7 @@
     (progn
       (require 'lsp-clients)
       (spacemacs/lsp-bind-keys)
+      (setq lsp-prefer-capf t)
       (add-hook 'lsp-after-open-hook (lambda ()
                                        "Setup xref jump handler and declare keybinding prefixes"
                                        (spacemacs//setup-lsp-jump-handler)

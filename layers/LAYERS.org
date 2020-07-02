@@ -64,6 +64,7 @@
   - [[#spacemacs-visual][Spacemacs-visual]]
 - [[#music][Music]]
   - [[#alda-layer][Alda Layer]]
+  - [[#extempore][Extempore]]
   - [[#pianobar][Pianobar]]
   - [[#spotify][Spotify]]
   - [[#tidalcycles][TidalCycles]]
@@ -189,7 +190,6 @@
     - [[#spacemacs-distribution][Spacemacs distribution]]
     - [[#spacemacs-base-distribution][Spacemacs-base distribution]]
     - [[#spacemacs-bootstrap-distribution][Spacemacs-bootstrap distribution]]
-    - [[#spacemacs-docker-distribution][Spacemacs-docker distribution]]
 - [[#tagging][Tagging]]
   - [[#cscope][Cscope]]
   - [[#helm-gtags][Helm Gtags]]
@@ -215,6 +215,7 @@
   - [[#import-js][Import-js]]
   - [[#kubernetes][Kubernetes]]
   - [[#lsp][LSP]]
+  - [[#meson][Meson]]
   - [[#nginx][Nginx]]
   - [[#node][Node]]
   - [[#pandoc][Pandoc]]
@@ -474,7 +475,7 @@ This layer enables [[http://orgmode.org/][org mode]] for Spacemacs.
 
 Features:
 - Vim inspired key bindings are provided by [[https://github.com/Somelauw/evil-org-mode][evil-org-mode]]
-- Nicer bullet via [[https://github.com/sabof/org-bullets][org-bullets]]
+- Nicer bullet via [[https://github.com/integral-dw/org-superstar-mode][org-superstar-mode]]
 - A [[https://cirillocompany.de/pages/pomodoro-technique][pomodoro method]] integration via [[https://github.com/lolownia/org-pomodoro][org-pomodoro]]
 - Presentation mode via [[https://github.com/rlister/org-present][org-present]]
 - Insertion of images via [[https://github.com/abo-abo/org-download][org-download]]
@@ -989,6 +990,16 @@ Features:
 - Play portions of a buffer, or the entire buffer,
   through a running Alda server.
 
+** Extempore
+[[file:+lang/extempore/README.org][+lang/extempore/README.org]]
+
+This layer adds support for the [[https://github.com/digego/extempore][Extempore]] programming environment.
+
+Features:
+- run Extempore (inferior extempore buffer)
+- connect to & evaluate code
+- eldoc support
+
 ** Pianobar
 [[file:+music/pianobar/README.org][+music/pianobar/README.org]]
 
@@ -1222,6 +1233,7 @@ Features:
 - Snippet insertion for the more general SQL constructs.
 - REPL support via =SQLi= buffer.
 - Automatic capitalization of keywords.
+- LSP support via [[https://github.com/lighttiger2505/sqls][sqls]].
 
 *** Lisp dialects
 **** Clojure
@@ -1234,7 +1246,6 @@ Features:
 - REPL via [[https://github.com/clojure-emacs/cider][CIDER]]
 - Code formatting via [[https://github.com/clojure-emacs/cider][CIDER]] using [[https://github.com/weavejester/cljfmt][Cljfmt]]
 - Refactoring via [[https://github.com/clojure-emacs/clj-refactor.el][clj-refactor]]
-- Linting via [[https://github.com/clojure-emacs/squiggly-clojure][squiggly-clojure]], [[https://github.com/borkdude/clj-kondo][clj-kondo]] or [[https://github.com/candid82/joker][joker]]
 - Aligning of code forms via [[https://github.com/clojure-emacs/clojure-mode][clojure-mode]]
 - Debugging with [[https://github.com/clojure-emacs/sayid][sayid]]
 - Clojure cheatsheet
@@ -1780,7 +1791,6 @@ Features:
 - Smart code completion
 - Elixir project management
 - Integration with [[http://company-mode.github.io/][company-mode]]
-- Flycheck support for mix compile
 - Flycheck support for [[https://github.com/rrrene/credo][credo]]
 - Flycheck support for test results
 - Interactive debugger using [[https://github.com/emacs-lsp/dap-mode][dap-mode]]
@@ -1818,6 +1828,8 @@ Features:
 - Auto-Completion in REPL
 - Scaffolding support
 - Refactoring support
+- Running graphical Listeners
+- Reloading emacs-lisp portion of FUEL
 
 **** Go
 [[file:+lang/go/README.org][+lang/go/README.org]]
@@ -1991,7 +2003,7 @@ Features:
 - Complete and jump to define with [[https://github.com/xcwen/ac-php][company-php]]
 - Run tests with PHPUnit
 - Reformat code with PHP CBF
-- Debug your programs with XDebug (via [[https://github.com/ahungry/geben][geben]])
+- Debug your programs with XDebug (via [[https://github.com/ahungry/geben][geben]] or [[https://github.com/emacs-lsp/dap-mode][dap-mode]])
 - Refactor source files with help of [[https://github.com/emacs-php/phpactor.el][phpactor.el]]
 - Support for the [[https://langserver.org/][Language Server Protocol]] (experimental)
 
@@ -2460,26 +2472,6 @@ Features:
 - Loads =bind-map= and =bind-key= which are used to realize various
   Spacemacs specific key binding commands
 
-*** Spacemacs-docker distribution
-[[file:+distributions/spacemacs-docker/README.org][+distributions/spacemacs-docker/README.org]]
-
-Spacemacs distribution that aims to automate dependency installation for
-Spacemacs layers and provide well tested Docker based development environment
-with GUI support on all major platforms and even [[https://i.imgur.com/wDLDMZN.gif][your web browser]].
-
-Features:
-- Automatically get Spacemacs layers dependency installed with [[https://github.com/syl20bnr/spacemacs/blob/develop/layers/%2Bdistributions/spacemacs-docker/deps-install/README.org][installer scripts]]
-- Reap the benefit of Emacs and other GNU/Linux tools on Windows or macOS machines
-- Use [[https://hub.docker.com/][docker hub]] to auto-build your environment and store full backups for free
-- Build once and work with the same development environment everywhere
-- Run untrusted/risky code in the tunable sandbox with CPU/network/disk quotas
-- Try new tools, experiment and roll back changes when something goes wrong
-- Share your setup with others or extend someone else's development environment
-- Run multiple Emacs instances on the same machine isolated
-- [[https://docs.docker.com/engine/reference/commandline/pause/][pause]] container to free resources temporarily
-- [[https://github.com/docker/docker/blob/1.13.x/experimental/checkpoint-restore.md][Checkpoint & Restore]] - maybe the fastest way to start a "heavy" environment
-- Friendly for networks with low upload speed/quotas.
-
 * Tagging
 ** Cscope
 [[file:+tags/cscope/README.org][+tags/cscope/README.org]]
@@ -2601,7 +2593,7 @@ Features:
 This layer adds support for CFEngine policies to Spacemacs.
 
 Features:
-- Syntax highlighting
+- Syntax highlighting (CFEngine DSL, Mustache)
 - On the fly syntax checking via =flycheck= integration.
 - Auto completion via =company= integration.
 - Execution of =cfengine3= =SRC= blocks in =org-mode= via =ob-cfengine3= package.
@@ -2779,6 +2771,15 @@ Features:
 - Navigation using imenu
 - Consistent core key bindings in LSP modes
 
+** Meson
+[[file:+tools/meson/README.org][+tools/meson/README.org]]
+
+This layer adds support [[https://mesonbuild.com/][Meson]] scripts.
+
+Features:
+- Support for meson build scripts through meson-mode.
+- Syntax highlighting.
+
 ** Nginx
 [[file:+tools/nginx/README.org][+tools/nginx/README.org]]
 
@@ -2955,6 +2956,7 @@ This layer provides basic support for Terraform =.tf= files.
 Features:
 - Basic syntax highlighting via [[https://github.com/syohex/emacs-terraform-mode][terraform-mode]]
 - Auto formatting on save via =terraform fmt=
+- LSP support for terraform-lsp via =terraform-backend=
 
 ** Tide Layer
 [[file:+tools/tide/README.org][+tools/tide/README.org]]
@@ -2992,7 +2994,7 @@ This layer adds support for working with Vagrant using [[https://github.com/ottb
 [[https://github.com/dougm/vagrant-tramp][vagrant-tramp]].
 
 Features:
-- Manage boxes (under the ~SPC a V~ prefix)
+- Manage boxes (under the ~SPC a t v~ prefix)
 - Remote editing on Vagrant boxes via Tramp
 
 ** Web-beautify
