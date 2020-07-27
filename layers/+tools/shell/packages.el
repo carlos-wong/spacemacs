@@ -255,8 +255,7 @@
         "atsm" 'spacemacs/shell-pop-multiterm
         "atst" 'spacemacs/shell-pop-ansi-term
         "atsT" 'spacemacs/shell-pop-term)
-      (spacemacs/declare-prefix "'" "open shell")
-      (spacemacs/declare-prefix "ats" "shells"))
+      (spacemacs/declare-prefix "'" "open shell"))
     :config
     (add-hook 'shell-pop-out-hook #'spacemacs//shell-pop-restore-window)))
 
@@ -329,7 +328,7 @@
     :init
     (progn
       (make-shell-pop-command "vterm" vterm)
-      (spacemacs/set-leader-keys "asv" 'spacemacs/shell-pop-vterm)
+      (spacemacs/set-leader-keys "atsv" 'spacemacs/shell-pop-vterm)
       (spacemacs/register-repl 'vterm 'vterm))
 
     :config
@@ -344,8 +343,8 @@
       (evil-define-key 'insert vterm-mode-map (kbd "C-y") 'vterm-yank)
 
       (evil-define-key 'normal vterm-mode-map
-        [escape] 'vterm--self-insert
-        [return] 'vterm--self-insert
+        [escape] 'vterm-send-escape
+        [return] 'vterm-send-return
         (kbd "p") 'vterm-yank
         (kbd "u") 'vterm-undo)
 

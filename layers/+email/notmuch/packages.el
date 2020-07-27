@@ -22,12 +22,12 @@
 (defun notmuch/init-counsel-notmuch ()
   (use-package counsel-notmuch
     :defer t
-    :init (spacemacs/set-leader-keys "aNn" 'counsel-notmuch)))
+    :init (spacemacs/set-leader-keys "aenn" 'counsel-notmuch)))
 
 (defun notmuch/init-helm-notmuch ()
   (use-package helm-notmuch
     :defer t
-    :init (spacemacs/set-leader-keys "aNn" 'helm-notmuch)))
+    :init (spacemacs/set-leader-keys "aenn" 'helm-notmuch)))
 
 (defun notmuch/init-notmuch ()
   (use-package notmuch
@@ -35,12 +35,12 @@
     :commands notmuch
     :init
     (progn
-      (spacemacs/declare-prefix "aN" "notmuch")
+      (spacemacs/declare-prefix "aen" "notmuch")
       (spacemacs/set-leader-keys
-        "aNN" 'notmuch
-        "aNi" 'spacemacs/notmuch-inbox
-        "aNj" 'notmuch-jump-search
-        "aNs" 'notmuch-search))
+        "aenN" 'notmuch
+        "aeni" 'spacemacs/notmuch-inbox
+        "aenj" 'notmuch-jump-search
+        "aens" 'notmuch-search))
     :config
     (progn
       (dolist (prefix '(("ms" . "stash")

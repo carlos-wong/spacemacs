@@ -1,4 +1,4 @@
-;;; config.el --- helpful Layer Configuration File for Spacemacs
+;;; layers.el --- vimscript Layer layers File for Spacemacs
 ;;
 ;; Copyright (c) 2012-2020 Sylvain Benner & Contributors
 ;;
@@ -9,6 +9,6 @@
 ;;
 ;;; License: GPLv3
 
-;; variables
-
-(spacemacs|define-jump-handlers helpful-mode)
+(when (and (boundp 'vimscript-backend)
+           (eq vimscript-backend 'lsp))
+  (configuration-layer/declare-layer-dependencies '(lsp)))

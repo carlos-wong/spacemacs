@@ -56,17 +56,17 @@
     :commands (slack-start)
     :defer t
     :init
-    (spacemacs/declare-prefix "aC" "slack")
+    (spacemacs/declare-prefix "acs" "slack")
     (spacemacs/set-leader-keys
-      "aCs" 'slack-start
-      "aCj" 'slack-channel-select
-      "aCg" 'slack-group-select
-      "aCr" 'slack-select-rooms
-      "aCd" 'slack-im-select
-      "aCq" 'slack-ws-close)
+      "acss" 'slack-start
+      "acsj" 'slack-channel-select
+      "acsg" 'slack-group-select
+      "acsr" 'slack-select-rooms
+      "acsd" 'slack-im-select
+      "acsq" 'slack-ws-close)
     (setq slack-enable-emoji t)
     :config
-    (dolist (mode '(slack-mode slack-message-buffer-mode))
+    (dolist (mode '(slack-mode slack-message-buffer-mode slack-thread-message-buffer-mode))
       (spacemacs/set-leader-keys-for-major-mode mode
         "j" 'slack-channel-select
         "g" 'slack-group-select
@@ -82,10 +82,12 @@
         "@" 'slack-message-embed-mention
         "#" 'slack-message-embed-channel
         ")" 'slack-message-add-reaction
-        "(" 'slack-message-remove-reaction))
-    (evil-define-key 'insert slack-mode-map
-      (kbd "@") 'slack-message-embed-mention
-      (kbd "#") 'slack-message-embed-channel)))
+        "(" 'slack-message-remove-reaction)
+      (let ((keymap (symbol-value (intern (concat (symbol-name mode) "-map")))))
+        (evil-define-key 'insert keymap
+          (kbd "@") 'slack-message-embed-mention
+          (kbd "#") 'slack-message-embed-channel
+          (kbd ":") 'slack-insert-emoji)))))
 
 (defun slack/post-init-window-purpose ()
   (purpose-set-extension-configuration
