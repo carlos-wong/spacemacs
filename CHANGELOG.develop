@@ -397,6 +397,7 @@ sane way, here is the complete list of changed key bindings
 **** Music
 - pianobar (thanks to Leo Littlebook)
 - tidalcycles (thanks to rbino)
+- outshine (thanks to Langston Barrett)
 **** Readers
 - epub (thanks to Jeremy Dormitzer and André Peric Tavares)
 **** Spacemacs
@@ -452,7 +453,7 @@ sane way, here is the complete list of changed key bindings
   - New variable =dotspacemacs-gc-cons= (thanks to Sylvain Benner)
   - New variable =dotspacemacs-initial-scratch-message= for the initial message
     in the scratch buffer (thanks to Carl Lange)
-  - New variable =dotspacemacs-mode-line-themes= adds support for mode-line
+  - New variable =dotspacemacs-mode-line-theme= adds support for mode-line
     themes. Supported themes are =spacemacs=, =all-the-icons=, =vim-powerline=,
     =custom=, and =vanilla=. The first three are spaceline themes, =custom= is
     user defined, and =vanilla= is the default Emacs mode-line.
@@ -513,6 +514,8 @@ Other:
     terminal mode, but no longer in GUI mode. (emacs18)
 *** Core changes
 - Improvements:
+  - Bind ~SPC c n~ to ~:cn~ / ~next-error~ and ~SPC c N~ to ~:cN~ / ~previous-error~
+    (thanks to Keith Pinson)
   - Display time spent in =user-config= in home buffer (thanks to Sylvain Benner)
   - Added dotfile function =dotspacemacs/user-load= (thanks to Sylvain Benner)
   - Added dotfile function =dotspacemacs/user-env= (thanks to Sylvain Benner)
@@ -984,6 +987,14 @@ Other:
     - ~SPC x i c~ change symbol style to =lowerCamelCase=
     - ~SPC x i C~ change symbol style to =UpperCamelCase=
     (thanks to Ric da Silva)
+  - Improved UX on link opening key bindings:
+    - Added ~SPC x A~ for =link-hint-open-all-links=
+    - Added ~SPC x m~ for =link-hint-open-multiple-links=
+    - Added ~SPC x Y~ for =link-hint-copy-link=
+    - Changed ~SPC x o~ to =link-hint-open-link-at-point=
+    - Changed ~SPC x O~ to =link-hint-open-link=
+    - Changed ~SPC x y~ to =link-hint-copy-link-at-point=
+    (thanks to Codruț Constantin Gușoi)
   - New transpose sentences and transpose paragraphs keybindings
     (thanks to Daniel Gomez):
     - ~SPC x t p~ for =transpose-paragraphs=
@@ -2488,6 +2499,7 @@ Other:
   upstream (thanks to duianto)
 - Removed =company-lsp=. Now =lsp-mode= is responsible for configuring
   =company-backends= and it will use =company-capf=.
+- Fixed upstream removal of =lsp-clients= (thanks to Colin Woodbury)
 **** Debug Adapter Protocol (DAP)
 - Layer variables:
   - Added variable =dap-enable-mouse-support=
@@ -2804,6 +2816,7 @@ Other:
   (thanks to Tianshu Wang)
 - Enabled =org-habit= module
   (thanks to Mariusz Klochowicz)
+- Fixed evil paste in a =org-src-mode= table (thanks to duianto)
 **** Osx
 - Key bindings:
   - Added key bindings to use ~command-1..9~ for selecting window
@@ -2963,6 +2976,7 @@ Other:
   (thanks sunlin7)
 - Fixed directory selection for self compiled mspyls (thanks Jee Lee)
 - Add python-test-last support for pytest runner
+- Added --last-failed support for pytest (thanks to Jaakko Luttinen)
 **** Racket
 - Restore smart closing paren behavior in racket-mode (thanks to Don March)
 - Updated racket logo (thanks to Vityou)
@@ -3118,6 +3132,7 @@ Other:
   (thanks to Grant Shangreaux)
 - Added/Updated instructions on external dependencies, =cargo-edit=,
   =cargo-audit=, =rustfmt=, and =clippy= (thanks to Lucius Hu)
+- Added support for Rusty Object Notation (RON) (thanks to Daniel Hutzley)
 **** Sailfish-Developer
 - Key bindings:
   - Added =sailfish-scratchbox= key bindings (thanks to Victor Polevoy):
@@ -3234,6 +3249,8 @@ Other:
   - ~SPC m )~ to add reaction (thanks to Swaroop C H)
   - ~SPC m (~ to remove reaction (thanks to Swaroop C H)
   - ~SPC m t~ to open message thread (thanks to Swaroop C H)
+  - ~SPC m T~ to open all threads in workspace (thanks to wang-d)
+  - ~SPC m u~ to open all unreads in workspace (thanks to wang-d)
 - New layer variable =slack-spacemacs-layout-name= to customize the name of
   the custom layer for Slack buffers (thanks to Benjamin Reynolds)
 - New layer variable =slack-spacemacs-layout-binding= to customize the key used
@@ -3328,7 +3345,7 @@ Other:
   (thanks to Seong Yong-ju)
 **** Themes
 - Added support for more doom themes (thanks to Dela Anthonio, Igor Kupczyński,
-  and DonHugo69)
+  DonHugo69 and Alex)
 - Added support for gruvbox theme variants (thanks to Dean Todevski)
 - Remove zonokai-theme theme as it is unavailable (thanks to nickclasener)
 - Updates to the spacemacs theme (thanks to Nasser Alshammari)
@@ -3429,6 +3446,7 @@ Other:
   linter, when =lsp= is set as the backend (thanks to Thanh Vuong)
 - Fix =tide= with =tsx= files (thanks to Aaron Jensen)
 - Added =eslint_d= support (thanks to Seong Yong-ju)
+- Added =tslint= support for =lsp= backend (thanks to Tommi Komulainen)
 **** Vagrant
 - Key bindings:
   - move key bindings prefix to ~SPC a V~ (thanks to Thomas de Beauchêne)
@@ -3511,39 +3529,44 @@ Other:
   Sylvain Benner, thanhvg, timor, yuhan0)
 - Multiple unit test improvements (thanks to Codruț Constantin Gușoi, et2010 and
   Sylvain Benner)
-- Various documentation improvements (thanks Aaron Jensen, Aaron Peckham, Aaron Renner,
-  Adam Frey, Adam Kruszewski, ahanwadi, Aleksandr Argunov, Alexander Dalshov, Alexander
-  Eberspächer, Alexander Iljin, Alexander Kjeldaas, Alexandros Kotzias, Andrew Grangaard,
-  Andrew Vit, Andriy Senyshyn, Anton Chevychalov, Anton Latukha, Antonio Miranda, Anurag
-  Sharma, Apromixately, Archenoth, Arjan Singh, Ather Sharif, Artur Juraszek, Benjamin
-  Reynolds, Bernhard Schommer, Billy Wade, Brian Wignall, bmag, Boris Buliga, Boris Wong,
-  Carl Lange, Cazim Hysi, Chase Adams, Christian Bäuerlein, Cibin Mathew, CL123123, Codruț
-  Constantin Gușoi, Compro-Prasad, cormacc, Daniel Hodson, Daniel Le, Daniel Molina,
-  Darkhan, David Florness, David Parrish, David Vo, davidpham87, Deepu Mohan Puthrote,
-  Dela Anthonio, Diego Alvarez, Diego Berrocal, Dietrich Daroch, Dinesh Bhosale, Dominik
-  Schrempf, Doug Beardsley, dubnde, duianto, eldios, EMayej, Eugene Yaremenko, Evan
-  Klitzke, Evan Niessen-Derry, firemiles, Florian Bruhin, Fuqiao Xue, Gabriel Arrillaga,
-  Garrett Johnson, Grant Shangreaux, Guido Kraemer, Henrique Jung, Henry Hirsch, Henry
-  Marshall, hornuda, Hong Xu, Ilia Kurenkov, Ivan Fedorov, Ivan Kryvoruchko, J. Patrick
-  Lanigan, Jaremy Creechley, Jason Axelson, Jesse Cooke, Jethro Shuwen Sun, JI Xiang, Jim
-  Deville, Jody Frankowski, Joe Hillenbrand, John Eismeier, John Wood, Jon Tippens, Jonas
-  Strømsodd, Jonathan Arnett, Jonathan Chen, Jonathan Gillett, Jonta, Josh Greenwood,
-  Joshua Santos, Justin Stone, Kainalu Hagiwara, Kalle Lindqvist, Kechao Cai, Keith
-  Simmons, Keith Wygant, Kenji Miyazaki ,Kevin Ji, Kristoffer Haugsbakk, lawrsp, Leo
-  Joseph Buchignani III, liuchong, Lucius Hu, Luke Winship, Luke Worth, Marco Ieni, Marco
-  Zucconelli, Martin Sosic, Max Beutelspacher, Max Deineko, Max Nordlund, Maximilian
-  Wolff, Miciah Dashiel Butler Masters, mjkramer, Mikhail Yakutovich, Miloš Mošić,
-  milserk, Muneeb Shaikh, Nasser Alshammari, Niko Felger, Nikolai Myllymäki, nikolaiam,
-  Nicolas Forgerit, Oguz Serbetci, Olivier Verdier, Pancho Horrillo, Paul Milla, Paulo
-  Schneider, Pawan Dubey, Paweł Siudak, Phil Pirozhkov, Philippe Bourdages, Piotr Grzesik,
-  Rafi Khan, Rand01ph, rakyi, Raymond Wanyoike, Reverend Homer, Robby O'Connor, Robert
-  Roland, Rhommel Lamas, Sam Pablo Kuper, Saulius Menkevičius, sduthil, Serghei Iakovlev,
-  Sergio Ugalde, Shane Kilkelly, Sid Kapur, Som Poddar, Somelauw, Soobin Rho, sorawee,
-  SteveJobzniak, Sunghyun Hwang, Swaroop C H, Sylvain Benner, Szunti, Thijs Vermeir,
-  Tianyi Wang, Tim Stewart, timor, TinySong, Titov Andrey, Thomas de Beauchêne, Tomasz
-  Cichocinski, Trey Merkley, tzhao11, Vincent Taing, Ullas Holla, Vlad Bokov, Vladimir
-  Kochnev, weihua-lu, wenpin, Wieland Hoffmann, Witoslaw Koczewski, Xiang Ji, Yi Liu, Zach
-  Latta, Zane Sterling, zer09, Zhige Xin)
+- Various documentation improvements (thanks Aaron Jensen, Aaron Peckham, Aaron
+  Renner, Adam Frey, Adam Kruszewski, ahanwadi, Aleksandr Argunov, Alexander
+  Dalshov, Alexander Eberspächer, Alexander Iljin, Alexander Kjeldaas,
+  Alexandros Kotzias, Andrew Grangaard, Andrew Vit, Andriy Senyshyn, Anton
+  Chevychalov, Anton Latukha, Antonio Miranda, Anurag Sharma, Apromixately,
+  Archenoth, Arjan Singh, Ather Sharif, Artur Juraszek, Benjamin Reynolds,
+  Bernhard Schommer, Billy Wade, Brian Wignall, bmag, Boris Buliga, Boris Wong,
+  Carl Lange, Cazim Hysi, Chase Adams, Christian Bäuerlein, Cibin Mathew,
+  CL123123, Codruț Constantin Gușoi, Compro-Prasad, cormacc, Daniel Hodson,
+  Daniel Le, Daniel Molina, Darkhan, David Florness, David Parrish, David Vo,
+  davidpham87, Deepu Mohan Puthrote, Dela Anthonio, Diego Alvarez, Diego
+  Berrocal, Dietrich Daroch, Dinesh Bhosale, Dominik Schrempf, Doug Beardsley,
+  dubnde, duianto, eldios, EMayej, Eugene Yaremenko, Evan Klitzke, Evan
+  Niessen-Derry, firemiles, Florian Bruhin, Fuqiao Xue, Gabriel Arrillaga,
+  Garrett Johnson, Grant Shangreaux, Guido Kraemer, Henrique Jung, Henry Hirsch,
+  Henry Marshall, hornuda, Hong Xu, Ilia Kurenkov, Ivan Fedorov, Ivan
+  Kryvoruchko, J. Patrick Lanigan, Jaremy Creechley, Jason Axelson, Jesse Cooke,
+  Jethro Shuwen Sun, JI Xiang, Jim Deville, Jody Frankowski, Joe Hillenbrand,
+  John Eismeier, John Wood, Jon Tippens, Jonas Strømsodd, Jonathan Arnett,
+  Jonathan Chen, Jonathan Gillett, Jonta, Josh Greenwood, Joshua Santos, Justin
+  Stone, Kainalu Hagiwara, Kalle Lindqvist, Kechao Cai, Keith Simmons, Keith
+  Wygant, Kenji Miyazaki ,Kevin Ji, Kristoffer Haugsbakk, lawrsp, Leo Joseph
+  Buchignani III, liuchong, Lucius Hu, Luke Winship, Luke Worth, Marco Ieni,
+  Marco Zucconelli, Martin Sosic, Max Beutelspacher, Max Deineko, Max Nordlund,
+  Maximilian Wolff, Miciah Dashiel Butler Masters, mjkramer, Mikhail Yakutovich,
+  Miloš Mošić, milserk, Muneeb Shaikh, Nasser Alshammari, Niko Felger, Nikolai
+  Myllymäki, nikolaiam, Nicolas Forgerit, Oguz Serbetci, Olivier Verdier, Pancho
+  Horrillo, Paul Milla, Paulo Schneider, Pawan Dubey, Paweł Siudak, Phil
+  Pirozhkov, Philippe Bourdages, Piotr Grzesik, Rafi Khan, Rand01ph, rakyi,
+  Raymond Wanyoike, Reverend Homer, Robby O'Connor, Robert Roland, Rhommel
+  Lamas, Sam Pablo Kuper, Saulius Menkevičius, sduthil, Serghei Iakovlev, Sergio
+  Ugalde, Shane Kilkelly, Sid Kapur, Som Poddar, Somelauw, Soobin Rho, sorawee,
+  SteveJobzniak, Sunghyun Hwang, Sunlin7, Swaroop C H, Sylvain Benner, Szunti,
+  Thijs Vermeir, Tianyi Wang, Tim Stewart, timor, TinySong, Titov Andrey, Thomas
+  de Beauchêne, Tomasz Cichocinski, Trey Merkley, tzhao11, Vincent Taing, Ullas
+  Holla, Vlad Bokov, Vladimir Kochnev, weihua-lu, wenpin, Wieland Hoffmann,
+  Witoslaw Koczewski, Xiang Ji, Yi Liu, Zach Latta, Zane Sterling, zer09, Zhige
+  Xin)
 **** Documentation and website
   - DOCUMENTATION.org:
     - Fixed the example for how to change the separator style
