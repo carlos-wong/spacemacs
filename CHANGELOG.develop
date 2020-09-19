@@ -174,6 +174,8 @@ the [[file:CHANGELOG.org][CHANGELOG.org]] file.
   - Swapped key bindings for better usability (thanks to Tony Lotts):
     - ~SPC m s s~ for =haskell-interactive-switch=
     - ~SPC m s S~ for =spacemacs/haskell-interactive-bring=
+- Removed =intero=, =ghc-mod= (both not maintained any more) and =company-ghci= (not competitive) backends
+  and made =dante= default backend (thanks to Martin Sosic)
 ***** imenu-list
 - Improvements:
   - Added function/binding to focus the imenu sidebar, creating it if none found.
@@ -284,6 +286,7 @@ sane way, here is the complete list of changed key bindings
 - New keybinding for =org-table-field-info= ~SPC m t f~
   (thanks to Dominik Schrempf)
 ***** Python
+- fix/implement pyvenv-tracking-mode (thanks to Daniel Nicolai)
 - Key bindings (thanks to Danny Freeman):
   - Changed ~SPC m s F~ to ~SPC m e F~ for =lisp-eval-defun-and-go=
   - Changed ~SPC m s R~ to ~SPC m e R~ for =lisp-eval-region-and-go=
@@ -415,6 +418,7 @@ sane way, here is the complete list of changed key bindings
 - dotnet (thanks to Jordan Kaye)
 - import-js (thanks to Thanh Vuong and Seong Yong-ju)
 - kubernetes with tramp support (thanks to Matt Bray and Maximilian Wolff)
+- languagetool (thanks to Robbert van der Helm)
 - lsp (thanks to Fangrui Song, 0bl.blwl, Cormac Cannon, Juuso Valkeejärvi,
   Guan Xipeng, Ivan Yonchovski, Justin Martin, dscole and Sylvain Benner)
 - node (thanks to jupl)
@@ -514,6 +518,8 @@ Other:
     terminal mode, but no longer in GUI mode. (emacs18)
 *** Core changes
 - Improvements:
+  - Make =describe-text-properties= available in the help -> describe menu via
+    ~SPC h d T~ (thanks to Keith Pinson)
   - Bind ~SPC c n~ to ~:cn~ / ~next-error~ and ~SPC c N~ to ~:cN~ / ~previous-error~
     (thanks to Keith Pinson)
   - Display time spent in =user-config= in home buffer (thanks to Sylvain Benner)
@@ -750,6 +756,7 @@ Other:
   - Added =symbol-overlay= to the =spacemacs-navigation= layer
     (thanks to kenkangxgwe)
 - Key bindings:
+  - Evilify =Custom-mode= (thanks to Keith Pinson)
   - Fixed ~M-x~ prefix visualization for ~dotspacemacs-emacs-command-key~
   - New ~SPC a Q~ prefix for dispatching quickurl
     (thanks to Spenser "equwal" Truex:)
@@ -2188,6 +2195,9 @@ Other:
   - Fixed searching in a project with ~C-s~ from ~SPC p p~ (thanks to duianto)
   - Fixed ~C-c C-e~ =helm-find-files-edit= action (thanks to duianto)
   - Added =spacemacs/helm-dir-do-grep= to fix #13167 (thanks to Richard Kim)
+  - Moved the =helm-org= definition from the =org= layer to =helm= so that
+    =helm-spacemacs-faq= (~SPC h f~) works without the =org= layer
+    (thanks to Nicholas Kirchner)
 **** HTML
 - Added =impatient-mode= under ~SPC m i~ (thanks to geo7)
 - Added =counsel-css= as an =ivy= alternative to =helm-css-scss=
@@ -2470,6 +2480,8 @@ Other:
 **** Lua
 - Added support for auto-completion with =company= (thanks to halfcrazy)
 - Added support for =LSP= (EmmyLua-LS-all) (thanks to Lin.Sun)
+- Added =EmmyLua-LS-all.jar= to =.gitignore= (thanks to duianto)
+- Removed require lsp-clients (thanks to duianto)
 **** Language Server Protocol (LSP)
 - Added core keybindings and prefix declarations for all LSP-based language
   layers, and helper functions to bind server-specific extensions
@@ -2673,6 +2685,7 @@ Other:
     - Added shortcuts for handling scheduled entries (thanks to Daniel Nicolai)
   - Added package for =org-sticky-header-mode= (thanks to Langston Barret)
   - Added package =org-jira= (thanks to Kirill A. Korinsky)
+  - Added package =org-rich-yank= (thanks to Keith Pinson)
 - Key bindings:
   - ~SPC m T i~ to toggle inline images
   - Move clock related key bindings to ~SPC a o C~
@@ -2977,6 +2990,7 @@ Other:
 - Fixed directory selection for self compiled mspyls (thanks Jee Lee)
 - Add python-test-last support for pytest runner
 - Added --last-failed support for pytest (thanks to Jaakko Luttinen)
+- Added =spacemacs/python-shell-send-statement= support (thanks to Lin Sun)
 **** Racket
 - Restore smart closing paren behavior in racket-mode (thanks to Don March)
 - Updated racket logo (thanks to Vityou)
@@ -3330,6 +3344,7 @@ Other:
 - Fixed =goto-flycheck-error-list= (thanks to Thanh Vuong)
 - Added lsp support for sqls
   - Added layer variable =sql-lsp-sqls-workspace-config-path= to setting workspace configuration
+- Added layer variable =syntax-checking-auto-hide-tooltips= (thanks to Martin Sosic)
 **** Swift
 - Update Swift REPL key bindings (thanks to Elliot Bulmer)
 **** Systemd
@@ -3495,6 +3510,7 @@ Other:
 - Avoided installing unused diff packages (thanks to Andriy Kmit)
 - Fixed error on =diff-hl-margin-mode= function being nil during startup
   (thanks to Voleking)
+- Fixed =git-gutter+= refresh when a buffer is staged or unstaged in Magit
 **** Vue
 - Added a toggle state minified/full to the transient state (thanks to duianto)
 **** Xclipboard

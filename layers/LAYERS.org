@@ -771,6 +771,7 @@ Features:
   - archive-mode
   - bookmark
   - conf-mode
+  - cus-edit
   - dired
   - dired-x
   - display-line-numbers (only in Emacs 26.x and newer)
@@ -937,7 +938,7 @@ This layer tweaks =org-mode= to integrate nicely into Spacemacs.
 Features:
 - Configuration for =flyspell= to check =org-buffers= for typos.
 - Support for automatically generated Table-Of-Contents via =toc-org=.
-- Support for custom bullet markers via =org-bullets=.
+- Support for custom bullet markers via =org-superstar=.
 - Support for a special view mode for org documents via =space-doc=.
 
 ** Spacemacs-project
@@ -1086,7 +1087,7 @@ Features:
 - Refactoring via [[https://github.com/clojure-emacs/clj-refactor.el][clj-refactor]]
 - Aligning of code forms via [[https://github.com/clojure-emacs/clojure-mode][clojure-mode]]
 - Debugging with [[https://github.com/clojure-emacs/sayid][sayid]]
-- Clojure cheatsheet
+- Advanced help with [[https://github.com/clojure-emacs/helm-cider][helm-cider]]
 - Structuraly safe editing using optional [[https://github.com/luxbock/evil-cleverparens][evil-cleverparens]]
 - Linting via [[https://github.com/borkdude/clj-kondo][clj-kondo]] ([[https://github.com/candid82/joker][joker]] and [[https://github.com/clojure-emacs/squiggly-clojure][squiggly-clojure]] also available)
 
@@ -1943,7 +1944,7 @@ Features:
 - syntax-highlighting
 - Auto-completion
 - Code Navigation
-- Python test runners (see [[file:+lang/python/README.org][python layer]])
+- Python test runners (see [[file:+lang/hy/../python/README.org][python layer]])
 - Virtual Environment using [[https://github.com/jorgenschaefer/pyvenv][pyvenv]] and [[https://github.com/yyuu/pyenv][pyenv]]
 - Org Babel support
 
@@ -2158,7 +2159,8 @@ This layer supports [[https://www.rust-lang.org][Rust]] development in Spacemacs
 Features:
 - Auto-completion and navigation support through [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]] or [[https://github.com/phildawes/racer][Racer]]
 - Interactive debugger using [[https://github.com/emacs-lsp/dap-mode][dap-mode]]
-- support for the Rust package manager [[http://doc.crates.io/index.html][Cargo]]
+- Support for the Rust package manager [[http://doc.crates.io/index.html][Cargo]]
+- Support for [[https://github.com/nabero/ron-mode][Rusty Object Notation (RON)]]
 
 **** Scala
 [[file:+lang/scala/README.org][+lang/scala/README.org]]
@@ -2247,11 +2249,8 @@ Features:
 This layer adds support for the [[https://www.haskell.org/][Haskell]] language.
 
 Features:
-- syntax highlighting for [[https://github.com/haskell/haskell-mode][haskell source]], [[https://github.com/haskell/haskell-mode][cabal files]], [[https://github.com/bgamari/cmm-mode][C-- source]],
-- auto-completion with one of the selected backends (=intero=, =dante=, =ghci= or
-  =ghc-mod=).
-
-*This layer is under construction, it needs your contributions and bug reports.*
+- syntax highlighting for [[https://github.com/haskell/haskell-mode][haskell source]], [[https://github.com/haskell/haskell-mode][cabal files]], [[https://github.com/bgamari/cmm-mode][C-- source]]
+- auto-completion and syntax-checking with one of the selected backends (=dante= or =lsp=).
 
 **** Idris
 [[file:+lang/idris/README.org][+lang/idris/README.org]]
@@ -2630,10 +2629,12 @@ Features:
 This layer adds support [[https://cmake.org/][CMake]] scripts.
 
 Features:
-- Support for CMake configure/build (with limited support for other build systems),
-  automatic generation of =compile_commands.json= (compile flags), on-the-fly configuration
-  of flycheck, company-clang and RTags (if installed) with [[https://github.com/atilaneves/cmake-ide][cmake-ide]].
+- Syntax highlighting
+- Auto-completion
+- Support for CMake configure/build (with limited support for other build systems) and
+  automatic generation of =compile_commands.json= (compile flags).
 - Run selected test using =Helm= interface via =helm-ctest=.
+- Extraction of compile parameters from =compile_commands.json= with [[https://github.com/atilaneves/cmake-ide][cmake-ide]]
 
 ** Command-log
 [[file:+tools/command-log/README.org][+tools/command-log/README.org]]
@@ -2786,6 +2787,7 @@ Features:
 - Symbol documentation in a child frame (=lsp-ui-doc=)
 - Navigation using imenu
 - Consistent core key bindings in LSP modes
+- Code folding (lsp-origami)
 
 ** Meson
 [[file:+tools/meson/README.org][+tools/meson/README.org]]

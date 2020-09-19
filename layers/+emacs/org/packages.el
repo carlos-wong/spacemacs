@@ -17,7 +17,6 @@
         evil-org
         evil-surround
         gnuplot
-        (helm-org :toggle (configuration-layer/layer-used-p 'helm))
         (helm-org-rifle :toggle (configuration-layer/layer-used-p 'helm))
         htmlize
         ;; ob, org and org-agenda are installed by `org-plus-contrib'
@@ -33,6 +32,7 @@
         org-pomodoro
         org-present
         org-cliplink
+        org-rich-yank
         (org-projectile :requires projectile)
         (ox-epub :toggle org-enable-epub-support)
         (ox-twbs :toggle org-enable-bootstrap-support)
@@ -85,11 +85,6 @@
     :defer t
     :init (spacemacs/set-leader-keys "aor" 'helm-org-rifle)))
 
-(defun org/init-helm-org ()
-  (use-package helm-org
-    :commands (helm-org-in-buffer-headings)
-    :defer t))
-
 (defun org/init-htmlize ()
   (use-package htmlize
     :defer t))
@@ -122,7 +117,7 @@
                                                     ".org-timestamps/")
             org-directory "~/org" ;; needs to be defined for `org-default-notes-file'
             org-default-notes-file (expand-file-name "notes.org" org-directory)
-            org-log-done t
+            org-log-done 'time
             org-startup-with-inline-images t
             org-latex-prefer-user-labels t
             org-image-actual-width nil
@@ -133,7 +128,7 @@
             org-imenu-depth 8)
 
       (with-eval-after-load 'org-agenda
-      (add-to-list 'org-modules 'org-habit))
+        (add-to-list 'org-modules 'org-habit))
 
       (with-eval-after-load 'org-indent
         (spacemacs|hide-lighter org-indent-mode))
@@ -711,6 +706,16 @@ Headline^^            Visit entry^^               Filter^^                    Da
     (spacemacs/set-leader-keys-for-major-mode 'org-mode
       "iL" 'org-cliplink)))
 
+(defun org/init-org-rich-yank ()
+  (use-package org-rich-yank
+    :ensure t
+    :demand t
+    :init
+    (spacemacs/set-leader-keys-for-major-mode 'org-mode
+      ;; yank is a misnomer for this function which actually puts/pastes
+      ;; ir = "insert rich"
+      "ir" 'org-rich-yank)))
+
 (defun org/init-org-projectile ()
   (use-package org-projectile
     :commands (org-projectile-location-for-project)
@@ -822,17 +827,17 @@ Headline^^            Visit entry^^               Filter^^                    Da
   (use-package verb
     :defer t
     :init
-      (spacemacs/set-leader-keys-for-major-mode
-        'org-mode
-        "rf" #'verb-send-request-on-point
-        "rs" #'verb-send-request-on-point-other-window
-        "rr" #'verb-send-request-on-point-other-window-stay
-        "rm" #'verb-send-request-on-point-no-window
-        "rk" #'verb-kill-all-response-buffers
-        "re" #'verb-export-request-on-point
-        "ru" #'verb-export-request-on-point-curl
-        "rb" #'verb-export-request-on-point-verb
-        "rv" #'verb-set-var)
+    (spacemacs/set-leader-keys-for-major-mode
+      'org-mode
+      "rf" #'verb-send-request-on-point
+      "rs" #'verb-send-request-on-point-other-window
+      "rr" #'verb-send-request-on-point-other-window-stay
+      "rm" #'verb-send-request-on-point-no-window
+      "rk" #'verb-kill-all-response-buffers
+      "re" #'verb-export-request-on-point
+      "ru" #'verb-export-request-on-point-curl
+      "rb" #'verb-export-request-on-point-verb
+      "rv" #'verb-set-var)
     :config
     (progn
       (spacemacs/set-leader-keys-for-minor-mode
