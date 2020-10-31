@@ -101,3 +101,6 @@ cscope.in.out
 cscope.po.out
 reveal.js-3.7.0
 anaconda-mode
+eln-cache/
+meghanada/
+vimish-fold/

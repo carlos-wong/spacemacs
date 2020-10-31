@@ -1,6 +1,6 @@
 ;;; packages.el --- Clojure Layer packages File for Spacemacs
 ;;
-;; Copyright (c) 2012-2018 Sylvain Benner & Contributors
+;; Copyright (c) 2012-2020 Sylvain Benner & Contributors
 ;;
 ;; Author: Sylvain Benner <sylvain.benner@gmail.com>
 ;; URL: https://github.com/syl20bnr/spacemacs
@@ -108,6 +108,7 @@
             ;; evaluate in source code buffer
             "e;" 'cider-eval-defun-to-comment
             "e$" 'spacemacs/cider-eval-sexp-end-of-line
+            "e(" 'cider-eval-list-at-point
             "eb" 'cider-eval-buffer
             "ee" 'cider-eval-last-sexp
             "ef" 'cider-eval-defun-at-point
