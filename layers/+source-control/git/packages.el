@@ -13,6 +13,9 @@
       '(
         evil-magit
         fill-column-indicator
+        ;; forge requires a C compiler on Windows so we disable
+        ;; it by default on Windows.
+        (forge :toggle (not (spacemacs/system-is-mswindows)))
         gitattributes-mode
         gitconfig-mode
         gitignore-mode
@@ -46,7 +49,14 @@
     (when (spacemacs//support-evilified-buffer-p dotspacemacs-editing-style)
       (evil-magit-init))
     (evil-define-key 'motion magit-mode-map
-      (kbd dotspacemacs-leader-key) spacemacs-default-map)))
+      (kbd dotspacemacs-leader-key) spacemacs-default-map)
+    ;; Remove inherited bindings from evil-mc and evil-easymotion
+    ;; do this after the config to make sure the keymap is available
+    (which-key-add-keymap-based-replacements magit-mode-map
+      "<normal-state> g r" nil
+      "<visual-state> g r" nil
+      "<normal-state> g s" nil
+      "<visual-state> g s" nil)))
 
 (defun git/init-evil-magit ()
   (use-package evil-magit
@@ -234,6 +244,11 @@
       ;; whitespace
       (define-key magit-status-mode-map (kbd "C-S-w")
         'spacemacs/magit-toggle-whitespace)
+      ;; Add missing which-key prefixes using the new keymap api
+      (when (spacemacs//support-evilified-buffer-p dotspacemacs-editing-style)
+        (which-key-add-keymap-based-replacements magit-status-mode-map
+          "gf"  "jump-to-unpulled"
+          "gp"  "jump-to-unpushed"))
       ;; https://magit.vc/manual/magit/MacOS-Performance.html
       ;; But modified according Tommi Komulainen's advice: "...going through
       ;; shell raises an eyebrow, and in the odd edge case of not having git
@@ -320,14 +335,30 @@
         "gHh" 'smeargle-commits
         "gHt" 'smeargle))))
 
+(defun git/pre-init-transient ()
+  (setq transient-history-file (expand-file-name "transient/history.el"
+                                                 spacemacs-cache-directory))
+  (setq transient-levels-file (expand-file-name "transient/levels.el"
+                                                spacemacs-cache-directory))
+  (setq transient-values-file (expand-file-name "transient/values.el"
+                                                spacemacs-cache-directory)))
+
 (defun git/init-transient ()
   (use-package transient
-    :defer t
+    :defer t))
+
+(defun git/init-forge ()
+  (use-package forge
+    :after magit
     :init
-    (setq
-     transient-levels-file
-     (expand-file-name "transient/levels.el" spacemacs-cache-directory)
-     transient-values-file
-     (expand-file-name "transient/values.el" spacemacs-cache-directory)
-     transient-history-file
-     (expand-file-name "transient/history.el" spacemacs-cache-directory))))
+    (progn
+      (setq forge-database-file (concat spacemacs-cache-directory
+                                        "forge-database.sqlite"))
+      (spacemacs/set-leader-keys-for-major-mode 'forge-topic-mode
+        "c" 'forge-create-post
+        "e" 'forge-edit-post)
+      (spacemacs/set-leader-keys-for-major-mode 'forge-post-mode
+        dotspacemacs-major-mode-leader-key 'forge-post-submit
+        "c" 'forge-post-submit
+        "k" 'forge-post-cancel
+        "a" 'forge-post-cancel))))

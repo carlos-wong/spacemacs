@@ -161,7 +161,8 @@
       (advice-add 'helm-grep-save-results-1 :after 'spacemacs//gne-init-helm-grep)
       ;; helm-locate uses es (from everything on windows which doesn't like fuzzy)
       (helm-locate-set-command)
-      (setq helm-locate-fuzzy-match (and helm-use-fuzzy (string-match "locate" helm-locate-command)))
+      (setq helm-locate-fuzzy-match (and (bound-and-true-p helm-use-fuzzy)
+                                         (string-match "locate" helm-locate-command)))
       (setq helm-boring-buffer-regexp-list
             (append helm-boring-buffer-regexp-list
                     spacemacs-useless-buffers-regexp))
@@ -211,7 +212,6 @@
 
       ;; evilify the helm-grep buffer
       (evilified-state-evilify helm-grep-mode helm-grep-mode-map
-        (kbd "RET") 'helm-grep-mode-jump-other-window
         (kbd "q") 'quit-window)
 
       (spacemacs/set-leader-keys
@@ -273,7 +273,6 @@
       (advice-add 'helm-ag--save-results :after 'spacemacs//gne-init-helm-ag)
       (evil-define-key 'normal helm-ag-map "SPC" spacemacs-default-map)
       (evilified-state-evilify helm-ag-mode helm-ag-mode-map
-        (kbd "RET") 'helm-ag-mode-jump-other-window
         (kbd "gr") 'helm-ag--update-save-results
         (kbd "q") 'quit-window))))
 

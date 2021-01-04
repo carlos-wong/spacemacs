@@ -29,6 +29,7 @@
     org
     pip-requirements
     pipenv
+    poetry
     pippel
     py-isort
     pyenv-mode
@@ -41,6 +42,7 @@
     smartparens
     stickyfunc-enhance
     xcscope
+    window-purpose
     yapfify
     ;; packages for anaconda backend
     anaconda-mode
@@ -100,7 +102,6 @@
     :if (eq (spacemacs//python-backend) 'anaconda)
     :defer t))
 ;; see `spacemacs//python-setup-anaconda-company'
-
 
 (defun python/init-blacken ()
   (use-package blacken
@@ -215,6 +216,22 @@
           "vpo" 'pipenv-open
           "vps" 'pipenv-shell
           "vpu" 'pipenv-uninstall)))))
+
+(defun python/pre-init-poetry ()
+  (add-to-list 'spacemacs--python-poetry-modes 'python-mode))
+(defun python/init-poetry ()
+  (use-package poetry
+    :defer t
+    :commands (poetry-venv-toggle
+               poetry-tracking-mode)
+    :init
+    (progn
+      (dolist (m spacemacs--python-poetry-modes)
+        (spacemacs/set-leader-keys-for-major-mode m
+          "vod" 'poetry-venv-deactivate
+          "vow" 'poetry-venv-workon
+          "vot" 'poetry-venv-toggle)))))
+
 
 (defun python/init-pip-requirements ()
   (use-package pip-requirements
@@ -356,6 +373,7 @@
       (spacemacs/declare-prefix-for-mode 'python-mode "mr" "refactor")
       (spacemacs/declare-prefix-for-mode 'python-mode "mv" "virtualenv")
       (spacemacs/declare-prefix-for-mode 'python-mode "mvp" "pipenv")
+      (spacemacs/declare-prefix-for-mode 'python-mode "mvo" "poetry")
       (spacemacs/set-leader-keys-for-major-mode 'python-mode
         "'"  'spacemacs/python-start-or-switch-repl
         "cc" 'spacemacs/python-execute-file
@@ -478,3 +496,14 @@ fix this issue."
     :if (eq python-lsp-server 'pyright)
     :ensure nil
     :defer t))
+
+(defun python/post-init-window-purpose ()
+  (purpose-set-extension-configuration
+   :python-layer
+   (purpose-conf
+    :mode-purposes '((inferior-python-mode . repl))
+    :name-purposes '(("*compilation*" . logs)
+                     ("*Pylookup Completions*" . help))
+    :regexp-purposes '(("^\\*Anaconda" . help)
+                       ("^\\*Pydoc" . help)
+                       ("^\\*live-py" . logs)))))

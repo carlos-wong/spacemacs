@@ -39,6 +39,7 @@
     :init
     (progn
       (setq TeX-command-default latex-build-command
+            TeX-engine latex-build-engine
             TeX-auto-save t
             TeX-parse-self t
             TeX-syntactic-comment t
@@ -53,7 +54,9 @@
       (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
       (add-hook 'LaTeX-mode-hook 'TeX-source-correlate-mode)
       (add-hook 'LaTeX-mode-hook 'TeX-PDF-mode)
-      (add-hook 'LaTeX-mode-hook #'spacemacs//latex-setup-backend))
+      (add-hook 'LaTeX-mode-hook #'spacemacs//latex-setup-backend)
+      (when latex-refresh-preview
+        (add-hook 'doc-view-mode-hook 'auto-revert-mode)))
     :config
     (progn
       ;; Key bindings for plain TeX
@@ -180,9 +183,9 @@
     (spacemacs/set-leader-keys-for-major-mode 'latex-mode
       (concat prefix "c")    'reftex-citation
       (concat prefix "g")    'reftex-grep-document
-      (concat prefix" i")    'reftex-index-selection-or-word
+      (concat prefix "i")    'reftex-index-selection-or-word
       (concat prefix "I")    'reftex-display-index
-      (concat prefix "TAB") 'reftex-index
+      (concat prefix " " "TAB") 'reftex-index
       (concat prefix "l")    'reftex-label
       (concat prefix "p")    'reftex-index-phrase-selection-or-word
       (concat prefix "P")    'reftex-index-visit-phrases-buffer

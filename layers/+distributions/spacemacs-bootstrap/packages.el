@@ -67,7 +67,7 @@
   (require 'evil)
   (evil-mode 1)
 
-  (when (fboundp 'evil-set-undo-system)
+  (when (configuration-layer/package-used-p 'undo-tree)
     (evil-set-undo-system 'undo-tree))
 
   ;; Use evil as a default jump handler
@@ -93,6 +93,8 @@
 
   ;; Make the current definition and/or comment visible.
   (define-key evil-normal-state-map "zf" 'reposition-window)
+  ;; Make set-selective-display more discoverable to Evil folks
+  (define-key evil-normal-state-map "z$" 'spacemacs/toggle-selective-display)
   ;; toggle maximize buffer
   (define-key evil-window-map (kbd "o") 'spacemacs/toggle-maximize-buffer)
   (define-key evil-window-map (kbd "C-o") 'spacemacs/toggle-maximize-buffer)
